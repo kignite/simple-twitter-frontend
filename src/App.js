@@ -1,7 +1,7 @@
 function App() {
   return (
     <div className="App">
-      simple twitter
+      simple twitter-test-pr
     </div>
   );
 }
