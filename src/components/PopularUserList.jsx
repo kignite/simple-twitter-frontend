@@ -2,11 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledListContainer = styled.div`
+  grid-column: 3 / 4;
   width: 100%;
   border-radius: 16px;
   background-color: var(--scale_light-gray);
 
   h4 {
+    padding: 24px;
+    margin: 0;
     color: var(--main_text);
     font-size: 24px;
     line-height: 26px;

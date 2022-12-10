@@ -4,6 +4,7 @@ import styled from "styled-components";
 import PopularUserList from "./PopularUserList";
 
 const StyledLayoutContainer = styled.div`
+  height: 100%;
   display: grid;
   grid-template-columns: 3fr 640px 4fr;
   border: 1px solid red;
