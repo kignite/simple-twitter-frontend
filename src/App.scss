@@ -1,0 +1,26 @@
+/* CSS reset */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
+
+:root {
+  /* brand */
+  --main_orange: #FF6600; 
+  --main_white: #FFFFFF;
+  --main_primary: #0062FF;
+  --main_secondary: #6C757D;
+  --main_success: #3DD598;
+  --main_warning: #FFC542;
+  --main_error: #FC5A5A;
+  --main_text: #171725; 
+
+  --input-scale_light-gray: #F5F8FA;
+  --input-border_gray: #657786;
+  --input-label_gray: #696974;
+  --input-placeholder_gray: #B5B5BE;
+  --scale_light-gray: #FAFAFB;
+  --border_gray: #E6ECF0;
+}
+
+html,
+body {
+  font-family: 'Lato', 'Noto Sans TC', serif;
+}
