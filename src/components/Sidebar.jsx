@@ -1,5 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 const Sidebar = () => {
+  const handleClick = () => {
+    // console.log("hi")
+    localStorage.removeItem("token");
+  };
   return (
     <div className="sidebar">
       <div className="icon">@</div>
@@ -16,10 +21,10 @@ const Sidebar = () => {
         <a href="">設定</a>
       </div>
       <button>推文</button>
-      <div>
-        <div>icon</div>
-        <a href="">登出</a>
-      </div>
+      <Link to="login" onClick={handleClick}>
+        {" "}
+        登出{" "}
+      </Link>
     </div>
   );
 };

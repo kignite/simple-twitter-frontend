@@ -17,12 +17,12 @@ const LoginPage = () => {
       return;
     }
 
-    const { error, success, authToken } = await login({
+    const { error, success, token } = await login({
       account,
       password,
     });
     if (success) {
-      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("token", token);
     } else {
       console.log(error);
     }

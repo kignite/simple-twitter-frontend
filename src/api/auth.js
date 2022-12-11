@@ -41,3 +41,4 @@ export const regist = async ({ email, account, password, checkPassword, name }) 
   }
 }
 
+
