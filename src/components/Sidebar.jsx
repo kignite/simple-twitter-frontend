@@ -15,12 +15,11 @@ const Sidebar = () => {
         <div>icon</div>
         <a href="">設定</a>
       </div>
-      <button>推文</button>;
+      <button>推文</button>
       <div>
         <div>icon</div>
         <a href="">登出</a>
       </div>
-      ;
     </div>
   );
 };

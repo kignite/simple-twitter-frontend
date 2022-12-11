@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import PopularUserList from "./PopularUserList";
+import Sidebar from "./Sidebar";
 
 const StyledLayoutContainer = styled.div`
   height: 100%;
@@ -13,7 +14,7 @@ const StyledLayoutContainer = styled.div`
 const Layout = () => {
   return (
     <StyledLayoutContainer>
-      {/* Sidebar */}
+      <Sidebar />
       <Outlet />
       <PopularUserList />
     </StyledLayoutContainer>
