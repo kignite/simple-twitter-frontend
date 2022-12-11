@@ -5,21 +5,26 @@ import { login } from "../api/auth";
 import Input from "../components/Input";
 
 const LoginPage = () => {
-  const [account
-, setAccount] = useState("");
-  const [password, setPassword] = useState("");
+  const [account, setAccount] = useState(null);
+  const [password, setPassword] = useState(null);
+  // const [error, setError] = useState("");
 
   const handleClick = async () => {
-    if (account.length === 0 || password.length === 0) return;
+    if (account.length === 0) {
+      return;
+    }
+    if (password.length === 0) {
+      return;
+    }
 
-    const { success, authToken } = await login({
+    const { error, success, authToken } = await login({
       account,
       password,
     });
     if (success) {
       localStorage.setItem("authToken", authToken);
-    }else {
-      console.log("登入失敗")
+    } else {
+      console.log(error);
     }
   };
 

@@ -17,7 +17,27 @@ export const login = async ({ account, password }) => {
     }
     return data;
   } catch (error) {
-    console.log('login-failed:', error)
+    // console.log('login-failed:', error)
+    return { error }
+  }
+}
+
+export const regist = async ({ email, account, password, checkPassword, name }) => {
+  try {
+    const { data } = await axios.post(`${baseURL}/api/users`, {
+      email,
+      account,
+      password,
+      checkPassword,
+      name,
+    })
+
+    if (data) {
+      return { success: true, ...data }
+    }
+    return data;
+  } catch (error) {
+    console.log('regist-failed:', error)
   }
 }
 
