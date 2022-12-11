@@ -1,9 +1,10 @@
 import React from "react";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
-    <div className="App">
-      simple twitter
+    <div className="app">
+      <LoginPage/>
     </div>
   );
 }
