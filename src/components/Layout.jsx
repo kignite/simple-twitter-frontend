@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import PopularUserList from "./PopularUserList";
+import PopularUserList from "./popular/PopularUserList";
 
 const StyledLayoutContainer = styled.div`
   height: 100%;
