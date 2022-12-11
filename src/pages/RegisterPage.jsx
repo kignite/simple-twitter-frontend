@@ -1,7 +1,7 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 import Input from "../components/Input";
-const LoginPage = () => {
+const RegisterPage = () => {
   const handleClick = () => {
     console.log("click");
   };
@@ -40,15 +40,14 @@ const LoginPage = () => {
         // value={"password"}
         placeholder={"請再次輸入密碼"}
       />
-      <button onClick={handleClick}>登入</button>
+      <button onClick={handleClick}>註冊</button>
       <div>
         {/* <Link to="/"> */}
-          <div>註冊</div>
-          <div>後台登入</div>
+          <div>取消</div>
         {/* </Link> */}
       </div>
     </>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
