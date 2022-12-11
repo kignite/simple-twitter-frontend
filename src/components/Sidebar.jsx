@@ -1,40 +1,83 @@
 import React from "react";
 import styled from "styled-components";
-import { BrandLogo, HomeIcon } from "../assets/icons";
+import {
+  BrandLogo,
+  ProfileIcon,
+  SettingIcon,
+  HomeIconActive,
+  LogoutIcon
+} from "../assets/icons";
 
 const StyledSidebarContainer = styled.div`
+  position: relative;
+  grid-column: 1 / 2;
   width: 178px;
+  margin-right: 24px;
+  .logo {
+    margin: 13px;
+  }
 `;
 
 const StyledLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
-  .icon {
-  }
+  padding: 16px;
+
   a {
+    margin-left: 20px;
+
+    color: var(--nav-unactive_gray);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+    &.active {
+      color: var(--main_orange);
+    }
+  }
+
+  &.logout {
+    position: absolute;
+    bottom: 0;
   }
 `;
+
+const StyledButton = styled.button`
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 50px;
+  border: none;
+
+  font-size: 20px;
+  font-weight: 400;
+
+  color: var(--main_white);
+  background-color: var(--main_orange);
+`;
+
 
 const Sidebar = () => {
   return (
     <StyledSidebarContainer>
-      <BrandLogo />
+      <BrandLogo className="logo" />
       <StyledLinkContainer>
-        <HomeIcon className="icon" />
-        <a href="">首頁</a>
+        <HomeIconActive />
+        <a className="active" href="">首頁</a>
       </StyledLinkContainer>
-      <div>
-        <div>icon</div>
+      <StyledLinkContainer>
+        <ProfileIcon />
         <a href="">個人資料</a>
-      </div>
-      <div>
-        <div>icon</div>
+      </StyledLinkContainer>
+      <StyledLinkContainer>
+        <SettingIcon />
         <a href="">設定</a>
-      </div>
-      <button>推文</button>
-      <div>
-        <div>icon</div>
+      </StyledLinkContainer>
+      <StyledButton>推文</StyledButton>
+      <StyledLinkContainer className="logout">
+        <LogoutIcon />
         <a href="">登出</a>
-      </div>
+      </StyledLinkContainer>
     </StyledSidebarContainer>
   );
 };
