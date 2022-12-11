@@ -9,6 +9,7 @@ const StyledItemContainer = styled.li`
   .user-name {
     font-size: 16px;
     font-weight: 700;
+    line-height: 26px;
 
     color: var(--main_text);
   }
@@ -16,6 +17,7 @@ const StyledItemContainer = styled.li`
   .user-account {
     font-size: 14px;
     font-size: 500;
+    line-height: 22px;
 
     color: var(--account_text-in-pop);
   }
@@ -32,6 +34,10 @@ const StyledAvatar = styled.img`
 const StyledButton = styled.button`
   padding: 8px 16px;
   border-radius: 50px;
+  border: none;
+
+  font-size: 16px;
+  font-weight: 400;
 
   color: var(--main_white);
   background-color: var(--main_orange);

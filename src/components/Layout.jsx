@@ -6,7 +6,9 @@ import Sidebar from "./Sidebar";
 
 
 const StyledLayoutContainer = styled.div`
+  width: 1148px;
   height: 100%;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 3fr 640px 4fr;
   border: 1px solid red;
