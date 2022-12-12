@@ -27,11 +27,11 @@ const HomePageContainer = styled.div`
   }
 `;
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
   const [password, setPassword] = useState(null);
-  const role = "user";
+  const role = "admin";
   // const [error, setError] = useState("");
 
   const handleClick = async () => {
@@ -68,7 +68,7 @@ const LoginPage = () => {
     <HomePage>
       <HomePageContainer>
         <BrandLogo className="logo" />
-        <h3>登入 Alphitter</h3>
+        <h3>後台登入</h3>
         <Input
           type={"text"}
           label={"帳號"}
@@ -85,12 +85,11 @@ const LoginPage = () => {
         />
         <button onClick={handleClick}>登入</button>
         <div>
-          <Link to="/regist">註冊</Link>
-          <Link to="/admin">後台登入</Link>
+          <Link to="/login">前台登入</Link>
         </div>
       </HomePageContainer>
     </HomePage>
   );
 };
 
-export default LoginPage;
+export default AdminLoginPage;

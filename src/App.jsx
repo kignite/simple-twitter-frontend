@@ -4,12 +4,14 @@ import "./App.scss";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import AdminLoginPage from "./pages/AdminLoginPage"
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="login" element={<LoginPage />} />
+          <Route path="admin" element={<AdminLoginPage/>} />
           <Route path="regist" element={<RegisterPage />} />
           {/* <Route path="/" element={<Layout />}/> */}
           <Route path="/" element={<Layout />}>

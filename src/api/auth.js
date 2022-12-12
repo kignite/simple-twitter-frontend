@@ -2,17 +2,17 @@ import axios from "axios";
 
 const baseURL = "https://calm-basin-50282.herokuapp.com";
 
-export const login = async ({ account, password }) => {
+export const login = async ({ account, password }, role) => {
   try {
     const { data } = await axios.post(`${baseURL}/api/users/login`, {
       account,
       password,
     });
 
-    const { token } = data;
+    const { token, user } = data;
 
-    console.log(data);
-    if (token) {
+    if (user.role === role && token) {
+      console.log(`${user.role}登入成功`)
       return { success: true, ...data };
     }
     return data;

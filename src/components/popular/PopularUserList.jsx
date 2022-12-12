@@ -26,7 +26,7 @@ const PopularUserList = () => {
       <h4>推薦追隨</h4>
       <ul>
         <PopularUserCard name="Peggy" account="peggy8422" />
-        <PopularUserCard name="Leo" account="leozheng01" />
+        <PopularUserCard name="Leo" account="leozeng01" />
         <PopularUserCard name="Howard" account="howardwu123" />
         <PopularUserCard name="HowHow" account="howhow03" />
       </ul>
