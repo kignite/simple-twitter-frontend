@@ -1,31 +1,92 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import {
+  BrandLogo,
+  ProfileIcon,
+  SettingIcon,
+  HomeIconActive,
+  LogoutIcon,
+} from "../assets/icons";
+
+const StyledSidebarContainer = styled.div`
+  position: relative;
+  grid-column: 1 / 2;
+  width: 178px;
+  margin-right: 24px;
+  .logo {
+    margin: 13px;
+  }
+`;
+
+const StyledLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+
+  a {
+    margin-left: 20px;
+
+    color: var(--nav-unactive_gray);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+    &.active {
+      color: var(--main_orange);
+    }
+  }
+
+  &.logout {
+    position: absolute;
+    bottom: 0;
+  }
+`;
+
+const StyledButton = styled.button`
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 50px;
+  border: none;
+
+  font-size: 20px;
+  font-weight: 400;
+
+  color: var(--main_white);
+  background-color: var(--main_orange);
+`;
+
 const Sidebar = () => {
   const handleClick = () => {
     // console.log("hi")
     localStorage.removeItem("token");
   };
   return (
-    <div className="sidebar">
-      <div className="icon">@</div>
-      <div>
-        <div>icon</div>
-        <a href="">首頁</a>
-      </div>
-      <div>
-        <div>icon</div>
+    <StyledSidebarContainer>
+      <BrandLogo className="logo" />
+      <StyledLinkContainer>
+        <HomeIconActive />
+        <a className="active" href="">
+          首頁
+        </a>
+      </StyledLinkContainer>
+      <StyledLinkContainer>
+        <ProfileIcon />
         <a href="">個人資料</a>
-      </div>
-      <div>
-        <div>icon</div>
+      </StyledLinkContainer>
+      <StyledLinkContainer>
+        <SettingIcon />
         <a href="">設定</a>
-      </div>
-      <button>推文</button>
-      <Link to="login" onClick={handleClick}>
-        {" "}
-        登出{" "}
-      </Link>
-    </div>
+      </StyledLinkContainer>
+      <StyledButton>推文</StyledButton>
+      <StyledLinkContainer className="logout">
+        <LogoutIcon />
+        <Link to="login" onClick={handleClick}>
+          登出
+        </Link>
+      </StyledLinkContainer>
+    </StyledSidebarContainer>
   );
 };
 

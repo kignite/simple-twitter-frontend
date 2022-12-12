@@ -3,6 +3,29 @@ import React from "react";
 import { useState } from "react";
 import { regist } from "../api/auth";
 import Input from "../components/Input";
+import styled from "styled-components";
+import { BrandLogo } from "../assets/icons";
+import { Link, useNavigate } from "react-router-dom";
+// ;
+const RegistPage = styled.div`
+  width: 1148px;
+  height: 100%;
+  margin: 0 auto;
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+`;
+
+const RegistPageContainer = styled.div`
+  //待修改
+  * {
+    margin: 10px 0;
+  }
+
+  a {
+    margin: 0 10px;
+  }
+`;
 
 const RegisterPage = () => {
   const [email, setEmail] = useState(null);
@@ -10,8 +33,10 @@ const RegisterPage = () => {
   const [password, setPassword] = useState(null);
   const [checkPassword, setCheckPassword] = useState(null);
   const [name, setName] = useState(null);
+  const navigate = useNavigate();
+
   const handleClick = async () => {
-    if (password !== checkPassword) return;
+    // if (password !== checkPassword) return;
     if (account.length === 0) {
       return;
     }
@@ -27,11 +52,6 @@ const RegisterPage = () => {
     if (checkPassword.length === 0) {
       return;
     }
-    console.log(name);
-    console.log(password);
-    console.log(email);
-    console.log(account);
-
     const { success } = await regist({
       email,
       account,
@@ -40,58 +60,59 @@ const RegisterPage = () => {
       name,
     });
     if (success) {
-      console.log("註冊成功")
+      console.log(success);
+
+      console.log("註冊成功");
+      navigate("/");
     } else {
-      // console.log(error);
+      console.log("註冊失敗");
     }
   };
 
   return (
-    <>
-      <div className="icon">@</div>
-      <h3>建立你的帳號</h3>
-      <Input
-        type={"text"}
-        label={"帳號"}
-        value={account}
-        placeholder={"請輸入帳號"}
-        onChange={(nameInputValue) => setAccount(nameInputValue)}
-      />
-      <Input
-        type={"text"}
-        label={"名稱"}
-        value={name}
-        placeholder={"請輸入名稱"}
-        onChange={(nameInputValue) => setName(nameInputValue)}
-      />
-      <Input
-        type={"email"}
-        label={"Email"}
-        value={email}
-        placeholder={"請輸入Email"}
-        onChange={(nameInputValue) => setEmail(nameInputValue)}
-      />
-      <Input
-        type={"password"}
-        label={"密碼"}
-        value={password}
-        placeholder={"請設定密碼"}
-        onChange={(nameInputValue) => setPassword(nameInputValue)}
-      />
-      <Input
-        type={"password"}
-        label={"密碼確認"}
-        value={checkPassword}
-        placeholder={"請再次輸入密碼"}
-        onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
-      />
-      <button onClick={handleClick}>註冊</button>
-      <div>
-        {/* <Link to="/"> */}
-        <div>取消</div>
-        {/* </Link> */}
-      </div>
-    </>
+    <RegistPage>
+      <RegistPageContainer>
+        <BrandLogo />
+        <h3>建立你的帳號</h3>
+        <Input
+          type={"text"}
+          label={"帳號"}
+          value={account}
+          placeholder={"請輸入帳號"}
+          onChange={(nameInputValue) => setAccount(nameInputValue)}
+        />
+        <Input
+          type={"text"}
+          label={"名稱"}
+          value={name}
+          placeholder={"請輸入名稱"}
+          onChange={(nameInputValue) => setName(nameInputValue)}
+        />
+        <Input
+          type={"email"}
+          label={"Email"}
+          value={email}
+          placeholder={"請輸入Email"}
+          onChange={(nameInputValue) => setEmail(nameInputValue)}
+        />
+        <Input
+          type={"password"}
+          label={"密碼"}
+          value={password}
+          placeholder={"請設定密碼"}
+          onChange={(nameInputValue) => setPassword(nameInputValue)}
+        />
+        <Input
+          type={"password"}
+          label={"密碼確認"}
+          value={checkPassword}
+          placeholder={"請再次輸入密碼"}
+          onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
+        />
+        <button onClick={handleClick}>註冊</button>
+        <Link to="/login">取消</Link>
+      </RegistPageContainer>
+    </RegistPage>
   );
 };
 
