@@ -77,11 +77,14 @@ const Sidebar = () => {
       </StyledLinkContainer>
       <StyledLinkContainer>
         <SettingIcon />
-        <a href="">設定</a>
+        <Link to="setting">
+          設定
+        </Link>
       </StyledLinkContainer>
       <StyledButton>推文</StyledButton>
       <StyledLinkContainer className="logout">
         <LogoutIcon />
+        {/* 暫時使用，後續改為useEffect自動跳轉 */}
         <Link to="login" onClick={handleClick}>
           登出
         </Link>
