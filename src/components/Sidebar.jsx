@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
   BrandLogo,
@@ -56,27 +57,39 @@ const StyledButton = styled.button`
   background-color: var(--main_orange);
 `;
 
-
 const Sidebar = () => {
+  const handleClick = () => {
+    // console.log("hi")
+    localStorage.removeItem("token");
+  };
   return (
     <StyledSidebarContainer>
       <BrandLogo className="logo" />
       <StyledLinkContainer>
         <HomeIconActive />
-        <a className="active" href="">首頁</a>
+        <a className="active" href="">
+          首頁
+        </a>
       </StyledLinkContainer>
       <StyledLinkContainer>
         <ProfileIcon />
-        <a href="">個人資料</a>
+        <Link to="/user/self">
+          個人資料
+        </Link>
       </StyledLinkContainer>
       <StyledLinkContainer>
         <SettingIcon />
-        <a href="">設定</a>
+        <Link to="setting">
+          設定
+        </Link>
       </StyledLinkContainer>
       <StyledButton>推文</StyledButton>
       <StyledLinkContainer className="logout">
         <LogoutIcon />
-        <a href="">登出</a>
+        {/* 暫時使用，後續改為useEffect自動跳轉 */}
+        <Link to="login" onClick={handleClick}>
+          登出
+        </Link>
       </StyledLinkContainer>
     </StyledSidebarContainer>
   );
