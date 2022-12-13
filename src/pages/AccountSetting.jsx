@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import { Link } from "react-router-dom";
 import { useState } from "react";
-import { regist } from "../api/auth";
+// import * as jwt from "jsonwebtoken";
+import { acountSetting, getAccountSetting } from "../api/auth";
 import Input from "../components/AuthInput";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import jwt from "jwt-decode";
 
 const SettingStyle = styled.div`
   width: 1148px;
@@ -36,9 +38,11 @@ const AccountSetting = () => {
   const [checkPassword, setCheckPassword] = useState(null);
   const [name, setName] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const userID = jwt(token).id;
+  // const [test, setTest] = useState("");
 
   const handleClick = async () => {
-    // if (password !== checkPassword) return;
     if (account.length === 0) {
       return;
     }
@@ -54,7 +58,9 @@ const AccountSetting = () => {
     if (checkPassword.length === 0) {
       return;
     }
-    const { success } = await regist({
+    const { success } = await acountSetting({
+      userID,
+      token,
       email,
       account,
       password,
@@ -62,14 +68,22 @@ const AccountSetting = () => {
       name,
     });
     if (success) {
-      console.log(success);
-
       console.log("修改成功");
       navigate("/");
     } else {
       console.log("修改失敗");
     }
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getAccountSetting({ userID, token });
+      setAccount(data.account);
+      setName(data.name);
+      setEmail(data.email);
+    };
+    getData();
+  }, []);
 
   return (
     <SettingStyle>

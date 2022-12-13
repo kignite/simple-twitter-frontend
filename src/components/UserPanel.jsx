@@ -4,18 +4,17 @@ import { getUserTweet } from "../api/getUserTweets";
 const UserPanel = () => {
   const [tweetsData, setTweetsData] = useState([
     {
-      id: 4,
-      description:
-        "Et maiores totam quae veritatis quo alias qui sunt. Esse corrupti quis",
-      createdAt: "3 天前",
-      replyCount: 3,
+      id: null,
+      description: "",
+      createdAt: "",
+      replyCount: 0,
       likeCount: 0,
       isLiked: 0,
       User: {
-        id: 14,
-        name: "user1",
-        account: "user1",
-        avatar: "https://loremflickr.com/320/240/man,woman/?random=74",
+        id: null,
+        name: "",
+        account: "",
+        avatar: "",
       },
     },
   ]);
@@ -50,6 +49,7 @@ const UserPanel = () => {
       <div className="tweet-list">
         {tweetsData.map((tweet) => (
           <div className="tweet-card" key={tweet.id}>
+            <img src={tweet.User.avatar} alt="" />
             <h3 className="name">
               {`${tweet.User.name} @${tweet.User.account} .${tweet.createdAt}`}
             </h3>
