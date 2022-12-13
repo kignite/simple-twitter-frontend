@@ -2,7 +2,7 @@ import React from "react";
 // import { Link } from "react-router-dom";
 import { useState } from "react";
 import { regist } from "../api/auth";
-import Input from "../components/Input";
+import Input from "../components/AuthInput";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";

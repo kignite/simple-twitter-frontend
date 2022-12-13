@@ -12,8 +12,14 @@ const BackdropStyle = styled.div`
   z-index: 100;
 `;
 
-const Backdrop = ({ active }) => {
-  return active ? <BackdropStyle></BackdropStyle> : null;
+const Backdrop = ({ active, setActive }) => {
+  return active ? (
+    <BackdropStyle
+      onClick={() => {
+        setActive(false);
+      }}
+    ></BackdropStyle>
+  ) : null;
 };
 
 export default Backdrop;

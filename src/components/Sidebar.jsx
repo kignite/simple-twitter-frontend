@@ -73,13 +73,13 @@ const Sidebar = () => {
       </StyledLinkContainer>
       <StyledLinkContainer>
         <ProfileIcon />
-        <a href="">個人資料</a>
+        <Link to="/user/self">
+          個人資料
+        </Link>
       </StyledLinkContainer>
       <StyledLinkContainer>
         <SettingIcon />
-        <Link to="setting">
-          設定
-        </Link>
+        <Link to="setting">設定</Link>
       </StyledLinkContainer>
       <StyledButton>推文</StyledButton>
       <StyledLinkContainer className="logout">

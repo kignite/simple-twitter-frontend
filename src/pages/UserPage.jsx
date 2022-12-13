@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Backdrop from "../components/Backdrop";
-import Modal from "../components/Modal";
+import EditInfoModal from "../components/EditInfoModal";
+import UserPanel from "../components/UserPanel";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
-  height: 80vh;
+  height: 100vh;
   width: 100%;
   border: 1px solid;
   display: grid;
@@ -16,7 +17,7 @@ const UserInfoPicture = styled.div`
   position: relative;
   height: 200px;
   background: url("https://picsum.photos/seed/picsum/800/200");
-  img {
+  .avatar {
     box-sizing: border-box;
     position: absolute;
     bottom: -25%;
@@ -55,7 +56,7 @@ const UserPage = () => {
               alt=""
               className="avatar"
             />
-            <Modal active={active} setActive={setActive} />
+            <EditInfoModal active={active} setActive={setActive} />
             <button className="edit" onClick={handleOpen}>
               編輯個人資料
             </button>
@@ -69,7 +70,7 @@ const UserPage = () => {
             </p>
           </UserInfoText>
         </div>
-        <div className="user-panel">panel</div>
+        <UserPanel />
       </UserPageStyle>
     </>
   );
