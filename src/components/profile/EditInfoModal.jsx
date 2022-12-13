@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Input from "./AuthInput";
+import Input from "../AuthInput";
 
 const ModalStyle = styled.div`
   box-sizing: border-box;
