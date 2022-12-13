@@ -31,7 +31,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
   const [password, setPassword] = useState(null);
-  const role = "user";
+  const role = "users";
   // const [error, setError] = useState("");
 
   const handleClick = async () => {
