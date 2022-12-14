@@ -16,7 +16,8 @@ function App() {
         <Routes>
           <Route path="login" element={<LoginPage />} />
           <Route path="admin" element={<AdminLoginPage />} />
-          <Route path="admin/main" element={<AdminMainPage />} />
+          <Route path="admin_main" element={<AdminMainPage />} />
+          <Route path="admin_users" element={<AdminMainPage />} />
           <Route path="regist" element={<RegisterPage />} />
           <Route path="setting" element={<AccounntSetting />} />
           {/* <Route path="/" element={<Layout />}/> */}

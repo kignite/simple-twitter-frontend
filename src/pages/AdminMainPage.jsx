@@ -65,8 +65,7 @@ const AdminMainPage = () => {
       },
     },
   ]);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiIgcm9vdEBleGFtcGxlLmNvbSIsImFjY291bnQiOiJyb290IiwibmFtZSI6InJvb3QiLCJhdmF0YXIiOiJodHRwczovL2xvcmVtZmxpY2tyLmNvbS8zMjAvMjQwL21hbix3b21hbi8_cmFuZG9tPTI3IiwiY292ZXIiOiJodHRwczovL3BpY3N1bS5waG90b3MvMTUwMC84MDAiLCJpbnRyb2R1Y3Rpb24iOiJRdWFzIGNvbnNlcXVhdHVyIGV4Y2VwdHVyaS4gRG9sb3IgcmVydW0gZXQgcG9zc2ltdXMuIEltcGVkaXQgZXVtIHNpdC4gU3VudCBkaWN0YSBkb2xvcmUuIERpY3RhIGFjY3VzYW11cyBldCBjdW1xdWUgdm9sdXB0YXRlbSBpc3RlIHF1byBkaXN0aW5jdGlvIG5hbS4gTm9uIHNpdCBub2JpcyBlbmltLiIsInJvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjItMTItMTNUMDg6NTM6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMTItMTNUMDg6NTM6MDUuMDAwWiIsImlhdCI6MTY3MDk4MzE1MSwiZXhwIjoxNjczNTc1MTUxfQ.9sQ-pKJ323QwayXCd77m3Gp9-UquachPuYsexsnCLS8";
+  const token = localStorage.getItem("token") || null;
 
   const handleDelete = async (e) => {
     console.log(e.target.dataset.id);
