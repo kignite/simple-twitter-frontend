@@ -8,7 +8,7 @@ const CommentCard = ({
   account,
   createdAt,
   replyTo,
-  description,
+  comment,
 }) => {
   return (
     <StyledCardContainer>
@@ -18,7 +18,7 @@ const CommentCard = ({
       <span className="account">@{account}</span>
       <span className="created-time"> · {createdAt}</span>
       <p className="reply-to">回覆 <span>@{replyTo}</span></p>
-      <p>{description}</p>
+      <p>{comment}</p>
     </div>
   </StyledCardContainer>
   );

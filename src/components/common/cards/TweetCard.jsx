@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ReplyIcon, LikeIcon } from "../../../assets/icons";
+import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 
 export const StyledCardContainer = styled.div`
   display: flex;
@@ -24,7 +24,9 @@ export const StyledCardContainer = styled.div`
       color: var(--main_text);
     }
 
-    .account, .created-time, .reply-to {
+    .account,
+    .created-time,
+    .reply-to {
       font-size: 14px;
       font-weight: 400;
       line-height: 22px;
@@ -51,12 +53,10 @@ export const StyledCardContainer = styled.div`
         font-size: 14px;
         font-weight: 600;
         line-height: 14px;
-        color: var( --account_text-in-main);
+        color: var(--account_text-in-main);
       }
     }
-
   }
-
 `;
 
 const TweetCard = ({
@@ -67,7 +67,13 @@ const TweetCard = ({
   description,
   replyCount,
   likeCount,
+  isLiked,
 }) => {
+  const iconSize = {
+    width: "13.2px",
+    height: "13px",
+    marginRight: "9px"
+  };
   return (
     <StyledCardContainer>
       <img src={avatar} alt={name} />
@@ -78,11 +84,21 @@ const TweetCard = ({
         <p>{description}</p>
         <div className="user-actions">
           <span className="reply">
-            <ReplyIcon width="13.2px" height="13px" style={{marginRight: '9px'}}/>
+            <ReplyIcon
+              style={iconSize}
+            />
             {replyCount}
           </span>
           <span className="like">
-            <LikeIcon width = "13.2px" height="13px" style={{marginRight: '9px'}}/>
+            {isLiked ? (
+              <LikedIcon
+                style={iconSize}
+              />
+            ) : (
+              <LikeIcon
+                style={iconSize}
+              />
+            )}
             {likeCount}
           </span>
         </div>
