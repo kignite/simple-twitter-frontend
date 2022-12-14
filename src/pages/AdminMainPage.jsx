@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
-import { adminGetUserTweets } from "../api/getUserTweets";
+import { adminDeletUserTweet, adminGetUserTweets } from "../api/getUserTweets";
 // import jwt from "jwt-decode";
 
 const PageStyled = styled.div`
@@ -65,27 +65,29 @@ const AdminMainPage = () => {
       },
     },
   ]);
-  const handleDelete = () => {
-    console.log("刪除功能待補");
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiIgcm9vdEBleGFtcGxlLmNvbSIsImFjY291bnQiOiJyb290IiwibmFtZSI6InJvb3QiLCJhdmF0YXIiOiJodHRwczovL2xvcmVtZmxpY2tyLmNvbS8zMjAvMjQwL21hbix3b21hbi8_cmFuZG9tPTI3IiwiY292ZXIiOiJodHRwczovL3BpY3N1bS5waG90b3MvMTUwMC84MDAiLCJpbnRyb2R1Y3Rpb24iOiJRdWFzIGNvbnNlcXVhdHVyIGV4Y2VwdHVyaS4gRG9sb3IgcmVydW0gZXQgcG9zc2ltdXMuIEltcGVkaXQgZXVtIHNpdC4gU3VudCBkaWN0YSBkb2xvcmUuIERpY3RhIGFjY3VzYW11cyBldCBjdW1xdWUgdm9sdXB0YXRlbSBpc3RlIHF1byBkaXN0aW5jdGlvIG5hbS4gTm9uIHNpdCBub2JpcyBlbmltLiIsInJvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjItMTItMTNUMDg6NTM6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMTItMTNUMDg6NTM6MDUuMDAwWiIsImlhdCI6MTY3MDk4MzE1MSwiZXhwIjoxNjczNTc1MTUxfQ.9sQ-pKJ323QwayXCd77m3Gp9-UquachPuYsexsnCLS8";
+
+  const handleDelete = async (e) => {
+    console.log(e.target.dataset.id);
+    const tweetId = e.target.dataset.id;
+    await adminDeletUserTweet({ tweetId, token });
   };
   useEffect(() => {
     const getTweetsData = async () => {
       // const token = localStorage.getItem("token") || null;
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiIgcm9vdEBleGFtcGxlLmNvbSIsImFjY291bnQiOiJyb290IiwibmFtZSI6InJvb3QiLCJhdmF0YXIiOiJodHRwczovL2xvcmVtZmxpY2tyLmNvbS8zMjAvMjQwL21hbix3b21hbi8_cmFuZG9tPTI3IiwiY292ZXIiOiJodHRwczovL3BpY3N1bS5waG90b3MvMTUwMC84MDAiLCJpbnRyb2R1Y3Rpb24iOiJRdWFzIGNvbnNlcXVhdHVyIGV4Y2VwdHVyaS4gRG9sb3IgcmVydW0gZXQgcG9zc2ltdXMuIEltcGVkaXQgZXVtIHNpdC4gU3VudCBkaWN0YSBkb2xvcmUuIERpY3RhIGFjY3VzYW11cyBldCBjdW1xdWUgdm9sdXB0YXRlbSBpc3RlIHF1byBkaXN0aW5jdGlvIG5hbS4gTm9uIHNpdCBub2JpcyBlbmltLiIsInJvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjItMTItMTNUMDg6NTM6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMTItMTNUMDg6NTM6MDUuMDAwWiIsImlhdCI6MTY3MDk4MzE1MSwiZXhwIjoxNjczNTc1MTUxfQ.9sQ-pKJ323QwayXCd77m3Gp9-UquachPuYsexsnCLS8";
-
       const { data } = await adminGetUserTweets({ token });
       setTweetsData(data);
     };
 
     getTweetsData();
-  }, []);
+  }, [handleDelete]);
 
   return (
     <PageStyled>
       <div>
         sidebar
-        <button onClick={handleDelete}>{tweetsData[0].id}</button>
+        <button>測試用{tweetsData[0].id}</button>
       </div>
       <div className="main">
         <h3 className="title">推文清單</h3>
@@ -108,7 +110,11 @@ const AdminMainPage = () => {
                       </span>
                     </div>
                     {/* 位置怪怪的 */}
-                    <div className="delete-tweet" onClick={handleDelete}>
+                    <div
+                      className="delete-tweet"
+                      data-id={tweet.id}
+                      onClick={handleDelete}
+                    >
                       X
                     </div>
                   </div>
