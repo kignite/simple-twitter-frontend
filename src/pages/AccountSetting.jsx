@@ -11,24 +11,41 @@ import jwt from "jwt-decode";
 
 const SettingStyle = styled.div`
   width: 1148px;
-  height: 80vh; //待調整
+  height: 1200px; //待調整
   margin: 0 auto;
   border: 1px solid red;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 3fr 640px 4fr; ;
 `;
 
 const SettingContainerStyle = styled.div`
   //待修改
-  * {
-    margin: 10px 0;
+  .input-collection {
+    margin: 0 auto;
+
+    * {
+      margin: 16px auto;
+    }
+
+    div:first-child {
+      margin-top: 24px;
+    }
   }
 
-  a {
-    margin: 0 10px;
-  }
   display: grid;
   grid-template-rows: 74px 1fr;
+  border: 1px solid #e6ecf0;
+
+  h3 {
+    font-weight: 700;
+    font-size: 24px;
+    border-bottom: 1px solid #e6ecf0;
+    padding: 24px 0 24px 24px;
+  }
+
+  .save-button {
+    
+  }
 `;
 
 const AccountSetting = () => {
@@ -90,7 +107,7 @@ const AccountSetting = () => {
       <Sidebar />
       <SettingContainerStyle>
         <h3>帳戶設定</h3>
-        <div>
+        <div className="input-collection">
           <Input
             type={"text"}
             label={"帳號"}
@@ -126,9 +143,10 @@ const AccountSetting = () => {
             placeholder={"請再次輸入密碼"}
             onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
           />
-          <button onClick={handleClick}>儲存</button>
+          <button className="save-btn" onClick={handleClick}>儲存</button>
         </div>
       </SettingContainerStyle>
+      <div></div>
     </SettingStyle>
   );
 };

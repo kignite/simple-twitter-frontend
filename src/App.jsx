@@ -8,6 +8,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AccounntSetting from "./pages/AccountSetting";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
+import AdminMainPage from "./pages/AdminMainPage";
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="login" element={<LoginPage />} />
           <Route path="admin" element={<AdminLoginPage />} />
+          <Route path="admin/main" element={<AdminMainPage />} />
           <Route path="regist" element={<RegisterPage />} />
           <Route path="setting" element={<AccounntSetting />} />
           {/* <Route path="/" element={<Layout />}/> */}

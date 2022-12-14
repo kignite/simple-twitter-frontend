@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUserTweet } from "../api/getUserTweets";
+// import jwt from "jwt-decode";
 
 const UserPanel = () => {
   const [tweetsData, setTweetsData] = useState([
@@ -36,6 +37,7 @@ const UserPanel = () => {
   useEffect(() => {
     const getTweetsData = async () => {
       const id = 14;
+      // const id = jwt(token).id;
       const token = localStorage.getItem("token") || null;
       const { data } = await getUserTweet({ id, token });
       setTweetsData(data);
