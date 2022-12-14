@@ -5,7 +5,7 @@ import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 export const StyledCardContainer = styled.div`
   display: flex;
   padding: 16px 0;
-  border: 1px solid var(--border_gray);
+  border: 1px solid ${props => props.modal ? 'transparent' : '#E6ECF0'};
 
   img {
     width: 50px;

@@ -4,7 +4,8 @@ import PopularUserCard from "./PopularUserCard";
 
 const StyledListContainer = styled.div`
   grid-column: 3 / 4;
-  width: 100%;
+  width: calc(100% - 25px);
+  margin-left: 25px;
   border-radius: 16px;
   background-color: var(--scale_light-gray);
 
@@ -17,7 +18,6 @@ const StyledListContainer = styled.div`
     line-height: 26px;
     border-bottom: 1px solid var(--border_gray);
   }
-
 `;
 
 const PopularUserList = () => {
@@ -25,9 +25,9 @@ const PopularUserList = () => {
     <StyledListContainer>
       <h4>推薦追隨</h4>
       <ul>
-        <PopularUserCard name="Peggy" account="peggy8422" />
+        <PopularUserCard name="Peggy" account="peggy8422" isFollowed={true}/>
         <PopularUserCard name="Leo" account="leozeng01" />
-        <PopularUserCard name="Howard" account="howardwu123" />
+        <PopularUserCard name="Howard" account="howardwu" />
         <PopularUserCard name="HowHow" account="howhow03" />
       </ul>
     </StyledListContainer>

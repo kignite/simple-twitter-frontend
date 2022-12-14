@@ -9,6 +9,8 @@ import { ReactComponent as LogoutIcon } from "./logout-icon.svg";
 import { ReactComponent as ReplyIcon } from "./reply-icon.svg";
 import { ReactComponent as LikeIcon } from "./like-icon.svg";
 import { ReactComponent as LikedIcon } from "./liked-icon.svg";
+import { ReactComponent as CloseIcon } from "./close-icon.svg";
+
 
 export {
   BrandLogo,
@@ -21,5 +23,6 @@ export {
   LogoutIcon,
   ReplyIcon,
   LikeIcon,
-  LikedIcon
+  LikedIcon,
+  CloseIcon
 };

@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { StyledButton } from "../common/button.styled";
 
 const StyledItemContainer = styled.li`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 16px;
 
   .user-name {
@@ -31,21 +33,8 @@ const StyledAvatar = styled.img`
   background-color: var(--avatar-scale_gray);
 `;
 
-const StyledButton = styled.button`
-  padding: 8px 16px;
-  border-radius: 50px;
-  border: none;
 
-  font-size: 16px;
-  font-weight: 400;
-
-  color: var(--main_white);
-  background-color: var(--main_orange);
-`;
-
-
-
-const PopularUserCard = ({avatar, name, account}) => {
+const PopularUserCard = ({avatar, name, account, isFollowed}) => {
   return (
     <StyledItemContainer>
       <StyledAvatar src={avatar} alt="" />
@@ -53,7 +42,9 @@ const PopularUserCard = ({avatar, name, account}) => {
         <p className="user-name">{name}</p>
         <p className="user-account">@{account}</p>
       </div>
-      <StyledButton>正在跟隨</StyledButton>
+      <StyledButton className={isFollowed && 'active'}>
+        {isFollowed ? '正在跟隨' : '跟隨'}
+      </StyledButton>
     </StyledItemContainer>
   );
 };
