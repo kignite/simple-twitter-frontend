@@ -6,7 +6,7 @@ import {
   ProfileIcon,
   SettingIcon,
   HomeIconActive,
-  LogoutIcon,
+  LogoutIcon
 } from "../assets/icons";
 
 const StyledSidebarContainer = styled.div`
@@ -79,7 +79,9 @@ const Sidebar = () => {
       </StyledLinkContainer>
       <StyledLinkContainer>
         <SettingIcon />
-        <Link to="setting">設定</Link>
+        <Link to="setting">
+          設定
+        </Link>
       </StyledLinkContainer>
       <StyledButton>推文</StyledButton>
       <StyledLinkContainer className="logout">
