@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
-import { adminDeletUserTweet, adminGetUserTweets } from "../api/getUserTweets";
+import { adminDeleteUserTweet, adminGetUserTweets } from "../api/getUserTweets";
 // import jwt from "jwt-decode";
 
 const PageStyled = styled.div`
@@ -68,25 +68,31 @@ const AdminMainPage = () => {
   const token = localStorage.getItem("token") || null;
 
   const handleDelete = async (e) => {
-    console.log(e.target.dataset.id);
-    const tweetId = e.target.dataset.id;
-    await adminDeletUserTweet({ tweetId, token });
+    // 型別轉為數字
+    const tweetId = parseInt(e.target.dataset.id);
+    await adminDeleteUserTweet({ tweetId, token });
+    setTweetsData((prev) => prev.filter((tweet) => tweet.id !== tweetId));
   };
   useEffect(() => {
     const getTweetsData = async () => {
-      // const token = localStorage.getItem("token") || null;
       const { data } = await adminGetUserTweets({ token });
       setTweetsData(data);
     };
 
     getTweetsData();
-  }, [handleDelete]);
+  }, []);
 
   return (
     <PageStyled>
       <div>
         sidebar
-        <button>測試用{tweetsData[0].id}</button>
+        <button
+          onClick={() => {
+            console.log(tweetsData);
+          }}
+        >
+          測試用{tweetsData[0].id}
+        </button>
       </div>
       <div className="main">
         <h3 className="title">推文清單</h3>
@@ -97,7 +103,7 @@ const AdminMainPage = () => {
                 <img
                   width="50"
                   src={tweet.User.avatar}
-                  alt=""
+                  alt="XX"
                   className="avatar"
                 />
                 <div className="tweet-text">

@@ -38,15 +38,16 @@ export const adminGetUserTweets = async ({ token }) => {
   }
 }
 
-export const adminDeletUserTweet = async ({ tweetId, token }) => {
+export const adminDeleteUserTweet = async ({ tweetId, token }) => {
   try {
     const data = await axios.delete(`${baseURL}/api/admin/tweets/${tweetId}`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     })
-
-    console.log(data)
+    if(data){
+      // console.log(data)
+    }
   } catch (error) {
     console.log(error)
   }
