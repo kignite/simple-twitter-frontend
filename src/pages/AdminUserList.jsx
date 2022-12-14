@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
-import { adminDeleteUserTweet, adminGetUserTweets } from "../api/getUserTweets";
+import { adminGetUsersData } from "../api/getUserTweets";
 // import jwt from "jwt-decode";
 
 const PageStyled = styled.div`
@@ -27,47 +27,100 @@ const PageStyled = styled.div`
   }
 `;
 
+const UserCardStyled = styled.div`
+  .user-card {
+    .img-area {
+      position: relative;
+
+      .avatar {
+        box-sizing: border-box;
+        border: 4px solid var(--main_white);
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+    }
+  }
+`;
+
 const AdminUserList = () => {
-  const [tweetsData, setTweetsData] = useState([
+  // const holdOn = 1;
+  const [usersData, setUsersData] = useState([
     {
-      id: 14,
-      UserId: 64,
-      description: "Accusantium laborum laudantium nulla exercitatione",
-      createdAt: "17 小時前",
-      updatedAt: "2022-12-13T08:53:06.000Z",
-      User: {
-        id: 64,
-        name: "user6",
-        account: "user6",
-        avatar: "https://loremflickr.com/320/240/man,woman/?random=73",
-      },
+      id: 54,
+      name: "user4",
+      account: "user4",
+      avatar: "https://loremflickr.com/320/240/man,woman/?random=50",
+      cover: "https://picsum.photos/1500/800",
+      tweetCount: 10,
+      replyCount: 8,
+      followerCount: 1,
+      followingCount: 2,
     },
   ]);
   const token = localStorage.getItem("token") || null;
 
-  const handleDelete = async (e) => {
-    console.log(e.target.dataset.id);
-    const tweetId = e.target.dataset.id;
-    await adminDeleteUserTweet({ tweetId, token });
-  };
   useEffect(() => {
     const getTweetsData = async () => {
       // const token = localStorage.getItem("token") || null;
-      const { data } = await adminGetUserTweets({ token });
-      setTweetsData(data);
+      const { data } = await adminGetUsersData({ token });
+      setUsersData(data);
     };
 
     getTweetsData();
-  }, [handleDelete]);
+  }, []);
 
   return (
     <PageStyled>
       <div>
         sidebar
-        <button>測試用{tweetsData[0].id}</button>
+        <button>測試用{usersData[0].id}</button>
       </div>
       <div className="main">
         <h3 className="title">使用者清單</h3>
+        <div className="users-list">
+          <UserCardStyled>
+            {usersData.map((user) => (
+              <div className="user-card" key={user.id}>
+                <div className="img-area">
+                  <img
+                    width="250px"
+                    src={user.cover}
+                    alt=""
+                    className="cover"
+                  />
+                  <img
+                    width="100px"
+                    src={user.avatar}
+                    alt=""
+                    className="avatar"
+                  />
+                </div>
+                <div className="text-area">
+                  <div className="name-account">
+                    <h4 className="name">{user.name}</h4>
+                    <span className="account">{user.account}</span>
+                  </div>
+                  <div className="tweet-like">
+                    <span className="tweet">口 {user.tweetCount}</span>
+                    <span className="like"> v {user.replyCount}</span>
+                  </div>
+                  <div className="following-follower">
+                    <span className="following">
+                      {user.followingCount} 個跟隨中
+                    </span>
+                    <span className="follower">
+                      {user.followerCount} 位跟隨者
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </UserCardStyled>
+        </div>
       </div>
     </PageStyled>
   );
