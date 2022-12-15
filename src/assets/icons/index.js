@@ -10,6 +10,7 @@ import { ReactComponent as ReplyIcon } from "./reply-icon.svg";
 import { ReactComponent as LikeIcon } from "./like-icon.svg";
 import { ReactComponent as LikedIcon } from "./liked-icon.svg";
 import { ReactComponent as CloseIcon } from "./close-icon.svg";
+import { ReactComponent as TurnbackIcon } from "./turnback-icon.svg";
 
 
 export {
@@ -24,5 +25,6 @@ export {
   ReplyIcon,
   LikeIcon,
   LikedIcon,
-  CloseIcon
+  CloseIcon,
+  TurnbackIcon
 };

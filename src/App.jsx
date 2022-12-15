@@ -8,6 +8,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AccounntSetting from "./pages/AccountSetting";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
+import TweetReplyPage from "./pages/TweetReplyPage";
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
           <Route path="setting" element={<AccounntSetting />} />
           {/* <Route path="/" element={<Layout />}/> */}
           <Route path="/" element={<Layout />}>
-            <Route path="main" element={<HomePage />} />
             <Route path="*" element={<HomePage />} />
+            <Route path="main" element={<HomePage />} />
+            <Route path="reply_list" element={<TweetReplyPage />} />
             <Route path="user/self" element={<UserPage />} />
           </Route>
         </Routes>

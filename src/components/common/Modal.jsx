@@ -29,7 +29,7 @@ const StyledConnectLine = styled.div`
   position: absolute;
   width: 2px;
   margin-left: 49px;
-  top: 50px;
+  top: 50px; //資料內容還沒塞沒撐出高度看不出來
   bottom: 0;
 
   background-color: var(--reply-connect-line);

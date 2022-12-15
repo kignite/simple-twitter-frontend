@@ -11,6 +11,12 @@ const StyledLayoutContainer = styled.div`
   margin: 0 auto;
   display: grid;
   grid-template-columns: 3fr 640px 4fr;
+
+  @media screen and (min-width: 992px) and (max-width: 1199px) 
+  {
+    width: 960px;
+    grid-template-columns: 3fr 5fr 4fr;
+  }
 `;
 
 const Layout = () => {
