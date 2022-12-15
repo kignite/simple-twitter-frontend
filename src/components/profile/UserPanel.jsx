@@ -30,20 +30,6 @@ const UserPanel = () => {
   const [activeTab, setActiveTab] = useState('tweet');
   const [panelData, setPanelData] = useState([]);
 
-  // const PostTweets = (arr) => {
-  //   console.log(arr);
-  //   return (
-  //     <>
-  //       <div className="id">{arr[0]}</div>
-  //       {arr.map((item) => (
-  //         <div className="id" key={item.id}>
-  //           123
-  //         </div>
-  //       ))}
-  //     </>
-  //   );
-  // };
-
   useEffect(() => {
     let ignore = false;
     const getPanelData = async () => {
@@ -53,21 +39,21 @@ const UserPanel = () => {
         case 'tweet': {
           const { data } = await getUserTweets({ id, token });
           if (!ignore) {
-            setPanelData(data);
+            setPanelData([...data]);
           }
           break;
         }
         case 'reply': {
           const { data } = await getUserReplies({ id, token });
           if (!ignore) {
-            setPanelData(data);
+            setPanelData([...data]);
           }
           break;
         }
         case 'like': {
           const { data } = await getUserLikes({ id, token });
           if (!ignore) {
-            setPanelData(data);
+            setPanelData([...data]);
           }
           break;
         }
@@ -90,15 +76,24 @@ const UserPanel = () => {
       <StyledTabbar>
         <button
           className={"user-action-tab" + clsx(' ', { active: activeTab === 'tweet' })}
-          onClick={() => {setActiveTab('tweet')}}
+          onClick={() => {
+            setPanelData([]);
+            setActiveTab('tweet');
+          }}
         >推文</button>
         <button
           className={"user-action-tab" + clsx(" ", { active: activeTab === 'reply' })}
-          onClick={() => {setActiveTab('reply')}}
+          onClick={() => {
+            setPanelData([]);
+            setActiveTab('reply');
+          }}
         >回覆</button>
         <button
           className={"user-action-tab" + clsx(" ", { active: activeTab === 'like' })}
-          onClick={() => {setActiveTab('like')}}
+          onClick={() => {
+            setPanelData([]);
+            setActiveTab('like');
+          }}
         >喜歡的內容</button>
       </StyledTabbar>
       <div className="tweet-list">
