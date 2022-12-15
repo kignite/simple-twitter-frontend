@@ -3,7 +3,11 @@ import styled from "styled-components";
 import clsx from "clsx";
 import TweetCard from "../common/cards/TweetCard";
 import CommentCard from "../common/cards/CommentCard";
-import { getUserTweets, getUserReplies, getUserLikes } from "../../api/getUserTweets";
+import {
+  getUserTweets,
+  getUserReplies,
+  getUserLikes,
+} from "../../api/getUserTweets";
 
 export const StyledTabbar = styled.div`
   display: flex;
@@ -27,30 +31,29 @@ export const StyledTabbar = styled.div`
 `;
 
 const UserPanel = () => {
-  const [activeTab, setActiveTab] = useState('tweet');
+  const [activeTab, setActiveTab] = useState("reply");
   const [panelData, setPanelData] = useState([]);
 
   useEffect(() => {
-    let ignore = false;
     const getPanelData = async () => {
       const id = 34;
       const token = localStorage.getItem("token") || null;
       switch (activeTab) {
-        case 'tweet': {
+        case "tweet": {
           const { data } = await getUserTweets({ id, token });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
-        case 'reply': {
+        case "reply": {
           const { data } = await getUserReplies({ id, token });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
-        case 'like': {
+        case "like": {
           const { data } = await getUserLikes({ id, token });
           if (!ignore) {
             setPanelData([...data]);
@@ -63,11 +66,11 @@ const UserPanel = () => {
         }
       }
     };
-
     getPanelData();
+    console.log("effect");
 
     return () => {
-      ignore = true;
+      setPanelData([]);
     };
   }, [activeTab]);
 
@@ -98,40 +101,54 @@ const UserPanel = () => {
       </StyledTabbar>
       <div className="tweet-list">
         {panelData.map((item) => {
-          if (activeTab === 'reply') {
-            return <CommentCard
-              key={item.id}
-              avatar={item.User.avatar}
-              name={item.User.name}
-              account={item.User.account}
-              createdAt={item.createdAt}
-              replyTo={item.Tweet.User.account}
-              comment={item.comment}
-            />;
-          } else if (activeTab === 'tweet') {
-            return <TweetCard
-              key={item.id}
-              avatar={item.User.avatar}
-              name={item.User.name}
-              account={item.User.account}
-              createdAt={item.createdAt}
-              description={item.description}
-              replyCount={item.replyCount}
-              likeCount={item.likeCount}
-              isLiked={item.isLiked}
-            />;
+          if (activeTab === "reply") {
+            {
+              console.log(item);
+            }
+            return (
+              <CommentCard
+                key={item.id}
+                avatar={item.User.avatar}
+                name={item.User.name}
+                account={item.User.account}
+                createdAt={item.createdAt}
+                replyTo={item.Tweet.User.account}
+                comment={item.comment}
+              />
+            );
+          } else if (activeTab === "tweet") {
+            {
+              console.log(item);
+            }
+
+            return (
+              <TweetCard
+                key={item.id}
+                avatar={item.User.avatar}
+                name={item.User.name}
+                account={item.User.account}
+                createdAt={item.createdAt}
+                description={item.description}
+                replyCount={item.replyCount}
+                likeCount={item.likeCount}
+                isLiked={item.isLiked}
+              />
+            );
           } else {
-            return <TweetCard
-              key={item.id}
-              avatar={item.Tweet.User.avatar}
-              name={item.Tweet.User.name}
-              account={item.Tweet.User.account}
-              createdAt={item.Tweet.createdAt}
-              description={item.Tweet.description}
-              replyCount={item.Tweet.replyCount}
-              likeCount={item.Tweet.likeCount}
-              isLiked={item.Tweet.isLiked}
-            />;
+            console.log(item);
+            return (
+              <TweetCard
+                key={item.id}
+                avatar={item.Tweet.User.avatar}
+                name={item.Tweet.User.name}
+                account={item.Tweet.User.account}
+                createdAt={item.Tweet.createdAt}
+                description={item.Tweet.description}
+                replyCount={item.Tweet.replyCount}
+                likeCount={item.Tweet.likeCount}
+                isLiked={item.Tweet.isLiked}
+              />
+            );
           }
         })}
       </div>

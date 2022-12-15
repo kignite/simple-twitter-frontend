@@ -5,7 +5,7 @@ import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 export const StyledCardContainer = styled.div`
   display: flex;
   padding: 16px 0;
-  border: 1px solid ${props => props.modal ? 'transparent' : '#E6ECF0'};
+  border: 1px solid var(--border_gray);
 
   img {
     width: 50px;
@@ -59,7 +59,7 @@ export const StyledCardContainer = styled.div`
   }
 `;
 
-const TweetCard = ({
+const TestCard = ({
   avatar,
   name,
   account,
@@ -101,4 +101,4 @@ const TweetCard = ({
   );
 };
 
-export default TweetCard;
+export default TestCard;
