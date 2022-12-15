@@ -14,6 +14,12 @@ export const StyledCardContainer = styled.div`
     margin-left: 24px;
     margin-right: 8px;
   }
+  .left-side {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    
+  }
 
   .right-side {
     .name {

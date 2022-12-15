@@ -25,27 +25,45 @@ const StyledModalContainer = styled.div`
   }
 `;
 
-// const StyledModalTweet = styled.div`
+const StyledConnectLine = styled.div`
+  position: absolute;
+  width: 2px;
+  margin-left: 49px;
+  top: 50px;
+  bottom: 0;
 
-// `;
+  background-color: var(--reply-connect-line);
+`;
 
-
-const Modal = ({active, setActive, avatar, name, account, createdAt, description}) => {
-
+const Modal = ({
+  active,
+  setActive,
+  avatar,
+  name,
+  account,
+  createdAt,
+  description,
+  onReply,
+}) => {
   return active ? (
     <StyledModalContainer>
       <header>
         <CloseIcon className="close" onClick={() => setActive(false)} />
       </header>
-      <StyledCardContainer modal={true}>
-        <img src={avatar} alt={name} />
-        <div className="right-side">
-          <span className="name">{name}</span>
-          <span className="account">@{account}</span>
-          <span className="created-time"> · {createdAt}</span>
-          <p>{description}</p>
-        </div>
-      </StyledCardContainer>
+      {onReply && (
+        <StyledCardContainer modal={true}>
+          <div className="left-side">
+            <img src={avatar} alt={name} />
+            <StyledConnectLine />
+          </div>
+          <div className="right-side">
+            <span className="name">{name}</span>
+            <span className="account">@{account}</span>
+            <span className="created-time"> · {createdAt}</span>
+            <p>{description}</p>
+          </div>
+        </StyledCardContainer>
+      )}
       <StyledTextareaContainer modal={true}>
         <img src={avatar} alt="你的頭像" />
         <textarea

@@ -11,6 +11,7 @@ export const StyledButton = styled.button`
 
   color: var(--main_orange);
   background-color: var(--main_white);
+  cursor: pointer;
 
   &.active {
     color: var(--main_white);
