@@ -20,6 +20,7 @@ const StyledModalContainer = styled.div`
     border-bottom: 1px solid var(--border_gray);
     .close {
       margin: 20px;
+      cursor: pointer;
     }
   }
 `;

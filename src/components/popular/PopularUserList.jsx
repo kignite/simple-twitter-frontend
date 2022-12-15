@@ -4,6 +4,7 @@ import PopularUserCard from "./PopularUserCard";
 
 const StyledListContainer = styled.div`
   grid-column: 3 / 4;
+  align-self: flex-start;
   width: calc(100% - 25px);
   margin-left: 25px;
   border-radius: 16px;
