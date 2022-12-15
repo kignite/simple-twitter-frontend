@@ -6,6 +6,9 @@ import { ReactComponent as ProfileIconActive } from "./profile-icon_active.svg";
 import { ReactComponent as SettingIcon } from "./setting-icon.svg";
 import { ReactComponent as SettingIconActive } from "./setting-icon_active.svg";
 import { ReactComponent as LogoutIcon } from "./logout-icon.svg";
+import { ReactComponent as ReplyIcon } from "./reply-icon.svg";
+import { ReactComponent as LikeIcon } from "./like-icon.svg";
+import { ReactComponent as LikedIcon } from "./liked-icon.svg";
 
 export {
   BrandLogo,
@@ -15,5 +18,8 @@ export {
   ProfileIconActive,
   SettingIcon,
   SettingIconActive,
-  LogoutIcon
+  LogoutIcon,
+  ReplyIcon,
+  LikeIcon,
+  LikedIcon
 };

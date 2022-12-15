@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Backdrop from "../components/Backdrop";
-import EditInfoModal from "../components/EditInfoModal";
-import UserPanel from "../components/UserPanel";
+import EditInfoModal from "../components/profile/EditInfoModal";
+import UserPanel from "../components/profile/UserPanel";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
@@ -11,6 +11,7 @@ const UserPageStyle = styled.div`
   border: 1px solid;
   display: grid;
   grid-template-rows: 74px 410px 678px;
+  overflow: scroll;
 `;
 
 const UserInfoPicture = styled.div`

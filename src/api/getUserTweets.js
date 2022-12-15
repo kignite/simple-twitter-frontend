@@ -1,31 +1,52 @@
 import axios from "axios";
 
-const baseURL = "https://calm-basin-50282.herokuapp.com";
+const baseURL = "https://calm-basin-50282.herokuapp.com/api";
 
-//user
 
-export const getUserTweet = async ({ id, token }) => {
-  // console.log(id,"=",token)
+export const getUserTweets = async ({ id, token }) => {
   try {
-    const data = await axios.get(`${baseURL}/api/users/${id}/tweets`, {
+    const data = await axios.get(`${baseURL}/users/${id}/tweets`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
-    })
-    // console.log(data);
+    });
     return data;
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
+};
 
-}
+export const getUserReplies = async ({ id, token }) => {
+  try {
+    const data = await axios.get(`${baseURL}/users/${id}/replied_tweets`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserLikes = async ({ id, token }) => {
+  try {
+    const data = await axios.get(`${baseURL}/users/${id}/likes`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // admin
 
 export const adminGetUserTweets = async ({ token }) => {
   try {
-    const data = await axios.get(`${baseURL}/api/admin/tweets`, {
+    const data = await axios.get(`${baseURL}/admin/tweets`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -40,12 +61,12 @@ export const adminGetUserTweets = async ({ token }) => {
 
 export const adminDeleteUserTweet = async ({ tweetId, token }) => {
   try {
-    const data = await axios.delete(`${baseURL}/api/admin/tweets/${tweetId}`, {
+    const data = await axios.delete(`${baseURL}/admin/tweets/${tweetId}`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     })
-    if(data){
+    if (data) {
       // console.log(data)
     }
   } catch (error) {
@@ -55,7 +76,7 @@ export const adminDeleteUserTweet = async ({ tweetId, token }) => {
 
 export const adminGetUsersData = async ({ token }) => {
   try {
-    const data = await axios.get(`${baseURL}/api/admin/users`, {
+    const data = await axios.get(`${baseURL}/admin/users`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -67,3 +88,4 @@ export const adminGetUsersData = async ({ token }) => {
     console.log(error)
   }
 }
+

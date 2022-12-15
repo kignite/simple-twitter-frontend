@@ -51,7 +51,7 @@ const LoginPage = () => {
     );
     if (success) {
       localStorage.setItem("token", token);
-      navigate("/");
+      navigate("home");
     } else {
       //待補失敗處理
       console.log("登入失敗");

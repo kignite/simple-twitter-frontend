@@ -25,9 +25,32 @@
   --scale_light-gray: #FAFAFB;
   --border_gray: #E6ECF0;
   --nav-unactive_gray: #44444F;
+  --tab-unactive_gray: var(--input-border_gray);
 }
 
 html,
 body {
+  height: 100%;
   font-family: 'Lato', 'Noto Sans TC', serif;
+}
+
+html {
+    overflow: -moz-hidden-unscrollable;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  height: 100%;
+	width: 100vw;
+	overflow: auto;
+}
+
+::-webkit-scrollbar {
+  /* make scrollbar transparent */
+  width: 0px;
+  background: transparent;
 }
