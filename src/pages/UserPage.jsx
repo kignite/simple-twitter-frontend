@@ -8,7 +8,7 @@ const UserPageStyle = styled.div`
   box-sizing: border-box;
   height: 100vh;
   width: 100%;
-  border: 1px solid;
+  border: 1px solid var(--border_gray);
   display: grid;
   grid-template-rows: 74px 410px 678px;
   overflow: scroll;
