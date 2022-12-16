@@ -29,6 +29,20 @@ export const getUserReplies = async ({ id, token }) => {
   }
 };
 
+export const getUserInfo = async ({ id, token }) => {
+  try {
+    const { data } = await axios.get(`${baseURL}/users/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    console.log('取得個人資料成功')
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getUserLikes = async ({ id, token }) => {
   try {
     const data = await axios.get(`${baseURL}/users/${id}/likes`, {
@@ -41,6 +55,28 @@ export const getUserLikes = async ({ id, token }) => {
     console.log(error);
   }
 };
+
+export const uploadUserInfo = async ({ id, token }) => {
+  // console.log(userInfo)
+  try {
+    const { status } = await axios.put(`${baseURL}/users/${id}`, {
+      "name": "user8989",
+      "avatar": "",
+      "cover": "",
+      "introduction": "aut eos. Quo sequi vel dolores. Culpa quae sit. Cum autem ipsam eaque et in aut perferendis rerum."
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      }
+    })
+
+    console.log(status)
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 // admin
 
@@ -88,4 +124,5 @@ export const adminGetUsersData = async ({ token }) => {
     console.log(error)
   }
 }
+
 

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getUserInfo } from "../api/getUserTweets";
 import Backdrop from "../components/Backdrop";
 import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
@@ -7,7 +8,7 @@ import UserPanel from "../components/profile/UserPanel";
 const UserPageStyle = styled.div`
   box-sizing: border-box;
   height: 100vh;
-  width: 100%;
+  width: 640px;
   border: 1px solid;
   display: grid;
   grid-template-rows: 74px 410px 678px;
@@ -16,8 +17,9 @@ const UserPageStyle = styled.div`
 
 const UserInfoPicture = styled.div`
   position: relative;
-  height: 200px;
-  background: url("https://picsum.photos/seed/picsum/800/200");
+  .cover {
+    border: 2px solid black;
+  }
   .avatar {
     box-sizing: border-box;
     position: absolute;
@@ -27,7 +29,7 @@ const UserInfoPicture = styled.div`
     border: 5px solid white;
   }
   .edit {
-    position: absolute;
+    position: relative;
     bottom: -25%;
     right: 10px;
   }
@@ -40,24 +42,59 @@ const UserInfoText = styled.div`
 
 const UserPage = () => {
   const [active, setActive] = useState(false);
+  const [personalInfo, setPersonalInfo] = useState({
+    id: 14,
+    account: "user1",
+    name: "12345",
+    avatar: "https://i.imgur.com/fY0rZrF.png",
+    cover: "https://i.imgur.com/f3xdCiw.png",
+    introduction: "廢文製造機",
+    role: "user",
+    followerCount: 2,
+    followingCount: 2,
+  });
+  const id = 14;
+  const token = localStorage.getItem("token");
+
   const handleOpen = () => {
     setActive(true);
     console.log("編輯個人資料");
+    console.log(personalInfo.name);
   };
+
+  useEffect(() => {
+    const getPersonalInfo = async () => {
+      const data = await getUserInfo({ id, token });
+      setPersonalInfo(data);
+    };
+    getPersonalInfo();
+  }, []);
 
   return (
     <>
       <Backdrop active={active} setActive={setActive} />
       <UserPageStyle>
-        <div className="user-name">John Doe</div>
+        <div className="user-name">{personalInfo.name}</div>
         <div className="user-info-container">
           <UserInfoPicture>
-            <img
-              src="https://picsum.photos/id/237/140/140"
-              alt=""
-              className="avatar"
+            <div className="image-area">
+              <img
+                src="https://picsum.photos/seed/picsum/800/200"
+                alt=""
+                className="cover"
+              />
+              <img
+                src="https://picsum.photos/id/237/140/140"
+                alt=""
+                className="avatar"
+              />
+            </div>
+            <EditInfoModal
+              active={active}
+              setActive={setActive}
+              name={personalInfo.name}
+              introduction={personalInfo.introduction}
             />
-            <EditInfoModal active={active} setActive={setActive} />
             <button className="edit" onClick={handleOpen}>
               編輯個人資料
             </button>

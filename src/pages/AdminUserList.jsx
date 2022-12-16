@@ -48,19 +48,7 @@ const UserCardStyled = styled.div`
 
 const AdminUserList = () => {
   // const holdOn = 1;
-  const [usersData, setUsersData] = useState([
-    {
-      id: 54,
-      name: "user4",
-      account: "user4",
-      avatar: "https://loremflickr.com/320/240/man,woman/?random=50",
-      cover: "https://picsum.photos/1500/800",
-      tweetCount: 10,
-      replyCount: 8,
-      followerCount: 1,
-      followingCount: 2,
-    },
-  ]);
+  const [usersData, setUsersData] = useState([]);
   const token = localStorage.getItem("token") || null;
 
   useEffect(() => {
@@ -69,7 +57,6 @@ const AdminUserList = () => {
       const { data } = await adminGetUsersData({ token });
       setUsersData(data);
     };
-
     getTweetsData();
   }, []);
 
@@ -77,7 +64,7 @@ const AdminUserList = () => {
     <PageStyled>
       <div>
         sidebar
-        <button>測試用{usersData[0].id}</button>
+        <button>測試用</button>
       </div>
       <div className="main">
         <h3 className="title">使用者清單</h3>

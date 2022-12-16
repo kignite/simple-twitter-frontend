@@ -35,7 +35,7 @@ const UserPanel = () => {
   const [panelData, setPanelData] = useState([]);
   useEffect(() => {
     const getPanelData = async () => {
-      const id = 34;
+      const id = 14;
       const token = localStorage.getItem("token") || null;
       switch (activeTab) {
         case "tweet": {
@@ -62,7 +62,6 @@ const UserPanel = () => {
       }
     };
     getPanelData();
-    console.log("effect");
 
     return () => {
       setPanelData([]);
@@ -106,9 +105,6 @@ const UserPanel = () => {
       <div className="tweet-list">
         {panelData.map((item) => {
           if (activeTab === "reply") {
-            {
-              console.log(item);
-            }
             return (
               <CommentCard
                 key={item.id}
@@ -121,10 +117,6 @@ const UserPanel = () => {
               />
             );
           } else if (activeTab === "tweet") {
-            {
-              console.log(item);
-            }
-
             return (
               <TweetCard
                 key={item.id}
@@ -139,7 +131,6 @@ const UserPanel = () => {
               />
             );
           } else {
-            console.log(item);
             return (
               <TweetCard
                 key={item.id}

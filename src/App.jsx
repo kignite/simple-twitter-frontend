@@ -10,12 +10,14 @@ import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
 import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
+import UploadCard from "./pages/testpage";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="test" element={<UploadCard />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="admin" element={<AdminLoginPage />} />
           <Route path="admin_main" element={<AdminMainPage />} />
