@@ -83,7 +83,7 @@ const TweetCard = ({
   const iconSize = {
     width: "13.2px",
     height: "13px",
-    marginRight: "9px"
+    marginRight: "9px",
   };
   return (
     <>

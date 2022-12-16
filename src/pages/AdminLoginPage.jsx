@@ -41,6 +41,8 @@ const AdminLoginPage = () => {
     if (password.length === 0) {
       return;
     }
+    console.log("a",account)
+    console.log("p",password)
 
     const { success, token } = await login(
       {
@@ -54,7 +56,7 @@ const AdminLoginPage = () => {
       navigate("/");
     } else {
       //待補失敗處理
-      console.log("登入失敗");
+      console.log(role, "登入失敗");
     }
   };
 
