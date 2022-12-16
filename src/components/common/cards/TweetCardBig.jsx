@@ -75,6 +75,7 @@ const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount
     width: "25px",
     height: "25px",
     marginRight: "133px",
+    cursor: "pointer", //加上點擊指標
   };
 
   return (
