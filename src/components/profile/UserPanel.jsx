@@ -30,13 +30,13 @@ export const StyledTabbar = styled.div`
   }
 `;
 
-const UserPanel = () => {
+const UserPanel = ({personalInfo}) => {
   const [activeTab, setActiveTab] = useState("reply");
   const [panelData, setPanelData] = useState([]);
 
   useEffect(() => {
     const getPanelData = async () => {
-      const id = 14;
+      const id = personalInfo.id;
       const token = localStorage.getItem("token") || null;
       switch (activeTab) {
         case "tweet": {
@@ -67,7 +67,7 @@ const UserPanel = () => {
       }
     };
     getPanelData();
-  }, [activeTab]);
+  }, [activeTab, personalInfo]);
 
   return (
     <div className="user-panel">

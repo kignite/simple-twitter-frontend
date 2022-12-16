@@ -6,7 +6,7 @@ import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
 
 const UserPageStyle = styled.div`
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
@@ -128,7 +128,7 @@ const UserPage = () => {
             <p className="introuduction">{personalInfo.introduction}</p>
           </UserInfoText>
         </div>
-        <UserPanel />
+        <UserPanel personalInfo={personalInfo} />
       </UserPageStyle>
     </>
   );
