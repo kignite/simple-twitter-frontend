@@ -6,7 +6,7 @@ import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
 
 const UserPageStyle = styled.div`
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
@@ -33,6 +33,7 @@ const UserPageStyle = styled.div`
 const UserInfoPicture = styled.div`
   position: relative;
   .cover {
+    width: 100%;
     border: 2px solid black;
   }
   .avatar {

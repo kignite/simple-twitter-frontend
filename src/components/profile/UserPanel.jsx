@@ -35,29 +35,30 @@ const UserPanel = ({personalInfo}) => {
   const [panelData, setPanelData] = useState([]);
 
   useEffect(() => {
+    let ignore = false;
     const getPanelData = async () => {
       const id = personalInfo.id;
       const token = localStorage.getItem("token") || null;
       switch (activeTab) {
         case "tweet": {
           const { data } = await getUserTweets({ id, token });
-
-          setPanelData([...data]);
-
+          if (!ignore) {
+            setPanelData([...data]);
+          }
           break;
         }
         case "reply": {
           const { data } = await getUserReplies({ id, token });
-
-          setPanelData([...data]);
-
+          if (!ignore) {
+            setPanelData([...data]);
+          }
           break;
         }
         case "like": {
           const { data } = await getUserLikes({ id, token });
-
-          setPanelData([...data]);
-
+          if (!ignore) {
+            setPanelData([...data]);
+          }
           break;
         }
         default: {
@@ -67,6 +68,10 @@ const UserPanel = ({personalInfo}) => {
       }
     };
     getPanelData();
+
+    return () => {
+      ignore = true;
+    };
   }, [activeTab, personalInfo]);
 
   return (
