@@ -4,6 +4,7 @@ import { getUserInfo } from "../api/getUserTweets";
 import Backdrop from "../components/Backdrop";
 import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
+import { TurnbackIcon } from "../assets/icons";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
@@ -14,6 +15,10 @@ const UserPageStyle = styled.div`
   grid-template-rows: 74px 410px 678px;
   overflow: scroll;
   header {
+    display: flex;
+    align-items: center;
+    height: 74px;
+    padding-left: 24px;
     border-bottom: 1px solid var(--border_gray);
     position: sticky;
     top: 0;
@@ -21,12 +26,20 @@ const UserPageStyle = styled.div`
     background-color: var(--main_white);
     z-index: 99;
   }
-  h5 {
-    margin: 24px;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 26px;
-    color: var(--main_text);
+  .header-info {
+    margin-left: 19px;
+    h5 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 26px;
+      color: var(--main_text);
+    }
+    .tweet-amount {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 18.82px;
+      color: var(--main_secondary);
+    }
   }
 `;
 
@@ -91,7 +104,11 @@ const UserPage = () => {
       <Backdrop active={active} setActive={setActive} />
       <UserPageStyle>
         <header>
-          <h5 className="user-name">{personalInfo.name}</h5>
+          <TurnbackIcon className="return" />
+          <div className="header-info">
+            <h5>{personalInfo.name}</h5>
+            <p className="tweet-amount">25 推文</p>
+          </div>
         </header>
         <div className="user-info-container">
           <UserInfoPicture>

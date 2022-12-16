@@ -13,8 +13,9 @@ const TweetReplyPageStyle = styled.div`
   header {
     display: flex;
     align-items: center;
+    height: 74px;
+    padding-left: 24px;
     border-bottom: 1px solid var(--border_gray);
-    padding: 24px;
     position: sticky; //還沒資料看不出效果
     top: 0;
   }

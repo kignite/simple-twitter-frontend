@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { StyledBigButton } from "./common/button.styled";
 import {
   BrandLogo,
   ProfileIcon,
@@ -46,19 +47,6 @@ const StyledLinkContainer = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
-  width: 100%;
-  padding: 8px 0;
-  border-radius: 50px;
-  border: none;
-
-  font-size: 20px;
-  font-weight: 400;
-
-  color: var(--main_white);
-  background-color: var(--main_orange);
-`;
-
 const Sidebar = () => {
   const [active, setActive] = useState(false);
 
@@ -84,11 +72,11 @@ const Sidebar = () => {
           <SettingIcon />
           <Link to="setting">設定</Link>
         </StyledLinkContainer>
-        <StyledButton onClick={
+        <StyledBigButton onClick={
           () => {
             setActive(true);
           }
-        }>推文</StyledButton>
+        }>推文</StyledBigButton>
         <StyledLinkContainer className="logout">
           <LogoutIcon />
           {/* 暫時使用，後續改為useEffect自動跳轉 */}

@@ -61,7 +61,7 @@ const PopularUserCard = ({avatar, name, account, isFollowed}) => {
       </div>
       <StyledButton className={"follow-btn" + clsx(' ', {active: isFollowed})}>
         {isFollowed ? '正在跟隨' : '跟隨'}
-      </StyledButton>
+      </StyledButton> {/*還沒做追蹤/取消追蹤API*/}
     </StyledItemContainer>
   );
 };

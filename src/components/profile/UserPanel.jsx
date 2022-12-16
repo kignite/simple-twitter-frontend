@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import clsx from "clsx";
+import { StyledTabbar } from "../common/tab.styled";
 import TweetCard from "../common/cards/TweetCard";
 import CommentCard from "../common/cards/CommentCard";
 import {
@@ -8,27 +8,6 @@ import {
   getUserReplies,
   getUserLikes,
 } from "../../api/getUserTweets";
-
-export const StyledTabbar = styled.div`
-  display: flex;
-  .user-action-tab {
-    width: 130px;
-    padding-bottom: 15px;
-    border: none;
-    border-bottom: 2px solid var(--border_gray);
-
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--tab-unactive_gray);
-    background-color: transparent;
-    cursor: pointer;
-
-    &.active {
-      border-bottom-color: var(--main_orange);
-      color: var(--main_orange);
-    }
-  }
-`;
 
 const UserPanel = ({personalInfo}) => {
   const [activeTab, setActiveTab] = useState("reply");
