@@ -11,15 +11,12 @@ import UserPage from "./pages/UserPage";
 import TweetReplyPage from "./pages/TweetReplyPage";
 import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
-import UploadCard from "./pages/testpage";
-
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="test" element={<UploadCard />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="admin" element={<AdminLoginPage />} />
           <Route path="admin_main" element={<AdminMainPage />} />
@@ -28,7 +25,6 @@ function App() {
           <Route path="setting" element={<AccounntSetting />} />
           {/* <Route path="/" element={<Layout />}/> */}
           <Route path="/" element={<Layout />}>
-
             <Route path="*" element={<HomePage />} />
             <Route path="main" element={<HomePage />} />
             <Route path="reply_list" element={<TweetReplyPage />} />
