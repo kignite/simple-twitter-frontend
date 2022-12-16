@@ -95,12 +95,12 @@ export const getAccountSetting = async ({
     const { data } = await axios.get(`${baseURL}/api/users/${userID}/setting`,
       {
         headers: {
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token,
         },
       },
     );
-    // console.log(data)
+    console.log(data)
 
     return data;
 

@@ -36,28 +36,28 @@ const UserPanel = () => {
 
   useEffect(() => {
     const getPanelData = async () => {
-      const id = 34;
+      const id = 14;
       const token = localStorage.getItem("token") || null;
       switch (activeTab) {
         case "tweet": {
           const { data } = await getUserTweets({ id, token });
-          if (!ignore) {
-            setPanelData([...data]);
-          }
+
+          setPanelData([...data]);
+
           break;
         }
         case "reply": {
           const { data } = await getUserReplies({ id, token });
-          if (!ignore) {
-            setPanelData([...data]);
-          }
+
+          setPanelData([...data]);
+
           break;
         }
         case "like": {
           const { data } = await getUserLikes({ id, token });
-          if (!ignore) {
-            setPanelData([...data]);
-          }
+
+          setPanelData([...data]);
+
           break;
         }
         default: {
@@ -67,44 +67,48 @@ const UserPanel = () => {
       }
     };
     getPanelData();
-    console.log("effect");
-
-    return () => {
-      setPanelData([]);
-    };
   }, [activeTab]);
 
   return (
     <div className="user-panel">
       <StyledTabbar>
         <button
-          className={"user-action-tab" + clsx(' ', { active: activeTab === 'tweet' })}
+          className={
+            "user-action-tab" + clsx(" ", { active: activeTab === "tweet" })
+          }
           onClick={() => {
             setPanelData([]);
-            setActiveTab('tweet');
+            setActiveTab("tweet");
           }}
-        >推文</button>
+        >
+          推文
+        </button>
         <button
-          className={"user-action-tab" + clsx(" ", { active: activeTab === 'reply' })}
+          className={
+            "user-action-tab" + clsx(" ", { active: activeTab === "reply" })
+          }
           onClick={() => {
             setPanelData([]);
-            setActiveTab('reply');
+            setActiveTab("reply");
           }}
-        >回覆</button>
+        >
+          回覆
+        </button>
         <button
-          className={"user-action-tab" + clsx(" ", { active: activeTab === 'like' })}
+          className={
+            "user-action-tab" + clsx(" ", { active: activeTab === "like" })
+          }
           onClick={() => {
             setPanelData([]);
-            setActiveTab('like');
+            setActiveTab("like");
           }}
-        >喜歡的內容</button>
+        >
+          喜歡的內容
+        </button>
       </StyledTabbar>
       <div className="tweet-list">
         {panelData.map((item) => {
           if (activeTab === "reply") {
-            {
-              console.log(item);
-            }
             return (
               <CommentCard
                 key={item.id}
@@ -117,10 +121,6 @@ const UserPanel = () => {
               />
             );
           } else if (activeTab === "tweet") {
-            {
-              console.log(item);
-            }
-
             return (
               <TweetCard
                 key={item.id}
@@ -135,7 +135,6 @@ const UserPanel = () => {
               />
             );
           } else {
-            console.log(item);
             return (
               <TweetCard
                 key={item.id}

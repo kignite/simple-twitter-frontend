@@ -50,21 +50,7 @@ const TweetStyled = styled.div`
   }
 `;
 const AdminMainPage = () => {
-  const [tweetsData, setTweetsData] = useState([
-    {
-      id: 14,
-      UserId: 64,
-      description: "Accusantium laborum laudantium nulla exercitatione",
-      createdAt: "17 小時前",
-      updatedAt: "2022-12-13T08:53:06.000Z",
-      User: {
-        id: 64,
-        name: "user6",
-        account: "user6",
-        avatar: "https://loremflickr.com/320/240/man,woman/?random=73",
-      },
-    },
-  ]);
+  const [tweetsData, setTweetsData] = useState([]);
   const token = localStorage.getItem("token") || null;
 
   const handleDelete = async (e) => {
@@ -86,13 +72,7 @@ const AdminMainPage = () => {
     <PageStyled>
       <div>
         sidebar
-        <button
-          onClick={() => {
-            console.log(tweetsData);
-          }}
-        >
-          測試用{tweetsData[0].id}
-        </button>
+        <button>測試用</button>
       </div>
       <div className="main">
         <h3 className="title">推文清單</h3>
