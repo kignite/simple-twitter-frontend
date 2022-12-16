@@ -12,6 +12,21 @@ const UserPageStyle = styled.div`
   display: grid;
   grid-template-rows: 74px 410px 678px;
   overflow: scroll;
+  header {
+    border-bottom: 1px solid var(--border_gray);
+    position: sticky; 
+    top: 0;
+
+    background-color: var(--main_white);
+    z-index: 99;
+  }
+  h5 {
+    margin: 24px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+    color: var(--main_text);
+  }
 `;
 
 const UserInfoPicture = styled.div`
@@ -49,7 +64,9 @@ const UserPage = () => {
     <>
       <Backdrop active={active} setActive={setActive} />
       <UserPageStyle>
-        <div className="user-name">John Doe</div>
+        <header>
+          <h5 className="user-name">John Doe</h5>
+        </header>
         <div className="user-info-container">
           <UserInfoPicture>
             <img

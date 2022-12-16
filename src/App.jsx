@@ -8,8 +8,10 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AccounntSetting from "./pages/AccountSetting";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
+import TweetReplyPage from "./pages/TweetReplyPage";
 import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
+
 
 function App() {
   return (
@@ -23,9 +25,11 @@ function App() {
           <Route path="regist" element={<RegisterPage />} />
           <Route path="setting" element={<AccounntSetting />} />
           {/* <Route path="/" element={<Layout />}/> */}
-          <Route path="" element={<Layout />}>
-            <Route path="main" element={<HomePage />} />
+          <Route path="/" element={<Layout />}>
+
             <Route path="*" element={<HomePage />} />
+            <Route path="main" element={<HomePage />} />
+            <Route path="reply_list" element={<TweetReplyPage />} />
             <Route path="user/self" element={<UserPage />} />
           </Route>
         </Routes>

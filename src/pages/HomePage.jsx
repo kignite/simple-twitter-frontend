@@ -11,6 +11,8 @@ const HomePageStyle = styled.div`
   border: 1px solid var(--border_gray);
   header {
     border-bottom: 1px solid var(--border_gray);
+    position: sticky; //還沒資料看不出效果
+    top: 0;
   }
   h4 {
     margin: 24px;
