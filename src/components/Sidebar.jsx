@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { StyledBigButton } from "./common/button.styled";
@@ -9,8 +9,6 @@ import {
   HomeIconActive,
   LogoutIcon,
 } from "../assets/icons";
-import Backdrop from "./Backdrop";
-import Modal from "./common/Modal";
 
 const StyledSidebarContainer = styled.div`
   position: relative;
@@ -47,8 +45,7 @@ const StyledLinkContainer = styled.div`
   }
 `;
 
-const Sidebar = () => {
-  const [active, setActive] = useState(false);
+const Sidebar = ({setActive}) => {
 
   const handleClick = () => {
     // console.log("hi")
@@ -56,8 +53,6 @@ const Sidebar = () => {
   };
   return (
     <>
-      <Backdrop active={active} setActive={setActive} />
-      <Modal active={active} setActive={setActive} />
       <StyledSidebarContainer>
         <BrandLogo className="logo" />
         <StyledLinkContainer>
