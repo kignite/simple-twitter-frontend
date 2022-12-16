@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-// import { uploadUserInfo } from "../../api/getUserTweets";
 import Input from "../AuthInput";
+import { useState } from "react";
+import { uploadUserInfo } from "../../api/getUserTweets";
+import { getUserInfo } from "../../api/getUserTweets";
 
 const ModalStyle = styled.div`
   box-sizing: border-box;
@@ -23,7 +25,6 @@ const ModalStyle = styled.div`
 const UserInfoPicture = styled.div`
   position: relative;
   height: 200px;
-  background: url("https://picsum.photos/seed/picsum/800/200");
   .modal-avatar img {
     box-sizing: border-box;
     position: absolute;
@@ -32,13 +33,14 @@ const UserInfoPicture = styled.div`
     border-radius: 50%;
     border: 5px solid white;
   }
-  .modal-background {
+  .modal-cover img {
     box-sizing: border-box;
     height: 200px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: -1;
   }
 `;
 
@@ -47,67 +49,99 @@ const UserInfoText = styled.div`
   margin-top: 72px;
 `;
 
+const EditInfoModal = ({ setActive, id, token }) => {
+  // const test = 123;
+  const [personalInfo, setPersonalInfo] = useState({});
+  const [avatar, setAvatar] = useState();
+  const [cover, setCover] = useState();
+  const [tmpImg, setTmpImg] = useState({
+    avatar: null,
+    cover: null,
+  });
 
-
-const EditInfoModal = ({ active, setActive ,name ,introduction}) => {
   const handleClose = () => {
     setActive(false);
   };
-
-  // const handleUpdateCover = async () => {
-  //   setUserInfo({
-  //     name: "user6",
-  //     account: "user6",
-  //     avatar: "https://loremflickr.com/320/240/man,woman/?random=73",
-  //     cover: "https://loremflickr.com/320/240/man,woman/?random=73",
-  //   });
-  //   await uploadUserInfo({
-  //     userInfo,
-  //     id,
-  //     token,
-  //   });
-  //   console.log(userInfo);
-  // };
-
-  const handleChange = (e) => {
-    const file = e.target.files;
-    console.log(file[0]);
-    const imgURL = window.URL.createObjectURL(file[0]);
-    console.log(imgURL)
+  const handleSave = async () => {
+    const file = { ...personalInfo, avatar: avatar, cover: cover };
+    await uploadUserInfo({ id, token, file });
+    setActive(false);
   };
-  const handleUpdateAvatar = () => {
-    console.log("Avatar");
+
+  const handleUploadAvatar = (e) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setTmpImg({ ...tmpImg, avatar: fileReader.result });
+    };
+    fileReader.readAsDataURL(e.target.files[0]);
+    setAvatar(e.target.files[0]);
+    setPersonalInfo({ ...personalInfo, avatar: tmpImg.avatar });
   };
-  return active ? (
+
+  const handleUploadCover = (e) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setTmpImg({ ...tmpImg, cover: fileReader.result });
+    };
+    fileReader.readAsDataURL(e.target.files[0]);
+    setCover(e.target.files[0]);
+    setPersonalInfo({ ...personalInfo, cover: tmpImg.cover });
+  };
+
+  useEffect(() => {
+    const getPersonalInfo = async () => {
+      const data = await getUserInfo({ id, token });
+      setPersonalInfo(data);
+      setTmpImg({ avatar: data.avatar, cover: data.cover });
+    };
+    getPersonalInfo();
+  }, []);
+
+  return (
     <ModalStyle>
       <div className="modal-title">
         <button className="close-btn" onClick={handleClose}>
           X
         </button>
         <h3 className="edit-info">編輯個人資料</h3>
-        <button className="save" onClick={handleClose}>
+        <button className="save" onClick={handleSave}>
           儲存
         </button>
       </div>
       <div className="modal-user-info-container">
         <UserInfoPicture>
-          <div className="modal-background">
-            <input type="file" name="" id="image" onChange={handleChange} />
+          <div className="modal-cover">
+            <img
+              width={640}
+              height={200}
+              src={tmpImg.cover}
+              alt=""
+              className="cover"
+            />
+            <input
+              type="file"
+              name=""
+              id="image"
+              onChange={handleUploadCover}
+            />
             <div className="remove-background">x</div>
           </div>
           <div className="modal-avatar">
-            <div className="add-picture" onClick={handleUpdateAvatar}>
-              +
-            </div>
-            <img src="https://picsum.photos/id/237/140/140" alt="" />
+            <input
+              type="file"
+              name=""
+              id="image"
+              onChange={handleUploadAvatar}
+            />
+            <img width={100} height={100} src={tmpImg.avatar} alt="" />
           </div>
         </UserInfoPicture>
         <UserInfoText>
-          <Input label={"名稱"} value={name} />
-          <Input label={"自我介紹"} value={introduction} />
+          <Input label={"名稱"} value={personalInfo.name} />
+          <Input label={"自我介紹"} value={personalInfo.introduction} />
         </UserInfoText>
       </div>
     </ModalStyle>
-  ) : null;
+  );
 };
 export default EditInfoModal;

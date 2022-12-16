@@ -33,6 +33,7 @@ export const StyledTabbar = styled.div`
 const UserPanel = () => {
   const [activeTab, setActiveTab] = useState("reply");
   const [panelData, setPanelData] = useState([]);
+
   useEffect(() => {
     const getPanelData = async () => {
       const id = 14;
@@ -41,31 +42,31 @@ const UserPanel = () => {
         case "tweet": {
           const { data } = await getUserTweets({ id, token });
 
-          setPanelData(data);
+          setPanelData([...data]);
 
           break;
         }
         case "reply": {
           const { data } = await getUserReplies({ id, token });
 
-          setPanelData(data);
+          setPanelData([...data]);
 
           break;
         }
         case "like": {
           const { data } = await getUserLikes({ id, token });
 
-          setPanelData(data);
+          setPanelData([...data]);
 
+          break;
+        }
+        default: {
+          setPanelData([]);
           break;
         }
       }
     };
     getPanelData();
-
-    return () => {
-      setPanelData([]);
-    };
   }, [activeTab]);
 
   return (
@@ -76,6 +77,7 @@ const UserPanel = () => {
             "user-action-tab" + clsx(" ", { active: activeTab === "tweet" })
           }
           onClick={() => {
+            setPanelData([]);
             setActiveTab("tweet");
           }}
         >
@@ -86,6 +88,7 @@ const UserPanel = () => {
             "user-action-tab" + clsx(" ", { active: activeTab === "reply" })
           }
           onClick={() => {
+            setPanelData([]);
             setActiveTab("reply");
           }}
         >
@@ -96,6 +99,7 @@ const UserPanel = () => {
             "user-action-tab" + clsx(" ", { active: activeTab === "like" })
           }
           onClick={() => {
+            setPanelData([]);
             setActiveTab("like");
           }}
         >

@@ -14,7 +14,8 @@
   /* text */
   --main_text: #171725;
   --account_text-in-pop: #92929D; 
-  --account_text-in-main: #6C757D;
+  --account_text-in-main: var(--main_secondary);
+  --textarea-placeholder: var(--main_secondary);
 
   /* component */
   --input-scale_light-gray: #F5F8FA;
@@ -26,6 +27,7 @@
   --border_gray: #E6ECF0;
   --nav-unactive_gray: #44444F;
   --tab-unactive_gray: var(--input-border_gray);
+  --reply-connect-line: #CCD6DD;
 }
 
 html,

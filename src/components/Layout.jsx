@@ -6,12 +6,17 @@ import Sidebar from "./Sidebar";
 
 
 const StyledLayoutContainer = styled.div`
-  width: 1148px;
+  width: 1140px;
   height: 100%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 3fr 640px 4fr;
-  border: 1px solid red;
+
+  @media screen and (min-width: 992px) and (max-width: 1199px) 
+  {
+    width: 960px;
+    grid-template-columns: 3fr 5fr 4fr;
+  }
 `;
 
 const Layout = () => {

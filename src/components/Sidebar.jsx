@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -6,8 +6,10 @@ import {
   ProfileIcon,
   SettingIcon,
   HomeIconActive,
-  LogoutIcon
+  LogoutIcon,
 } from "../assets/icons";
+import Backdrop from "./Backdrop";
+import Modal from "./common/Modal";
 
 const StyledSidebarContainer = styled.div`
   position: relative;
@@ -58,40 +60,44 @@ const StyledButton = styled.button`
 `;
 
 const Sidebar = () => {
+  const [active, setActive] = useState(false);
+
   const handleClick = () => {
     // console.log("hi")
     localStorage.removeItem("token");
   };
   return (
-    <StyledSidebarContainer>
-      <BrandLogo className="logo" />
-      <StyledLinkContainer>
-        <HomeIconActive />
-        <a className="active" href="">
-          首頁
-        </a>
-      </StyledLinkContainer>
-      <StyledLinkContainer>
-        <ProfileIcon />
-        <Link to="/user/self">
-          個人資料
-        </Link>
-      </StyledLinkContainer>
-      <StyledLinkContainer>
-        <SettingIcon />
-        <Link to="setting">
-          設定
-        </Link>
-      </StyledLinkContainer>
-      <StyledButton>推文</StyledButton>
-      <StyledLinkContainer className="logout">
-        <LogoutIcon />
-        {/* 暫時使用，後續改為useEffect自動跳轉 */}
-        <Link to="login" onClick={handleClick}>
-          登出
-        </Link>
-      </StyledLinkContainer>
-    </StyledSidebarContainer>
+    <>
+      <Backdrop active={active} setActive={setActive} />
+      <Modal active={active} setActive={setActive} />
+      <StyledSidebarContainer>
+        <BrandLogo className="logo" />
+        <StyledLinkContainer>
+          <HomeIconActive />
+          <Link to="home">首頁</Link>
+        </StyledLinkContainer>
+        <StyledLinkContainer>
+          <ProfileIcon />
+          <Link to="user/self">個人資料</Link>
+        </StyledLinkContainer>
+        <StyledLinkContainer>
+          <SettingIcon />
+          <Link to="setting">設定</Link>
+        </StyledLinkContainer>
+        <StyledButton onClick={
+          () => {
+            setActive(true);
+          }
+        }>推文</StyledButton>
+        <StyledLinkContainer className="logout">
+          <LogoutIcon />
+          {/* 暫時使用，後續改為useEffect自動跳轉 */}
+          <Link to="login" onClick={handleClick}>
+            登出
+          </Link>
+        </StyledLinkContainer>
+      </StyledSidebarContainer>
+    </>
   );
 };
 

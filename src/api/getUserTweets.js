@@ -36,7 +36,7 @@ export const getUserInfo = async ({ id, token }) => {
         Authorization: 'Bearer ' + token,
       },
     });
-    console.log('取得個人資料成功')
+    // console.log('取得個人資料成功')
     return data;
   } catch (error) {
     console.log(error);
@@ -56,23 +56,15 @@ export const getUserLikes = async ({ id, token }) => {
   }
 };
 
-export const uploadUserInfo = async ({ id, token }) => {
-  // console.log(userInfo)
+export const uploadUserInfo = async ({ id, token, file }) => {
   try {
-    const { status } = await axios.put(`${baseURL}/users/${id}`, {
-      "name": "user8989",
-      "avatar": "",
-      "cover": "",
-      "introduction": "aut eos. Quo sequi vel dolores. Culpa quae sit. Cum autem ipsam eaque et in aut perferendis rerum."
-    }, {
+    const { status } = await axios.put(`${baseURL}/users/${id}`, file, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      }
+        "content-type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
     })
-
     console.log(status)
-    return status
   } catch (error) {
     console.log(error)
   }
