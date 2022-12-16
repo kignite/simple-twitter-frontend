@@ -33,7 +33,7 @@ const UserPanel = () => {
   useEffect(() => {
     let ignore = false;
     const getPanelData = async () => {
-      const id = 34;
+      const id = 34; //測試用
       const token = localStorage.getItem("token") || null;
       switch (activeTab) {
         case 'tweet': {
