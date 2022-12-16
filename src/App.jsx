@@ -11,7 +11,6 @@ import UserPage from "./pages/UserPage";
 import TweetReplyPage from "./pages/TweetReplyPage";
 import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
-import UploadCard from "./pages/testpage";
 
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="test" element={<UploadCard />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="admin" element={<AdminLoginPage />} />
           <Route path="admin_main" element={<AdminMainPage />} />
