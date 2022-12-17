@@ -5,6 +5,7 @@
 /simple-twitter
 /.pnp
 .pnp.js
+testpage.jsx
 
 # testing
 /coverage
