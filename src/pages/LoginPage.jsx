@@ -6,24 +6,37 @@ import Input from "../components/AuthInput";
 import styled from "styled-components";
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";
+import { StyledBigButton, StyledLinkText } from "../components/common/button.styled";
 
-const HomePage = styled.div`
-  width: 1148px;
+export const AccountFormPage = styled.div`
   height: 100%;
   margin: 0 auto;
-  border: 1px solid red;
   display: flex;
   justify-content: center;
 `;
 
-const HomePageContainer = styled.div`
+export const AccountFormContainer = styled.div`
   //待修改
-  * {
-    margin: 10px 0;
-  }
+  position: relative;
+  width: 364px;
+  top: 60px;
 
-  a {
-    margin: 0 10px;
+  text-align: center;
+  h3 {
+    margin: 29px 0 40px 0;
+  }
+  .form-btn {
+    margin-top: 8px;
+  }
+  .user-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 22px;
+  }
+  .cancel-btn {
+    margin-top: 22px;
+    margin-bottom: 60px;
   }
 `;
 
@@ -65,8 +78,8 @@ const LoginPage = () => {
     // }
   }, []);
   return (
-    <HomePage>
-      <HomePageContainer>
+    <AccountFormPage>
+      <AccountFormContainer>
         <BrandLogo className="logo" />
         <h3>登入 Alphitter</h3>
         <Input
@@ -83,13 +96,18 @@ const LoginPage = () => {
           placeholder={"請輸入密碼"}
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
-        <button onClick={handleClick}>登入</button>
-        <div>
-          <Link to="/regist">註冊</Link>
-          <Link to="/admin">後台登入</Link>
+        <StyledBigButton className="form-btn" onClick={handleClick}>登入</StyledBigButton>
+        <div className="user-actions">
+          <Link to="/regist">
+            <StyledLinkText>註冊</StyledLinkText>
+          </Link>
+          <div>‧</div>
+          <Link to="/admin">
+            <StyledLinkText>後台登入</StyledLinkText>
+          </Link>
         </div>
-      </HomePageContainer>
-    </HomePage>
+      </AccountFormContainer>
+    </AccountFormPage>
   );
 };
 

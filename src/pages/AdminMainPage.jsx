@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { adminDeleteUserTweet, adminGetUserTweets } from "../api/getAdminRelated";
-import { adminDeleteUserTweet, adminGetUserTweets } from "../api/getUserTweets";
 import AdminSidebar from "../components/AdminSidebar";
 // import jwt from "jwt-decode";
 

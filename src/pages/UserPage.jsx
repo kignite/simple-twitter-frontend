@@ -160,9 +160,7 @@ const UserPage = () => {
               <EditInfoModal
                 setActive={setActive}
                 token={token}
-<
                 personalInfoData={personalInfo}
-
               />
             ) : null}
             <StyledButton className="edit" onClick={handleOpen}>編輯個人資料</StyledButton>
@@ -170,9 +168,7 @@ const UserPage = () => {
           <UserInfoText>
             <h5 className="name">{personalInfo.name}</h5>
             <div className="account">@{personalInfo.account}</div>
-            <p className="introuduction">{personalInfo.introduction}
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
+            <p className="introuduction">{personalInfo.introduction}</p>
             <div className="follow-info">
             <p>
               {personalInfo.followingCount}

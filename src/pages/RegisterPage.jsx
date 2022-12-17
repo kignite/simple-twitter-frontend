@@ -1,31 +1,11 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 import { useState } from "react";
 import { regist } from "../api/auth";
 import Input from "../components/AuthInput";
-import styled from "styled-components";
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";
-// ;
-const RegistPage = styled.div`
-  width: 1148px;
-  height: 100%;
-  margin: 0 auto;
-  border: 1px solid red;
-  display: flex;
-  justify-content: center;
-`;
-
-const RegistPageContainer = styled.div`
-  //待修改
-  * {
-    margin: 10px 0;
-  }
-
-  a {
-    margin: 0 10px;
-  }
-`;
+import { AccountFormPage, AccountFormContainer } from "./LoginPage";
+import { StyledBigButton, StyledLinkText } from "../components/common/button.styled";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState(null);
@@ -70,8 +50,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <RegistPage>
-      <RegistPageContainer>
+    <AccountFormPage>
+      <AccountFormContainer>
         <BrandLogo />
         <h3>建立你的帳號</h3>
         <Input
@@ -109,10 +89,12 @@ const RegisterPage = () => {
           placeholder={"請再次輸入密碼"}
           onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
         />
-        <button onClick={handleClick}>註冊</button>
-        <Link to="/login">取消</Link>
-      </RegistPageContainer>
-    </RegistPage>
+        <StyledBigButton className="form-btn" onClick={handleClick}>註冊</StyledBigButton>
+        <Link to="/login">
+          <StyledLinkText className="cancel-btn">取消</StyledLinkText>
+        </Link>
+      </AccountFormContainer>
+    </AccountFormPage>
   );
 };
 
