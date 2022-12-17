@@ -9,32 +9,31 @@ import {
   getUserLikes,
 } from "../../api/getUserTweets";
 
-const UserPanel = ({personalInfo}) => {
+const UserPanel = ({ personalInfo }) => {
   const [activeTab, setActiveTab] = useState("reply");
   const [panelData, setPanelData] = useState([]);
 
   useEffect(() => {
     let ignore = false;
     const getPanelData = async () => {
-      const id = personalInfo.id;
       const token = localStorage.getItem("token") || null;
       switch (activeTab) {
         case "tweet": {
-          const { data } = await getUserTweets({ id, token });
+          const { data } = await getUserTweets({ token });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
         case "reply": {
-          const { data } = await getUserReplies({ id, token });
+          const { data } = await getUserReplies({ token });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
         case "like": {
-          const { data } = await getUserLikes({ id, token });
+          const { data } = await getUserLikes({ token });
           if (!ignore) {
             setPanelData([...data]);
           }
