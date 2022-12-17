@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { adminDeleteUserTweet, adminGetUserTweets } from "../api/getUserTweets";
+import Sidebar from "../components/Sidebar";
 // import jwt from "jwt-decode";
 
 const PageStyled = styled.div`
@@ -70,10 +71,7 @@ const AdminMainPage = () => {
 
   return (
     <PageStyled>
-      <div>
-        sidebar
-        <button>測試用</button>
-      </div>
+      <Sidebar/>
       <div className="main">
         <h3 className="title">推文清單</h3>
         <div className="tweets-list">

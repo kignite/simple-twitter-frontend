@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import { adminGetUsersData } from "../api/getUserTweets";
 import UserCard from "../components/common/cards/UserCard";
+import AdminSidebar from "../components/AdminSidebar";
 // import jwt from "jwt-decode";
 
 const PageStyled = styled.div`
+  margin: 0 auto;
+  width: 1140px;
+  height: 100%;
   display: grid;
-  grid-template-columns: 332px 1fr;
-
-  .sidebar {
-    width: 332px;
-  }
+  grid-template-columns: 1fr 6fr;
 
   .title {
     box-sizing: border-box;
@@ -23,17 +23,18 @@ const PageStyled = styled.div`
   }
 
   .users-list {
-    border: solid 1px;
+    border-top: 1px solid var(--border_gray);
     max-height: 1126px;
     overflow-y: scroll;
-
+    padding: 16px 15px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    /* grid-template-columns: repeat(4, 1fr); */
-    grid-gap: 16px 8px;
+    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 16px 16px;
   }
   .main {
-    /* max-height: 1200px; */
+    border-left: 1px solid var(--border_gray);
+    height: 100vh;
   }
 `;
 
@@ -52,10 +53,7 @@ const AdminUserList = () => {
 
   return (
     <PageStyled>
-      <div className="sidebar">
-        sidebar
-        <button>測試用</button>
-      </div>
+      <AdminSidebar />
       <div className="main">
         <h3 className="title">使用者清單</h3>
         <div className="users-list">
