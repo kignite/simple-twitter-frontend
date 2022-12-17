@@ -50,7 +50,7 @@ const Modal = ({
 }) => {
   return active ? (
     <StyledModalContainer>
-      <header>
+      <header className="modal-header">
         <CloseIcon className="close" onClick={() => setActive(false)} />
       </header>
       {onReply && (

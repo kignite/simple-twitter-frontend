@@ -5,14 +5,14 @@ import Backdrop from "../components/Backdrop";
 import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
+import { StyledButton } from "../components/common/button.styled";
+
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
-  display: grid;
-  grid-template-rows: 74px 410px 678px;
   overflow: scroll;
   header {
     display: flex;
@@ -47,26 +47,58 @@ const UserInfoPicture = styled.div`
   position: relative;
   .cover {
     width: 100%;
-    border: 2px solid black;
   }
   .avatar {
     box-sizing: border-box;
     position: absolute;
-    bottom: -25%;
-    left: 10px;
+    bottom: 0;
+    left: 16px;
+    transform: translateY(50%);
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     border: 5px solid white;
   }
   .edit {
-    position: relative;
-    bottom: -25%;
-    right: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 16px;
+    transform: translateY(calc(100% + 16px));
   }
 `;
 
 const UserInfoText = styled.div`
   width: 100%;
   margin-top: 72px;
+  padding: 16px;
+  /* .name {
+    color: 
+  } */
+  .account, .introduction {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    margin-bottom: 6px;
+  }
+  .account {
+    color: var(--account_text-in-main);
+  }
+  .follow-info {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    p {
+      margin-right: 20px;
+
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+      span {
+        color: var(--main_secondary);
+        cursor: pointer;
+      }
+    }
+  }
 `;
 
 const UserPage = () => {
@@ -76,10 +108,10 @@ const UserPage = () => {
   const [personalInfo, setPersonalInfo] = useState({
     id: 14,
     account: "",
-    name: "",
+    name: "測試用",
     avatar: "https://i.imgur.com/fY0rZrF.png",
     cover: "https://i.imgur.com/f3xdCiw.png",
-    introduction: "",
+    introduction: "測試用",
     role: "user",
     followerCount: 2,
     followingCount: 2,
@@ -126,24 +158,29 @@ const UserPage = () => {
             </div>
             {active ? (
               <EditInfoModal
-                active={active}
                 setActive={setActive}
-                id={id}
                 token={token}
-                name={personalInfo.name}
-                avata={personalInfo.avatar}
-                cover={personalInfo.cover}
-                introduction={personalInfo.introduction}
+                personalInfoData={personalInfo}
               />
             ) : null}
-            <button className="edit" onClick={handleOpen}>
-              編輯個人資料
-            </button>
+            <StyledButton className="edit" onClick={handleOpen}>編輯個人資料</StyledButton>
           </UserInfoPicture>
           <UserInfoText>
-            <div className="name">{personalInfo.name}</div>
-            <div className="at">@{personalInfo.account}</div>
-            <p className="introuduction">{personalInfo.introduction}</p>
+            <h5 className="name">{personalInfo.name}</h5>
+            <div className="account">@{personalInfo.account}</div>
+            <p className="introuduction">{personalInfo.introduction}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+            <div className="follow-info">
+            <p>
+              {personalInfo.followingCount}
+              <span> 跟隨中</span>
+            </p>
+            <p>
+              {personalInfo.followerCount}
+              <span> 跟隨者</span>
+            </p>
+          </div>
           </UserInfoText>
         </div>
         <UserPanel personalInfo={personalInfo} />

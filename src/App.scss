@@ -60,3 +60,35 @@ body {
 * {
   color: var(--main_text);
 }
+
+// 共同Style-guide
+// 字體樣式-heading
+h1 {
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 78px;
+}
+
+h2 {
+  font-size: 42px;
+  font-weight: 700; 
+  line-height: 52px;
+}
+
+h3 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+h4 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+}
