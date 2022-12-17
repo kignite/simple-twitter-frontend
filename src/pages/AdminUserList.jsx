@@ -1,43 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { useEffect } from "react";
 import { adminGetUsersData } from "../api/getAdminRelated";
-import UserCard from "../components/common/cards/UserCard";
+import UserInfoCard from "../components/common/cards/UserInfoCard";
 import AdminSidebar from "../components/AdminSidebar";
+import { PageStyled } from "./AdminMainPage";
 
 // import jwt from "jwt-decode";
-
-const PageStyled = styled.div`
-  margin: 0 auto;
-  width: 1140px;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-
-  .title {
-    box-sizing: border-box;
-    height: 74px;
-    margin: 0 20px;
-    padding: 24px 0;
-    font-weight: 700;
-    font-size: 24px;
-  }
-
-  .users-list {
-    border-top: 1px solid var(--border_gray);
-    max-height: 1126px;
-    overflow-y: scroll;
-    padding: 16px 15px;
-    display: grid;
-    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 16px 16px;
-  }
-  .main {
-    border-left: 1px solid var(--border_gray);
-    height: 100vh;
-  }
-`;
 
 const AdminUserList = () => {
   const [usersData, setUsersData] = useState([]);
@@ -55,11 +24,13 @@ const AdminUserList = () => {
   return (
     <PageStyled>
       <AdminSidebar />
-      <div className="main">
-        <h3 className="title">使用者清單</h3>
+      <main>
+        <header>
+          <h4 className="title">使用者列表</h4>
+        </header>
         <div className="users-list">
           {usersData.map((user) => (
-            <UserCard
+            <UserInfoCard
               key={user.id}
               cover={user.cover}
               avatar={user.avatar}
@@ -72,7 +43,7 @@ const AdminUserList = () => {
             />
           ))}
         </div>
-      </div>
+      </main>
     </PageStyled>
   );
 };

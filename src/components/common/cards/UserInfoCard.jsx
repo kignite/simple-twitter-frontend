@@ -4,7 +4,7 @@ import { TweetIcon, LikeIcon } from "../../../assets/icons";
 
 const CardStyled = styled.div`
   height: 314px;
-  width: 249px;
+  width: 100%;
   background-color: var(--card-background_gray);
   border-radius: 10px;
 
@@ -14,6 +14,8 @@ const CardStyled = styled.div`
     height: 140px;
 
     .cover {
+      width: 100%;
+      height: 140px;
       border-radius: 10px 10px 0px 0px;
     }
 
@@ -23,6 +25,9 @@ const CardStyled = styled.div`
       left: 0;
       right: 0;
       margin: 0 auto;
+
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       border: 4px solid var(--main_white);
     }
@@ -49,12 +54,19 @@ const CardStyled = styled.div`
       line-height: 26px;
       display: flex;
       justify-content: center;
+      align-items: center;
 
       .like-icon {
         margin-left: 18px;
       }
       .number {
         margin-left: 8px;
+      }
+      .tweet-number, .like-number {
+        font-family: "Montserrat";
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 15px;
       }
     }
 
@@ -66,17 +78,13 @@ const CardStyled = styled.div`
         margin-left: 8px;
       }
 
-      .number {
-        color: var(--main_text);
-      }
-
       .text {
         color: var(--main_secondary);
       }
     }
   }
 `;
-const UserCard = ({
+const UserInfoCard = ({
   cover,
   avatar,
   name,
@@ -89,8 +97,8 @@ const UserCard = ({
   return (
     <CardStyled>
       <div className="img-area">
-        <img width={249} height={140} src={cover} alt="" className="cover" />
-        <img width={100} height={100} src={avatar} alt="" className="avatar" />
+        <img src={cover} alt="" className="cover" />
+        <img src={avatar} alt="" className="avatar" />
       </div>
       <div className="text-area">
         <div className="name-account">
@@ -122,4 +130,4 @@ const UserCard = ({
   );
 };
 
-export default UserCard;
+export default UserInfoCard;
