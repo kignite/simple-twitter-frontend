@@ -33,7 +33,6 @@ function App() {
             <Route path="user/self" element={<UserPage />} />
             <Route path="user/self/follower" element={<FollowPage pageStatus="follower" />} />
             <Route path="user/self/following" element={<FollowPage pageStatus="following" />} />
-
           </Route>
         </Routes>
       </BrowserRouter>

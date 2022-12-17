@@ -126,14 +126,9 @@ const UserPage = () => {
             </div>
             {active ? (
               <EditInfoModal
-                active={active}
                 setActive={setActive}
                 id={id}
                 token={token}
-                name={personalInfo.name}
-                avata={personalInfo.avatar}
-                cover={personalInfo.cover}
-                introduction={personalInfo.introduction}
               />
             ) : null}
             <button className="edit" onClick={handleOpen}>
