@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
-import { adminGetUsersData } from "../api/getUserTweets";
+import { adminGetUsersData } from "../api/getAdminRelated";
 // import jwt from "jwt-decode";
 
 const PageStyled = styled.div`
