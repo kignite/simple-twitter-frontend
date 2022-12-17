@@ -7,7 +7,6 @@ import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
 
-
 const UserPageStyle = styled.div`
   box-sizing: border-box;
   height: 100vh;
@@ -74,7 +73,8 @@ const UserInfoText = styled.div`
   /* .name {
     color: 
   } */
-  .account, .introduction {
+  .account,
+  .introduction {
     font-size: 14px;
     font-weight: 400;
     line-height: 22px;
@@ -160,29 +160,30 @@ const UserPage = () => {
               <EditInfoModal
                 setActive={setActive}
                 token={token}
-<
                 personalInfoData={personalInfo}
-
               />
             ) : null}
-            <StyledButton className="edit" onClick={handleOpen}>編輯個人資料</StyledButton>
+            <StyledButton className="edit" onClick={handleOpen}>
+              編輯個人資料
+            </StyledButton>
           </UserInfoPicture>
           <UserInfoText>
             <h5 className="name">{personalInfo.name}</h5>
             <div className="account">@{personalInfo.account}</div>
-            <p className="introuduction">{personalInfo.introduction}
+            <p className="introuduction">
+              {personalInfo.introduction}
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <div className="follow-info">
-            <p>
-              {personalInfo.followingCount}
-              <span> 跟隨中</span>
-            </p>
-            <p>
-              {personalInfo.followerCount}
-              <span> 跟隨者</span>
-            </p>
-          </div>
+              <p>
+                {personalInfo.followingCount}
+                <span> 跟隨中</span>
+              </p>
+              <p>
+                {personalInfo.followerCount}
+                <span> 跟隨者</span>
+              </p>
+            </div>
           </UserInfoText>
         </div>
         <UserPanel personalInfo={personalInfo} />

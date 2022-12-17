@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { adminGetUsersData } from "../api/getAdminRelated";
-import { adminGetUsersData } from "../api/getUserTweets";
 import UserCard from "../components/common/cards/UserCard";
 import AdminSidebar from "../components/AdminSidebar";
 
