@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TweetCard from "../components/common/cards/TweetCard";
 import { StyledButton } from "../components/common/button.styled";
+import { getUserInfo } from "../api/getUserTweets";
+import { getAllTweets } from "../api/getTweetsRelated";
 
 const HomePageStyle = styled.div`
   position: relative;
@@ -36,12 +38,14 @@ export const StyledTextareaContainer = styled.div`
   height: ${props => (props.modal ? '243px' : '136px')};
   img {
     margin: 16px 25px;
+    margin-right: 0;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     background-color: var(--border_gray);
   }
   textarea {
+    width: 85%;
     resize: none;
     border: none;
     &[placeholder] {
@@ -64,7 +68,25 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomePage = ({avatar}) => {
+const HomePage = () => {
+  const [avatar, setAvatar] = useState('');
+  const [tweetsData, setTweetsData] = useState([]);
+  const token = localStorage.getItem('token')
+
+  useEffect(() => {
+    const getCurrentUserAvatar = async () => {
+      const data = await getUserInfo({ token });
+      setAvatar(data.avatar);
+    };
+    const getTweets = async () => {
+      const data = await getAllTweets({ token });
+      console.log(data);
+      setTweetsData([...data]);
+    };
+    getCurrentUserAvatar();
+    getTweets();
+  }, [])
+
   return (
     <HomePageStyle>
       <header>
@@ -72,12 +94,24 @@ const HomePage = ({avatar}) => {
       </header>
       <StyledTextareaContainer>
         <img src={avatar} alt="你的頭像" />
-        <textarea name="" id="" cols="50" rows="5" placeholder="有什麼新鮮事?" ></textarea>
+        <textarea name="" id="" rows="5" placeholder="有什麼新鮮事?" ></textarea>
         <StyledButton className="post-tweet active">推文</StyledButton>
       </StyledTextareaContainer>
       <div className="devider"></div>
       <ul className="tweet-list">
-        <TweetCard />
+        {tweetsData.map(tweet =>
+          <TweetCard
+            key={tweet.id}
+            avatar={tweet.User.avatar}
+            name={tweet.User.name}
+            account={tweet.User.account}
+            createdAt={tweet.createdAt}
+            description={tweet.description}
+            replyCount={tweet.replyCount}
+            likeCount={tweet.likeCount}
+            isLiked={tweet.isLiked}
+          />
+        )}
       </ul>
     </HomePageStyle>
   );

@@ -3,7 +3,7 @@ import jwt from "jwt-decode";
 
 const baseURL = "https://calm-basin-50282.herokuapp.com/api";
 
-
+//取得特定使用者的所有"推文"
 export const getUserTweets = async ({ token }) => {
   const id = jwt(token).id;
   try {
@@ -18,6 +18,7 @@ export const getUserTweets = async ({ token }) => {
   }
 };
 
+//取得特定使用者的所有"回覆"
 export const getUserReplies = async ({ token }) => {
   const id = jwt(token).id;
   try {
@@ -32,6 +33,7 @@ export const getUserReplies = async ({ token }) => {
   }
 };
 
+//取得當前使用者
 export const getUserInfo = async ({ token }) => {
   const id = jwt(token).id;
   try {
@@ -47,6 +49,7 @@ export const getUserInfo = async ({ token }) => {
   }
 };
 
+//取得特定使用者"喜歡的內容"
 export const getUserLikes = async ({ token }) => {
   const id = jwt(token).id;
   try {
