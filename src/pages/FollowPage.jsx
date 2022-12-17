@@ -25,12 +25,6 @@ const FollowPageStyle = styled.div`
   }
   .header-info {
     margin-left: 19px;
-    h5 {
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 26px;
-      color: var(--main_text);
-    }
     .tweet-amount {
       font-size: 13px;
       font-weight: 500;

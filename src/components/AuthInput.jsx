@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const InputStyled = styled.div`
+export const DefaultInputStyled = styled.div`
   position: relative;
 
   input {
@@ -17,22 +17,25 @@ const InputStyled = styled.div`
     position: absolute;
     color: var(--input-label_gray);
   }
+  .error {
+    color: var(--main_danger);
+  }
 `;
 
 const Input = ({ type, label, value, placeholder, onChange, errorMessage }) => {
   return (
-    <InputStyled>
+    <DefaultInputStyled>
       <label>{label}</label>
       <input
         type={type || "text"}
         value={value || ""}
         placeholder={placeholder || ""}
         onChange={(e) => {
-          onChange?.(e.target.value);
+          onChange?.(e.target.value)
         }}
       />
-      {errorMessage !== null && <p>{errorMessage}</p>}
-    </InputStyled>
+      {errorMessage !== null && <p className="error">{errorMessage}</p>}
+    </DefaultInputStyled>
   );
 };
 
