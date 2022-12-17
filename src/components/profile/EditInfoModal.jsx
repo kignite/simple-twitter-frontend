@@ -19,8 +19,9 @@ const ModalStyle = styled.div`
   z-index: 200;
   background-color: var(--main_white);
 
-  header {
+  .header {
     display: flex;
+    align-items: center;
     height: unset;
     padding: unset;
     .close {
@@ -37,13 +38,27 @@ const ModalStyle = styled.div`
 const UserInfoPicture = styled.div`
   position: relative;
   height: 200px;
-  .modal-avatar img {
-    box-sizing: border-box;
-    position: absolute;
-    bottom: -25%;
-    left: 10px;
-    border-radius: 50%;
-    border: 5px solid white;
+  .modal-avatar {
+    position: relative;
+    .img-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 66px;
+      img {
+        box-sizing: border-box;
+        position: absolute;
+        bottom: 0;
+        transform: translateY(50%);
+        border-radius: 50%;
+        border: 5px solid white;
+      }
+      .camera-icon {
+        position: absolute;
+        z-index: 5;
+      }
+    }
   }
   .modal-cover {
     position: relative;
@@ -62,8 +77,12 @@ const UserInfoPicture = styled.div`
       left: 50%;
       transform: translate(-50%, -50%);
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 15%;
       z-index: 2;
       .remove-icon {
+        cursor: pointer;
         path {
           fill: var(--main_white);
         }
@@ -72,9 +91,9 @@ const UserInfoPicture = styled.div`
   }
 
   .camera-icon {
-    
+    cursor: pointer;
     input {
-
+      display: none;
     }
   }
 
@@ -156,11 +175,11 @@ const EditInfoModal = ({ setActive, token, personalInfoData }) => {
 
   return (
     <ModalStyle>
-      <header>
+      <div className="header">
         <CloseIcon className="close" onClick={handleClose} />
         <h5>編輯個人資料</h5>
         <StyledButton className="save active" onClick={handleSave}>儲存</StyledButton>
-      </header>
+      </div>
       <div className="modal-user-info-container">
         <UserInfoPicture>
           <div className="modal-cover">
@@ -172,19 +191,21 @@ const EditInfoModal = ({ setActive, token, personalInfoData }) => {
               className="cover"
             />
             <div className="change-cover-actions">
-              <div className="camera-icon">
+              <label htmlFor="cover" className="camera-icon">
                 <CameraIcon />
-                <input type="file" name="cover" id="image" onChange={handleUploadCover} />
-              </div>
+                <input type="file" name="cover" id="cover" onChange={handleUploadCover} />
+              </label>
               <CloseIcon className="remove-icon" />
             </div>
           </div>
           <div className="modal-avatar">
-            <div className="camera-icon">
-              <CameraIcon />
-              <input type="file" name="avatar" id="image" onChange={handleUploadAvatar} />
+            <div className="img-box">
+              <label htmlFor="avatar" className="camera-icon">
+                <CameraIcon />
+                <input type="file" name="avatar" id="avatar" onChange={handleUploadAvatar} />
+              </label>
+              <img width={100} height={100} src={tmpImg.avatar} alt="" />
             </div>
-            <img width={100} height={100} src={tmpImg.avatar} alt="" />
           </div>
         </UserInfoPicture>
         <UserInfoText>
