@@ -17,7 +17,7 @@ const StyledModalContainer = styled.div`
   background-color: var(--main_white);
   z-index: 200;
 
-  header {
+  .modal-header {
     border-bottom: 1px solid var(--border_gray);
     height: unset;
     padding: unset;
@@ -50,9 +50,9 @@ const Modal = ({
 }) => {
   return active ? (
     <StyledModalContainer>
-      <header className="modal-header">
+      <div className="modal-header">
         <CloseIcon className="close" onClick={() => setActive(false)} />
-      </header>
+      </div>
       {onReply && (
         <StyledCardContainer modal={true}>
           <div className="left-side">

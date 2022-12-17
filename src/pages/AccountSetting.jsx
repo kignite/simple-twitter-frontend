@@ -7,48 +7,46 @@ import Input from "../components/AuthInput";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import { StyledButton } from "../components/common/button.styled";
 import jwt from "jwt-decode";
+import Backdrop from "../components/Backdrop";
+import Modal from "../components/common/Modal";
 
 const SettingStyle = styled.div`
-  width: 1148px;
-  height: 1200px; //待調整
+  width: 1140px;
+  height: 100vh; 
   margin: 0 auto;
-  border: 1px solid red;
   display: grid;
   grid-template-columns: 3fr 640px 4fr; ;
 `;
 
 const SettingContainerStyle = styled.div`
-  //待修改
-  .input-collection {
-    margin: 0 auto;
-
-    * {
-      margin: 16px auto;
-    }
-
-    div:first-child {
-      margin-top: 24px;
-    }
-  }
-
-  display: grid;
-  grid-template-rows: 74px 1fr;
   border: 1px solid #e6ecf0;
 
-  h3 {
-    font-weight: 700;
-    font-size: 24px;
-    border-bottom: 1px solid #e6ecf0;
-    padding: 24px 0 24px 24px;
+  .input-collection {
+    position: relative;
+    padding: 24px;
+    .save-btn {
+      position: absolute;
+      right: 24px;
+    }
   }
-
-  .save-button {
-    
+  header {
+    height: 74px;
+    padding-left: 24px;
+    border-bottom: 1px solid var(--border_gray);
+    h4 {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
 `;
 
 const AccountSetting = () => {
+  //Modal 開關
+  const [active, setActive] = useState(false);
+
   const [email, setEmail] = useState(null);
   const [account, setAccount] = useState(null);
   const [password, setPassword] = useState(null);
@@ -104,9 +102,13 @@ const AccountSetting = () => {
 
   return (
     <SettingStyle>
-      <Sidebar />
+      <Sidebar setActive={setActive} />
       <SettingContainerStyle>
-        <h3>帳戶設定</h3>
+        <Backdrop active={active} setActive={setActive} />
+        <Modal active={active} setActive={setActive} />
+        <header>
+          <h4>帳戶設定</h4>
+        </header>
         <div className="input-collection">
           <Input
             type={"text"}
@@ -143,7 +145,7 @@ const AccountSetting = () => {
             placeholder={"請再次輸入密碼"}
             onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
           />
-          <button className="save-btn" onClick={handleClick}>儲存</button>
+          <StyledButton className = "save-btn active" onClick={handleClick}>儲存</StyledButton>
         </div>
       </SettingContainerStyle>
       <div></div>

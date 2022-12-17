@@ -15,16 +15,13 @@ const HomePageStyle = styled.div`
     border-bottom: 1px solid var(--border_gray);
     position: sticky; //還沒資料看不出效果
     top: 0;
+    h4 {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
-  h4 {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 26px;
-    color: var(--main_text);
-  }
+  
   .devider {
     width: 100%;
     height: 10px;
