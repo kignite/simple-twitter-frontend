@@ -134,7 +134,7 @@ const UserPage = () => {
           <div className="header-info">
             {active ? <h5>{tmpName}</h5> : <h5>{personalInfo.name}</h5>}
             {/* 請後端添加推文數量 */}
-            <p className="tweet-amount">25 推文</p>
+            <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
           </div>
         </header>
         <div className="user-info-container">

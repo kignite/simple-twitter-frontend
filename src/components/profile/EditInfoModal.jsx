@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Input from "../AuthInput";
 import { useState } from "react";
@@ -111,6 +111,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
     avatar: null,
     cover: null,
   });
+  const testRef = useRef(null);
 
   const handleSave = async () => {
     const info = {
@@ -122,11 +123,12 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
     onClose();
   };
 
+  const handleDeletCover = () => {
+    setTmpImg({ ...tmpImg, cover: null });
+  };
+
   //上傳頭像
   const handleUploadAvatar = (e) => {
-    if (!e.target.files[0]) {
-      return;
-    }
     const fileReader = new FileReader();
     const file = e.target.files[0];
 
@@ -140,11 +142,12 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
 
   //上傳封面圖
   const handleUploadCover = (e) => {
-    if (!e.target.files[0]) {
-      return;
-    }
     const fileReader = new FileReader();
     const file = e.target.files[0];
+    if (!file) {
+      setTmpImg({ ...tmpImg, cover: testRef.current.src });
+      return;
+    }
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, cover: fileReader.result });
     };
@@ -180,6 +183,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
               src={tmpImg.cover}
               alt=""
               className="cover"
+              ref={testRef}
             />
             <div className="change-cover-actions">
               <label htmlFor="cover" className="camera-icon">
@@ -191,7 +195,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
                   onChange={handleUploadCover}
                 />
               </label>
-              <CloseIcon className="remove-icon" />
+              <CloseIcon className="remove-icon" onClick={handleDeletCover} />
             </div>
           </div>
           <div className="modal-avatar">
