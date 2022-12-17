@@ -2,28 +2,33 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { adminDeleteUserTweet, adminGetUserTweets } from "../api/getAdminRelated";
+import { adminDeleteUserTweet, adminGetUserTweets } from "../api/getUserTweets";
+import AdminSidebar from "../components/AdminSidebar";
 // import jwt from "jwt-decode";
 
 const PageStyled = styled.div`
+  width: 1140px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 6fr 1fr;
+  grid-template-columns: 1fr 6fr;
 
   .title {
+    border: 1px solid var(--border_gray);
     box-sizing: border-box;
     height: 74px;
-    margin: 0 20px;
-    padding: 24px 0;
+    padding: 24px 20px;
     font-weight: 700;
     font-size: 24px;
   }
 
   .tweets-list {
-    border: solid 1px;
-    max-height: 1126px;
+    border: 1px solid var(--border_gray);
+    height: 1126px;
     overflow-y: scroll;
   }
   .main {
-    /* max-height: 1200px; */
+    /* height: 100vh; */
+    padding-right: 130px;
   }
 `;
 
@@ -70,10 +75,7 @@ const AdminMainPage = () => {
 
   return (
     <PageStyled>
-      <div>
-        sidebar
-        <button>測試用</button>
-      </div>
+      <AdminSidebar />
       <div className="main">
         <h3 className="title">推文清單</h3>
         <div className="tweets-list">
@@ -110,7 +112,6 @@ const AdminMainPage = () => {
           </TweetStyled>
         </div>
       </div>
-      <div>blank</div>
     </PageStyled>
   );
 };

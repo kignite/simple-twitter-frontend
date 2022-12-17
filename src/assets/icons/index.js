@@ -12,7 +12,7 @@ import { ReactComponent as LikedIcon } from "./liked-icon.svg";
 import { ReactComponent as CloseIcon } from "./close-icon.svg";
 import { ReactComponent as TurnbackIcon } from "./turnback-icon.svg";
 import { ReactComponent as CameraIcon } from "./camera-icon.svg";
-
+import { ReactComponent as TweetIcon } from "./tweet-icon.svg";
 
 export {
   BrandLogo,
@@ -28,5 +28,6 @@ export {
   LikedIcon,
   CloseIcon,
   TurnbackIcon,
-  CameraIcon
+  CameraIcon,
+  TweetIcon,
 };
