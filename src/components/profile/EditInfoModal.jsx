@@ -120,6 +120,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
       cover: cover,
     };
     await uploadUserInfo({ token, info });
+    console.log(info);
     onClose();
   };
 
@@ -144,6 +145,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const handleUploadCover = (e) => {
     const fileReader = new FileReader();
     const file = e.target.files[0];
+
     if (!file) {
       setTmpImg({ ...tmpImg, cover: testRef.current.src });
       return;
@@ -159,7 +161,6 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      // console.log(personalInfo);
       setTmpImg({ avatar: personalInfo.avatar, cover: personalInfo.cover });
     };
     getPersonalInfo();
