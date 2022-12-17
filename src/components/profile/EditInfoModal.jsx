@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Input from "../AuthInput";
 import { useState } from "react";
 import { uploadUserInfo } from "../../api/getUserTweets";
-import { getUserInfo } from "../../api/getUserTweets";
+// import { getUserInfo } from "../../api/getUserTweets";
 import { CloseIcon, CameraIcon } from "../../assets/icons";
 import { StyledButton } from "../common/button.styled";
 
@@ -63,6 +63,7 @@ const UserInfoPicture = styled.div`
   .modal-cover {
     position: relative;
     img {
+      background-color: #888;
       box-sizing: border-box;
       height: 200px;
       width: 100%;
@@ -96,7 +97,6 @@ const UserInfoPicture = styled.div`
       display: none;
     }
   }
-
 `;
 
 const UserInfoText = styled.div`
@@ -104,71 +104,60 @@ const UserInfoText = styled.div`
   margin-top: 72px;
 `;
 
-const EditInfoModal = ({ setActive, token, personalInfoData }) => {
-  const [personalInfo, setPersonalInfo] = useState(personalInfoData);
+const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
-  const [name, setName] = useState("");
-  const [introduction, setIntroduction] = useState("");
   const [tmpImg, setTmpImg] = useState({
     avatar: null,
     cover: null,
   });
 
-  const handleClose = () => {
-    setActive(false);
-  };
-
   const handleSave = async () => {
-    const file = { ...personalInfo, name, introduction, avatar: avatar, cover: cover };
-    const id = file.id;
-    await uploadUserInfo({ id, token, file });
-    setActive(false);
+    const info = {
+      ...personalInfo,
+      avatar: avatar,
+      cover: cover,
+    };
+    await uploadUserInfo({ token, info });
+    onClose();
   };
 
   //上傳頭像
   const handleUploadAvatar = (e) => {
+    if (!e.target.files[0]) {
+      return;
+    }
     const fileReader = new FileReader();
+    const file = e.target.files[0];
+
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, avatar: fileReader.result });
     };
-    fileReader.readAsDataURL(e.target.files[0]);
-    setAvatar(e.target.files[0]);
+    fileReader.readAsDataURL(file);
+    setAvatar(file);
     setPersonalInfo({ ...personalInfo, avatar: tmpImg.avatar });
   };
 
   //上傳封面圖
   const handleUploadCover = (e) => {
+    if (!e.target.files[0]) {
+      return;
+    }
     const fileReader = new FileReader();
+    const file = e.target.files[0];
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, cover: fileReader.result });
     };
-    fileReader.readAsDataURL(e.target.files[0]);
-    setCover(e.target.files[0]);
+    //當onload時取出照片的base64資料
+    fileReader.readAsDataURL(file);
+    setCover(file);
     setPersonalInfo({ ...personalInfo, cover: tmpImg.cover });
-  };
-
-  //更新名稱
-  const handleNameUpdate = (e) => {
-    const newName = e.target.value;
-    setName(newName);
-    setPersonalInfo({ ...personalInfo, name: newName });
-  };
-
-  //更新自介
-  const handleIntroductionUpdate = (e) => {
-    const newIntro = e.target.value;
-    setIntroduction(newIntro);
-    setPersonalInfo({ ...personalInfo, introduction: newIntro });
   };
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      console.log(personalInfo)
-      const id = personalInfo.id;
-      const data = await getUserInfo({ id, token });
-      setPersonalInfo(data);
-      setTmpImg({ avatar: data.avatar, cover: data.cover });
+      // console.log(personalInfo);
+      setTmpImg({ avatar: personalInfo.avatar, cover: personalInfo.cover });
     };
     getPersonalInfo();
   }, []);
@@ -176,9 +165,11 @@ const EditInfoModal = ({ setActive, token, personalInfoData }) => {
   return (
     <ModalStyle>
       <div className="header">
-        <CloseIcon className="close" onClick={handleClose} />
+        <CloseIcon className="close" onClick={onClose} />
         <h5>編輯個人資料</h5>
-        <StyledButton className="save active" onClick={handleSave}>儲存</StyledButton>
+        <StyledButton className="save active" onClick={handleSave}>
+          儲存
+        </StyledButton>
       </div>
       <div className="modal-user-info-container">
         <UserInfoPicture>
@@ -193,7 +184,12 @@ const EditInfoModal = ({ setActive, token, personalInfoData }) => {
             <div className="change-cover-actions">
               <label htmlFor="cover" className="camera-icon">
                 <CameraIcon />
-                <input type="file" name="cover" id="cover" onChange={handleUploadCover} />
+                <input
+                  type="file"
+                  name="cover"
+                  id="cover"
+                  onChange={handleUploadCover}
+                />
               </label>
               <CloseIcon className="remove-icon" />
             </div>
@@ -202,7 +198,12 @@ const EditInfoModal = ({ setActive, token, personalInfoData }) => {
             <div className="img-box">
               <label htmlFor="avatar" className="camera-icon">
                 <CameraIcon />
-                <input type="file" name="avatar" id="avatar" onChange={handleUploadAvatar} />
+                <input
+                  type="file"
+                  name="avatar"
+                  id="avatar"
+                  onChange={handleUploadAvatar}
+                />
               </label>
               <img width={100} height={100} src={tmpImg.avatar} alt="" />
             </div>
@@ -211,15 +212,19 @@ const EditInfoModal = ({ setActive, token, personalInfoData }) => {
         <UserInfoText>
           <Input
             label={"名稱"}
-            value={name}
-            // defaultValue={personalInfo.name}
-            onChange={handleNameUpdate}
+            value={personalInfo.name}
+            onChange={(name) => {
+              const prev = { ...personalInfo };
+              setPersonalInfo({ ...prev, name: name });
+            }}
           />
           <Input
             label={"自我介紹"}
-            value={introduction}
-            // defaultValue={personalInfo.introduction}
-            onChange={handleIntroductionUpdate}
+            value={personalInfo.introduction}
+            onChange={(introduction) => {
+              const prev = { ...personalInfo };
+              setPersonalInfo({ ...prev, introduction: introduction });
+            }}
           />
         </UserInfoText>
       </div>
