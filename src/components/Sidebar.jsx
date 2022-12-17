@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { StyledBigButton } from "./common/button.styled";
 import {
   BrandLogo,
   ProfileIcon,
@@ -8,8 +9,6 @@ import {
   HomeIconActive,
   LogoutIcon,
 } from "../assets/icons";
-import Backdrop from "./Backdrop";
-import Modal from "./common/Modal";
 
 const StyledSidebarContainer = styled.div`
   position: relative;
@@ -46,21 +45,7 @@ const StyledLinkContainer = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
-  width: 100%;
-  padding: 8px 0;
-  border-radius: 50px;
-  border: none;
-
-  font-size: 20px;
-  font-weight: 400;
-
-  color: var(--main_white);
-  background-color: var(--main_orange);
-`;
-
-const Sidebar = () => {
-  const [active, setActive] = useState(false);
+const Sidebar = ({setActive}) => {
 
   const handleClick = () => {
     // console.log("hi")
@@ -68,8 +53,6 @@ const Sidebar = () => {
   };
   return (
     <>
-      <Backdrop active={active} setActive={setActive} />
-      <Modal active={active} setActive={setActive} />
       <StyledSidebarContainer>
         <BrandLogo className="logo" />
         <StyledLinkContainer>
@@ -84,11 +67,11 @@ const Sidebar = () => {
           <SettingIcon />
           <Link to="setting">設定</Link>
         </StyledLinkContainer>
-        <StyledButton onClick={
+        <StyledBigButton onClick={
           () => {
             setActive(true);
           }
-        }>推文</StyledButton>
+        }>推文</StyledBigButton>
         <StyledLinkContainer className="logout">
           <LogoutIcon />
           {/* 暫時使用，後續改為useEffect自動跳轉 */}

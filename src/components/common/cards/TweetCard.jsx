@@ -8,7 +8,7 @@ export const StyledCardContainer = styled.div`
   display: flex;
   padding: 16px 0;
   border: 1px solid ${props => props.modal ? 'transparent' : '#E6ECF0'};
-  cursor: pointer;
+  cursor: ${props => props.comment ? 'default' : 'pointer'};
 
   img {
     width: 50px;

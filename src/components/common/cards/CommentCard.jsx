@@ -11,7 +11,7 @@ const CommentCard = ({
   comment,
 }) => {
   return (
-    <StyledCardContainer>
+    <StyledCardContainer comment={true}>
     <img src={avatar} alt={name} />
     <div className="right-side">
       <span className="name">{name}</span>

@@ -19,3 +19,16 @@ export const StyledButton = styled.button`
   }
 `;
 
+export const StyledBigButton = styled.button`
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 50px;
+  border: none;
+
+  font-size: 20px;
+  font-weight: 400;
+
+  color: var(--main_white);
+  background-color: var(--main_orange);
+  cursor: pointer;
+`;

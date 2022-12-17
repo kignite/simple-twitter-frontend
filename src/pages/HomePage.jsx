@@ -10,12 +10,16 @@ const HomePageStyle = styled.div`
   width: 100%;
   border: 1px solid var(--border_gray);
   header {
+    height: 74px;
+    padding-left: 24px;
     border-bottom: 1px solid var(--border_gray);
     position: sticky; //還沒資料看不出效果
     top: 0;
   }
   h4 {
-    margin: 24px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 24px;
     font-weight: 700;
     line-height: 26px;

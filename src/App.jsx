@@ -11,6 +11,8 @@ import UserPage from "./pages/UserPage";
 import TweetReplyPage from "./pages/TweetReplyPage";
 import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
+import FollowPage from "./pages/FollowPage";
+
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
             <Route path="main" element={<HomePage />} />
             <Route path="reply_list" element={<TweetReplyPage />} />
             <Route path="user/self" element={<UserPage />} />
+            <Route path="user/self/follower" element={<FollowPage pageStatus="follower" />} />
+            <Route path="user/self/following" element={<FollowPage pageStatus="following" />} />
           </Route>
         </Routes>
       </BrowserRouter>

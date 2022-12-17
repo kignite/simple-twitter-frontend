@@ -10,6 +10,7 @@ const StyledModalContainer = styled.div`
   top: 56px;
   left: 50%;
   transform: translateX(-50%);
+  margin: 0;
   width: 634px;
 
   border-radius: 14px;
@@ -18,6 +19,8 @@ const StyledModalContainer = styled.div`
 
   header {
     border-bottom: 1px solid var(--border_gray);
+    height: unset;
+    padding: unset;
     .close {
       margin: 20px;
       cursor: pointer;
@@ -71,9 +74,11 @@ const Modal = ({
           id=""
           cols="50"
           rows="5"
-          placeholder="有什麼新鮮事?"
+          placeholder={onReply ? '推你的回覆' : '有什麼新鮮事?'}
         ></textarea>
-        <StyledButton className="post-tweet active">推文</StyledButton>
+        <StyledButton className="post-tweet active">
+          {onReply ? '回覆' : '推文'}
+        </StyledButton>
       </StyledTextareaContainer>
     </StyledModalContainer>
   ) : null;
