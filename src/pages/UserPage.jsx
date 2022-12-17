@@ -71,9 +71,7 @@ const UserInfoText = styled.div`
   width: 100%;
   margin-top: 72px;
   padding: 16px;
-  /* .name {
-    color: 
-  } */
+
   .account,
   .introduction {
     font-size: 14px;
