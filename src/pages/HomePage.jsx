@@ -68,9 +68,39 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
+const HomeTweetslist = ({token}) => {
+  const [tweetsData, setTweetsData] = useState([]);
+
+  useEffect(() => {
+    const getTweets = async () => {
+      const {data} = await getAllTweets({ token });
+      console.log(data);
+      setTweetsData([...data]);
+    };
+    getTweets();
+  }, []);
+
+  return (
+    <ul className="tweet-list">
+      {tweetsData.map(tweet =>
+        <TweetCard
+          key={tweet.id}
+          avatar={tweet.User.avatar}
+          name={tweet.User.name}
+          account={tweet.User.account}
+          createdAt={tweet.createdAt}
+          description={tweet.description}
+          replyCount={tweet.replyCount}
+          likeCount={tweet.likeCount}
+          isLiked={tweet.isLiked}
+        />
+      )}
+    </ul>
+  );
+};
+
 const HomePage = () => {
   const [avatar, setAvatar] = useState('');
-  const [tweetsData, setTweetsData] = useState([]);
   const token = localStorage.getItem('token')
 
   useEffect(() => {
@@ -78,13 +108,7 @@ const HomePage = () => {
       const data = await getUserInfo({ token });
       setAvatar(data.avatar);
     };
-    const getTweets = async () => {
-      const data = await getAllTweets({ token });
-      console.log(data);
-      setTweetsData([...data]);
-    };
     getCurrentUserAvatar();
-    getTweets();
   }, [])
 
   return (
@@ -98,21 +122,7 @@ const HomePage = () => {
         <StyledButton className="post-tweet active">推文</StyledButton>
       </StyledTextareaContainer>
       <div className="devider"></div>
-      <ul className="tweet-list">
-        {tweetsData.map(tweet =>
-          <TweetCard
-            key={tweet.id}
-            avatar={tweet.User.avatar}
-            name={tweet.User.name}
-            account={tweet.User.account}
-            createdAt={tweet.createdAt}
-            description={tweet.description}
-            replyCount={tweet.replyCount}
-            likeCount={tweet.likeCount}
-            isLiked={tweet.isLiked}
-          />
-        )}
-      </ul>
+      <HomeTweetslist token={token} />
     </HomePageStyle>
   );
 };

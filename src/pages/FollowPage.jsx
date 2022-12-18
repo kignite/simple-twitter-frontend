@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import clsx from "clsx";
 import { StyledTabbar } from "../components/common/tab.styled";
 import UserIntroCard from "../components/UserIntroCard";
 import { TurnbackIcon } from "../assets/icons";
+import { useNavigate } from "react-router-dom";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -36,7 +37,7 @@ const FollowPageStyle = styled.div`
 `;
 
 const FollowPage = ({pageStatus}) => {
-  const [activeTab, setActiveTab] = useState(pageStatus);
+  const navigate = useNavigate();
 
   return (
     <FollowPageStyle>
@@ -50,20 +51,20 @@ const FollowPage = ({pageStatus}) => {
       <StyledTabbar>
         <button
           className={
-            "user-action-tab" + clsx(" ", { active: activeTab === "follower" })
+            "user-action-tab" + clsx(" ", { active: pageStatus === "follower" })
           }
           onClick={() => {
-            setActiveTab('followed');
+            navigate('/user/self/follower');
           }}
         >
           追隨者
         </button>
         <button
           className={
-            "user-action-tab" + clsx(" ", { active: activeTab === "following" })
+            "user-action-tab" + clsx(" ", { active: pageStatus === "following" })
           }
           onClick={() => {
-            setActiveTab('following');
+            navigate('/user/self/following');
           }}
         >
           正在追隨
