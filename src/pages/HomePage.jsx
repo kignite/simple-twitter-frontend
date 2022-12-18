@@ -70,21 +70,29 @@ export const StyledTextareaContainer = styled.div`
 
 const HomeTweetslist = ({ token }) => {
   const [tweetsData, setTweetsData] = useState([]);
-
+  const [personalInfo, setPersonalInfo] = useState({});
   useEffect(() => {
     const getTweets = async () => {
       const { data } = await getAllTweets({ token });
-      console.log(data);
       setTweetsData([...data]);
     };
+    const getPersonalInfo = async () => {
+      const data = await getUserInfo({ token });
+      setPersonalInfo(data);
+    };
+    getPersonalInfo();
+
     getTweets();
   }, []);
+
 
   return (
     <ul className="tweet-list">
       {tweetsData.map((tweet) => (
         <TweetCard
           key={tweet.id}
+          tweetid={tweet.id}
+          personalInfo={personalInfo}
           avatar={tweet.User.avatar}
           name={tweet.User.name}
           account={tweet.User.account}
