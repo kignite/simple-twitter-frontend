@@ -17,23 +17,26 @@ const UserPanel = ({ personalInfo }) => {
     let ignore = false;
     const getPanelData = async () => {
       const token = localStorage.getItem("token") || null;
+      // 如需調整使用者請先手動 自己role=user id=14;
+      const id = personalInfo.id;
+      const role = "other";
       switch (activeTab) {
         case "tweet": {
-          const { data } = await getUserTweets({ token });
+          const { data } = await getUserTweets({ token, id, role });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
         case "reply": {
-          const { data } = await getUserReplies({ token });
+          const { data } = await getUserReplies({ token, id, role });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
         case "like": {
-          const { data } = await getUserLikes({ token });
+          const { data } = await getUserLikes({ token, id, role });
           if (!ignore) {
             setPanelData([...data]);
           }
