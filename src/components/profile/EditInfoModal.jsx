@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import Input from "../AuthInput";
 import { useState } from "react";
@@ -107,24 +107,39 @@ const UserInfoText = styled.div`
 const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
+  const [deleteCover, setDeleteCover] = useState(false);
   const [tmpImg, setTmpImg] = useState({
-    avatar: null,
-    cover: null,
+    avatar: personalInfo.avatar,
+    cover: personalInfo.cover,
   });
-  const testRef = useRef(null);
 
   const handleSave = async () => {
+    console.log("cover-before", cover);
+    if (!cover && !deleteCover) {
+      const info = {
+        ...personalInfo,
+        avatar: avatar,
+      };
+
+      console.log(info);
+      await uploadUserInfo({ token, info });
+      onClose();
+      return;
+    }
+
     const info = {
       ...personalInfo,
       avatar: avatar,
       cover: cover,
     };
-    await uploadUserInfo({ token, info });
+
     console.log(info);
+    await uploadUserInfo({ token, info });
     onClose();
   };
 
   const handleDeletCover = () => {
+    setDeleteCover(true);
     setTmpImg({ ...tmpImg, cover: null });
   };
 
@@ -146,10 +161,6 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
     const fileReader = new FileReader();
     const file = e.target.files[0];
 
-    if (!file) {
-      setTmpImg({ ...tmpImg, cover: testRef.current.src });
-      return;
-    }
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, cover: fileReader.result });
     };
@@ -158,13 +169,6 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
     setCover(file);
     setPersonalInfo({ ...personalInfo, cover: tmpImg.cover });
   };
-
-  useEffect(() => {
-    const getPersonalInfo = async () => {
-      setTmpImg({ avatar: personalInfo.avatar, cover: personalInfo.cover });
-    };
-    getPersonalInfo();
-  }, []);
 
   return (
     <ModalStyle>
@@ -184,7 +188,6 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
               src={tmpImg.cover}
               alt=""
               className="cover"
-              ref={testRef}
             />
             <div className="change-cover-actions">
               <label htmlFor="cover" className="camera-icon">

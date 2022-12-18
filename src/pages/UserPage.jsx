@@ -103,10 +103,11 @@ const UserInfoText = styled.div`
 `;
 
 const UserPage = () => {
-  const [active, setActive] = useState(false);
   const token = localStorage.getItem("token");
+  const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
   const [tmpName, setTmpName] = useState("");
+
 
   const handleOpen = () => {
     setActive(true);
@@ -133,7 +134,6 @@ const UserPage = () => {
           <TurnbackIcon className="return" />
           <div className="header-info">
             {active ? <h5>{tmpName}</h5> : <h5>{personalInfo.name}</h5>}
-            {/* 請後端添加推文數量 */}
             <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
           </div>
         </header>
