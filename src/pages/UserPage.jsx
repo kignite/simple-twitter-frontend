@@ -7,7 +7,6 @@ import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
 
-
 const UserPageStyle = styled.div`
   box-sizing: border-box;
   height: 100vh;
@@ -47,6 +46,7 @@ const UserInfoPicture = styled.div`
   position: relative;
   .cover {
     width: 100%;
+    height: 200px;
   }
   .avatar {
     box-sizing: border-box;
@@ -74,7 +74,8 @@ const UserInfoText = styled.div`
   /* .name {
     color: 
   } */
-  .account, .introduction {
+  .account,
+  .introduction {
     font-size: 14px;
     font-weight: 400;
     line-height: 22px;
@@ -102,87 +103,72 @@ const UserInfoText = styled.div`
 `;
 
 const UserPage = () => {
-  const [active, setActive] = useState(false);
-  const id = 14;
   const token = localStorage.getItem("token");
-  const [personalInfo, setPersonalInfo] = useState({
-    id: 14,
-    account: "",
-    name: "測試用",
-    avatar: "https://i.imgur.com/fY0rZrF.png",
-    cover: "https://i.imgur.com/f3xdCiw.png",
-    introduction: "測試用",
-    role: "user",
-    followerCount: 2,
-    followingCount: 2,
-  });
+  const [active, setActive] = useState(false);
+  const [personalInfo, setPersonalInfo] = useState({});
+  const [tmpName, setTmpName] = useState("");
+
 
   const handleOpen = () => {
     setActive(true);
     console.log("編輯個人資料");
   };
+  const handleClose = () => {
+    setActive(false);
+  };
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      const data = await getUserInfo({ id, token });
+      const data = await getUserInfo({ token });
       setPersonalInfo(data);
-      console.log(data);
+      setTmpName(data.name);
     };
     getPersonalInfo();
   }, [active]);
 
   return (
     <>
-      <Backdrop active={active} setActive={setActive} />
+      <Backdrop active={active} onClose={handleClose} />
       <UserPageStyle>
         <header>
           <TurnbackIcon className="return" />
           <div className="header-info">
-            <h5>{personalInfo.name}</h5>
-            <p className="tweet-amount">25 推文</p>
+            {active ? <h5>{tmpName}</h5> : <h5>{personalInfo.name}</h5>}
+            <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
           </div>
         </header>
         <div className="user-info-container">
           <UserInfoPicture>
             <div className="image-area">
-              <img
-                src="https://picsum.photos/seed/picsum/800/200"
-                alt=""
-                className="cover"
-              />
-              <img
-                src="https://picsum.photos/id/237/140/140"
-                alt=""
-                className="avatar"
-              />
+              <img src={personalInfo.cover} alt="" className="cover" />
+              <img src={personalInfo.avatar} alt="" className="avatar" />
             </div>
             {active ? (
               <EditInfoModal
-                setActive={setActive}
                 token={token}
-<
-                personalInfoData={personalInfo}
-
+                personalInfo={personalInfo}
+                setPersonalInfo={setPersonalInfo}
+                onClose={handleClose}
               />
             ) : null}
-            <StyledButton className="edit" onClick={handleOpen}>編輯個人資料</StyledButton>
+            <StyledButton className="edit" onClick={handleOpen}>
+              編輯個人資料
+            </StyledButton>
           </UserInfoPicture>
           <UserInfoText>
             <h5 className="name">{personalInfo.name}</h5>
             <div className="account">@{personalInfo.account}</div>
-            <p className="introuduction">{personalInfo.introduction}
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
+            <p className="introuduction">{personalInfo.introduction}</p>
             <div className="follow-info">
-            <p>
-              {personalInfo.followingCount}
-              <span> 跟隨中</span>
-            </p>
-            <p>
-              {personalInfo.followerCount}
-              <span> 跟隨者</span>
-            </p>
-          </div>
+              <p>
+                {personalInfo.followingCount}
+                <span> 跟隨中</span>
+              </p>
+              <p>
+                {personalInfo.followerCount}
+                <span> 跟隨者</span>
+              </p>
+            </div>
           </UserInfoText>
         </div>
         <UserPanel personalInfo={personalInfo} />

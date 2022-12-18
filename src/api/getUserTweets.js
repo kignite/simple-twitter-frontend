@@ -1,9 +1,12 @@
 import axios from "axios";
+import jwt from "jwt-decode";
 
+// const baseURL = "http://simpletwitter.ddns.net/api";
 const baseURL = "https://calm-basin-50282.herokuapp.com/api";
 
 
-export const getUserTweets = async ({ id, token }) => {
+export const getUserTweets = async ({ token }) => {
+  const id = jwt(token).id;
   try {
     const data = await axios.get(`${baseURL}/users/${id}/tweets`, {
       headers: {
@@ -16,7 +19,8 @@ export const getUserTweets = async ({ id, token }) => {
   }
 };
 
-export const getUserReplies = async ({ id, token }) => {
+export const getUserReplies = async ({ token }) => {
+  const id = jwt(token).id;
   try {
     const data = await axios.get(`${baseURL}/users/${id}/replied_tweets`, {
       headers: {
@@ -29,7 +33,8 @@ export const getUserReplies = async ({ id, token }) => {
   }
 };
 
-export const getUserInfo = async ({ id, token }) => {
+export const getUserInfo = async ({ token }) => {
+  const id = jwt(token).id;
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}`, {
       headers: {
@@ -43,7 +48,8 @@ export const getUserInfo = async ({ id, token }) => {
   }
 };
 
-export const getUserLikes = async ({ id, token }) => {
+export const getUserLikes = async ({ token }) => {
+  const id = jwt(token).id;
   try {
     const data = await axios.get(`${baseURL}/users/${id}/likes`, {
       headers: {
@@ -56,9 +62,10 @@ export const getUserLikes = async ({ id, token }) => {
   }
 };
 
-export const uploadUserInfo = async ({ id, token, file }) => {
+export const uploadUserInfo = async ({ token, info }) => {
+  const id = jwt(token).id;
   try {
-    const { status } = await axios.put(`${baseURL}/users/${id}`, file, {
+    const { status } = await axios.put(`${baseURL}/users/${id}`, info, {
       headers: {
         "content-type": "multipart/form-data",
         Authorization: "Bearer " + token,
