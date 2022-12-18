@@ -12,7 +12,8 @@ const HomePageStyle = styled.div`
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   .sticky-part {
     position: sticky; //還沒資料看不出效果
     top: 0;

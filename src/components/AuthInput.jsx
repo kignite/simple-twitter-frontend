@@ -5,6 +5,7 @@ import clsx from "clsx";
 //原本想寫在input.styled.js的，但好像也沒有更多樣式了就放這吧
 export const DefaultInputStyled = styled.div`
   position: relative;
+  height: 74px;
   margin-bottom: 12px;
 
   input {
@@ -44,19 +45,28 @@ export const DefaultInputStyled = styled.div`
     line-height: 22px;
     color: var(--input-label_gray);
   }
-  .error-msg {
-    margin: 0; 
-
-    text-align: left;
+  .hint {
+    display: flex;
+    justify-content: space-between;
     font-size: 12px;
     font-weight: 500;
     line-height: 20px;
-    color: var(--main_error);
+    .error-msg {
+      visibility: hidden;
+      margin: 0; 
+      color: var(--main_error);
+      &.show {
+        visibility: visible;
+      }
+    }
+    .text-num {
+      color: var(--input-label_gray);
+    }
+
   }
-  
 `;
 
-const Input = ({ type, label, value, placeholder, onChange, errorMessage = "error message!" }) => {
+const Input = ({ type, label, value, placeholder, onChange, errorMessage = null }) => {
   return (
     <DefaultInputStyled>
       <label>{label}</label>
@@ -69,7 +79,10 @@ const Input = ({ type, label, value, placeholder, onChange, errorMessage = "erro
           onChange?.(e.target.value)
         }}
       />
-      {errorMessage !== null && <p className="error-msg">{errorMessage}</p>}
+      <div className="hint">
+        <p className={"error-msg" + clsx(' ', {show: errorMessage !== null})}>{errorMessage}</p>
+        {<p className="text-num">{value}/50</p>}
+      </div>
     </DefaultInputStyled>
   );
 };

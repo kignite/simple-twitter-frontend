@@ -6,22 +6,23 @@ import { acountSetting, getAccountSetting } from "../api/auth";
 import Input from "../components/AuthInput";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+// import Sidebar from "../components/Sidebar";
 import { StyledButton } from "../components/common/button.styled";
 import jwt from "jwt-decode";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
 
 const SettingStyle = styled.div`
-  width: 1140px;
+  width: 100%;
   height: 100vh; 
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 3fr 640px 4fr; ;
 `;
 
 const SettingContainerStyle = styled.div`
-  border: 1px solid #e6ecf0;
+  width: 100%;
+  height: 100vh;
+  border-left: 1px solid var(--border_gray);
+  border-right: 1px solid var(--border_gray);
 
   .input-collection {
     position: relative;
@@ -102,7 +103,7 @@ const AccountSetting = () => {
 
   return (
     <SettingStyle>
-      <Sidebar setActive={setActive} />
+      {/* <Sidebar setActive={setActive} /> */}
       <SettingContainerStyle>
         <Backdrop active={active} setActive={setActive} />
         <Modal active={active} setActive={setActive} />
