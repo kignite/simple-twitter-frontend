@@ -6,6 +6,7 @@ import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 
 const HomePageStyle = styled.div`
+
   position: relative;
   box-sizing: border-box;
   height: 100vh;
@@ -72,7 +73,7 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomeTweetslist = ({ token }) => {
+const HomeTweetslist = ({ token, onTweetClick }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
 
@@ -106,7 +107,7 @@ const HomeTweetslist = ({ token }) => {
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
-
+          onClick={onTweetClick}
         />
       ))}
     </ul>
