@@ -107,6 +107,8 @@ const UserPanel = ({ personalInfo }) => {
             return (
               <TweetCard
                 key={item.id}
+                tweetid={item.id}
+                personalInfo={personalInfo}
                 avatar={item.User.avatar}
                 name={item.User.name}
                 account={item.User.account}
@@ -121,6 +123,8 @@ const UserPanel = ({ personalInfo }) => {
             return (
               <TweetCard
                 key={item.id}
+                id={item.id}
+                personalInfo={personalInfo}
                 avatar={item.Tweet.User.avatar}
                 name={item.Tweet.User.name}
                 account={item.Tweet.User.account}

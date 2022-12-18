@@ -7,8 +7,8 @@ import Modal from "../Modal";
 export const StyledCardContainer = styled.div`
   display: flex;
   padding: 16px 0;
-  border: 1px solid ${props => props.modal ? 'transparent' : '#E6ECF0'};
-  cursor: ${props => props.comment ? 'default' : 'pointer'};
+  border: 1px solid ${(props) => (props.modal ? "transparent" : "#E6ECF0")};
+  cursor: ${(props) => (props.comment ? "default" : "pointer")};
 
   img {
     width: 50px;
@@ -21,7 +21,7 @@ export const StyledCardContainer = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
-
+    /* border: 2px solid; */
   }
 
   .right-side {
@@ -68,6 +68,8 @@ export const StyledCardContainer = styled.div`
 `;
 
 const TweetCard = ({
+  tweetId,
+  personalInfo,
   avatar,
   name,
   account,
@@ -87,7 +89,18 @@ const TweetCard = ({
   return (
     <>
       <Backdrop active={active} setActive={setActive} />
-      <Modal active={active} setActive={setActive} onReply={true} />
+      <Modal
+        tweetid={tweetId}
+        active={active}
+        setActive={setActive}
+        avatar={avatar}
+        name={name}
+        account={account}
+        createdAt={createdAt}
+        description={description}
+        onReply={true}
+        personalInfo={personalInfo}
+      />
       <StyledCardContainer>
         <img src={avatar} alt={name} />
         <div className="right-side">
@@ -97,21 +110,14 @@ const TweetCard = ({
           <p>{description}</p>
           <div className="user-actions">
             <span className="reply">
-              <ReplyIcon
-                style={iconSize}
-                onClick={() => setActive(true)}
-              />
+              <ReplyIcon style={iconSize} onClick={() => setActive(true)} />
               {replyCount}
             </span>
             <span className="like">
               {isLiked ? (
-                <LikedIcon
-                  style={iconSize}
-                />
+                <LikedIcon style={iconSize} />
               ) : (
-                <LikeIcon
-                  style={iconSize}
-                />
+                <LikeIcon style={iconSize} />
               )}
               {likeCount}
             </span>

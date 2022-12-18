@@ -49,14 +49,14 @@ const UserIntroCard = ({ avatar, name, introduction, isFollowed }) => {
       <img src={avatar} alt={name} />
       <div className="right-side">
         <div className="name-header">
-          <span className="name">{name}Peggy</span>
+          <span className="name">{name}</span>
           <StyledButton
             className={"follow-btn" + clsx(" ", { active: isFollowed })}
           >
             {isFollowed ? "正在跟隨" : "跟隨"}
           </StyledButton> {/*還沒做追蹤/取消追蹤API*/}
         </div>
-        <p>{introduction}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae massa eleifend, dignissim ipsum euismod, imperdiet diam. Vivamus non bibendum velit.</p>
+        <p>{introduction}</p>
       </div>
     </StyledCardContainer>
   );
