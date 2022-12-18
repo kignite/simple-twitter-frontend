@@ -1,31 +1,11 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { login } from "../api/auth";
-// import { Link } from "react-router-dom";
 import Input from "../components/AuthInput";
-import styled from "styled-components";
+import { AccountFormPage, AccountFormContainer } from "./LoginPage";
+import { StyledBigButton, StyledLinkText } from "../components/common/button.styled";
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";
-
-const HomePage = styled.div`
-  width: 1148px;
-  height: 100%;
-  margin: 0 auto;
-  border: 1px solid red;
-  display: flex;
-  justify-content: center;
-`;
-
-const HomePageContainer = styled.div`
-  //待修改
-  * {
-    margin: 10px 0;
-  }
-
-  a {
-    margin: 0 10px;
-  }
-`;
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
@@ -53,7 +33,7 @@ const AdminLoginPage = () => {
     );
     if (success) {
       localStorage.setItem("token", token);
-      navigate("/");
+      navigate("/admin_main");
     } else {
       //待補失敗處理
       console.log(role, "登入失敗");
@@ -67,8 +47,8 @@ const AdminLoginPage = () => {
     // }
   }, []);
   return (
-    <HomePage>
-      <HomePageContainer>
+    <AccountFormPage>
+      <AccountFormContainer>
         <BrandLogo className="logo" />
         <h3>後台登入</h3>
         <Input
@@ -85,12 +65,14 @@ const AdminLoginPage = () => {
           placeholder={"請輸入密碼"}
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
-        <button onClick={handleClick}>登入</button>
-        <div>
-          <Link to="/login">前台登入</Link>
+        <StyledBigButton className="form-btn" onClick={handleClick}>登入</StyledBigButton>
+        <div className="user-actions">
+          <Link to="/login">
+            <StyledLinkText>前台登入</StyledLinkText>
+          </Link>
         </div>
-      </HomePageContainer>
-    </HomePage>
+      </AccountFormContainer>
+    </AccountFormPage>
   );
 };
 

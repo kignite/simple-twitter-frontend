@@ -9,7 +9,7 @@ import Modal from "./common/Modal";
 
 const StyledLayoutContainer = styled.div`
   width: 1140px;
-  height: 100%;
+  height: 100vh;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 3fr 640px 4fr;

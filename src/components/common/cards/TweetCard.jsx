@@ -30,7 +30,6 @@ export const StyledCardContainer = styled.div`
       font-weight: 700;
       line-height: 26px;
       margin-right: 8px;
-      color: var(--main_text);
     }
 
     .account,

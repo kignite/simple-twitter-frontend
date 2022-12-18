@@ -71,6 +71,8 @@ const UserInfoPicture = styled.div`
       justify-content: center;
       align-items: center;
       z-index: -1;
+
+      background-color: var(--main_secondary);
     }
     .change-cover-actions {
       position: absolute;

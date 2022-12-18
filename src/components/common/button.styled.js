@@ -32,3 +32,12 @@ export const StyledBigButton = styled.button`
   background-color: var(--main_orange);
   cursor: pointer;
 `;
+
+export const StyledLinkText = styled.div`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: underline;
+
+  color: var(--main_primary);
+`;

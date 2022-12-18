@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 import Backdrop from "../components/Backdrop";
 import EditInfoModal from "../components/profile/EditInfoModal";
@@ -71,9 +72,7 @@ const UserInfoText = styled.div`
   width: 100%;
   margin-top: 72px;
   padding: 16px;
-  /* .name {
-    color: 
-  } */
+
   .account,
   .introduction {
     font-size: 14px;
@@ -94,6 +93,9 @@ const UserInfoText = styled.div`
       font-size: 14px;
       font-weight: 400;
       line-height: 22px;
+      a {
+        text-decoration: none;
+      }
       span {
         color: var(--main_secondary);
         cursor: pointer;
@@ -162,11 +164,15 @@ const UserPage = () => {
             <div className="follow-info">
               <p>
                 {personalInfo.followingCount}
-                <span> 跟隨中</span>
+                <Link to="/user/self/following">
+                  <span> 跟隨中</span>
+                </Link>
               </p>
               <p>
                 {personalInfo.followerCount}
-                <span> 跟隨者</span>
+                <Link to="/user/self/follower">
+                  <span> 跟隨者</span>
+                </Link>
               </p>
             </div>
           </UserInfoText>

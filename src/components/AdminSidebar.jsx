@@ -9,10 +9,11 @@ import {
 } from "../assets/icons";
 
 const StyledSidebarContainer = styled.div`
-  position: relative;
-  /* grid-column: 1 / 2; */
-  /* margin-right: 24px; */
+  position: sticky; //還沒資料看不出效果
+  top: 0;
+  margin-right: 24px;
   width: 178px;
+  height: 100%;
   .logo {
     margin: 13px;
   }
@@ -53,16 +54,16 @@ const AdminSidebar = () => {
       <BrandLogo className="logo" />
       <StyledLinkContainer>
         <HomeIconActive />
-        <Link to="home">推文清單</Link>
+        <Link to="/admin_main">推文清單</Link>
       </StyledLinkContainer>
       <StyledLinkContainer>
         <ProfileIcon />
-        <Link to="user/self">使用者列表</Link>
+        <Link to="/admin_users">使用者列表</Link>
       </StyledLinkContainer>
       <StyledLinkContainer className="logout">
         <LogoutIcon />
         {/* 暫時使用，後續改為useEffect自動跳轉 */}
-        <Link to="login" onClick={handleClick}>
+        <Link to="/admin" onClick={handleClick}>
           登出
         </Link>
       </StyledLinkContainer>
