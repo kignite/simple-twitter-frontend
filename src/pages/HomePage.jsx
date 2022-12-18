@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import TweetCard from "../components/common/cards/TweetCard";
 import { StyledButton } from "../components/common/button.styled";
-import { getUserInfo } from "../api/getUserTweets";
+import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 
 const HomePageStyle = styled.div`
@@ -23,7 +23,7 @@ const HomePageStyle = styled.div`
       transform: translateY(-50%);
     }
   }
-  
+
   .devider {
     width: 100%;
     height: 10px;
@@ -35,7 +35,7 @@ export const StyledTextareaContainer = styled.div`
   position: relative;
   display: flex;
   width: 100%;
-  height: ${props => (props.modal ? '243px' : '136px')};
+  height: ${(props) => (props.modal ? "243px" : "136px")};
   img {
     margin: 16px 25px;
     margin-right: 0;
@@ -52,11 +52,11 @@ export const StyledTextareaContainer = styled.div`
       margin-top: 28px;
       margin-left: 8px;
       font-size: 18px;
-      font-weight: ${props => (props.modal ? '400' : '700')};
+      font-weight: ${(props) => (props.modal ? "400" : "700")};
       line-height: 26px;
       color: var(--textarea-placeholder);
     }
-    outline: 0; 
+    outline: 0;
     :focus {
       border: none;
     }
@@ -68,12 +68,12 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomeTweetslist = ({token}) => {
+const HomeTweetslist = ({ token }) => {
   const [tweetsData, setTweetsData] = useState([]);
 
   useEffect(() => {
     const getTweets = async () => {
-      const {data} = await getAllTweets({ token });
+      const { data } = await getAllTweets({ token });
       console.log(data);
       setTweetsData([...data]);
     };
@@ -82,7 +82,7 @@ const HomeTweetslist = ({token}) => {
 
   return (
     <ul className="tweet-list">
-      {tweetsData.map(tweet =>
+      {tweetsData.map((tweet) => (
         <TweetCard
           key={tweet.id}
           avatar={tweet.User.avatar}
@@ -94,14 +94,25 @@ const HomeTweetslist = ({token}) => {
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
         />
-      )}
+      ))}
     </ul>
   );
 };
 
 const HomePage = () => {
-  const [avatar, setAvatar] = useState('');
-  const token = localStorage.getItem('token')
+  const [avatar, setAvatar] = useState("");
+  const token = localStorage.getItem("token");
+  const tweetRef = useRef(null);
+
+  const handlePost = async () => {
+    if (tweetRef.current.value.length === 0) {
+      return;
+    }
+    const tweet = { description: tweetRef.current.value };
+    const status = await postTweet({ token, tweet });
+    console.log(status);
+
+  };
 
   useEffect(() => {
     const getCurrentUserAvatar = async () => {
@@ -109,7 +120,7 @@ const HomePage = () => {
       setAvatar(data.avatar);
     };
     getCurrentUserAvatar();
-  }, [])
+  }, []);
 
   return (
     <HomePageStyle>
@@ -118,8 +129,10 @@ const HomePage = () => {
       </header>
       <StyledTextareaContainer>
         <img src={avatar} alt="你的頭像" />
-        <textarea name="" id="" rows="5" placeholder="有什麼新鮮事?" ></textarea>
-        <StyledButton className="post-tweet active">推文</StyledButton>
+        <textarea name="" id="" rows="5" placeholder="有什麼新鮮事?" ref={tweetRef}></textarea>
+        <StyledButton className="post-tweet active" onClick={handlePost}>
+          推文
+        </StyledButton>
       </StyledTextareaContainer>
       <div className="devider"></div>
       <HomeTweetslist token={token} />

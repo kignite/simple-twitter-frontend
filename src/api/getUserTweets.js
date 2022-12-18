@@ -43,7 +43,7 @@ export const getUserInfo = async ({ token }) => {
         Authorization: 'Bearer ' + token,
       },
     });
-    // console.log('取得個人資料成功')
+    console.log('取得個人資料成功')
     return data;
   } catch (error) {
     console.log(error);
@@ -80,4 +80,17 @@ export const uploadUserInfo = async ({ token, info }) => {
   }
 }
 
+// 新增推文
 
+export const postTweet = async ({ token, tweet }) => {
+  try {
+    const { status } = await axios.post(`${baseURL}/tweets`, tweet, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}
