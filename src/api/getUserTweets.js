@@ -5,8 +5,8 @@ import jwt from "jwt-decode";
 const baseURL = "https://calm-basin-50282.herokuapp.com/api";
 
 //取得特定使用者的所有"推文"
-export const getUserTweets = async ({ token }) => {
-  const id = jwt(token).id;
+export const getUserTweets = async ({ token, id, role = "user" }) => {
+  if (role === "user") { id = jwt(token).id; }
   try {
     const data = await axios.get(`${baseURL}/users/${id}/tweets`, {
       headers: {
@@ -20,8 +20,8 @@ export const getUserTweets = async ({ token }) => {
 };
 
 //取得特定使用者的所有"回覆"
-export const getUserReplies = async ({ token }) => {
-  const id = jwt(token).id;
+export const getUserReplies = async ({ token, id, role = "user" }) => {
+  if (role === "user") { id = jwt(token).id; }
   try {
     const data = await axios.get(`${baseURL}/users/${id}/replied_tweets`, {
       headers: {
@@ -34,9 +34,10 @@ export const getUserReplies = async ({ token }) => {
   }
 };
 
-//取得特定(當前)使用者資訊
-export const getUserInfo = async ({ token }) => {
-  const id = jwt(token).id;
+
+//取得當前使用者
+export const getUserInfo = async ({ token, id, role = "user" }) => {
+  if (role === "user") { id = jwt(token).id; }
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}`, {
       headers: {
@@ -51,8 +52,8 @@ export const getUserInfo = async ({ token }) => {
 };
 
 //取得特定使用者"喜歡的內容"
-export const getUserLikes = async ({ token }) => {
-  const id = jwt(token).id;
+export const getUserLikes = async ({ token, id, role = "user" }) => {
+  if (role === "user") { id = jwt(token).id; }
   try {
     const data = await axios.get(`${baseURL}/users/${id}/likes`, {
       headers: {
@@ -127,7 +128,7 @@ export const postTweet = async ({ token, tweet }) => {
 
 // 回覆一則貼文
 export const postReply = async ({ token, tweetid, reply }) => {
-  console.log(tweetid,reply)
+  console.log(tweetid, reply)
   try {
     const { status } = await axios.post(`${baseURL}/tweets/${tweetid}/replies`, reply, {
       headers: {

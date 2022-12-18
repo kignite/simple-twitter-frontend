@@ -8,6 +8,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AccounntSetting from "./pages/AccountSetting";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
+import OtherUserPage from "./pages/OtherUserPage";
 import TweetReplyPage from "./pages/TweetReplyPage";
 import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
@@ -31,6 +32,7 @@ function App() {
             <Route path="main" element={<HomePage />} />
             <Route path="reply_list" element={<TweetReplyPage />} />
             <Route path="user/self" element={<UserPage />} />
+            <Route path="user/self/34" element={<OtherUserPage />} />
             <Route path="user/self/follower" element={<FollowPage pageStatus="follower" />} />
             <Route path="user/self/following" element={<FollowPage pageStatus="following" />} />
           </Route>
