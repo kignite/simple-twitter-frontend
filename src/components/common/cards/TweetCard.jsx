@@ -68,7 +68,7 @@ export const StyledCardContainer = styled.div`
 `;
 
 const TweetCard = ({
-  tweetid,
+  tweetId,
   personalInfo,
   avatar,
   name,
@@ -90,7 +90,7 @@ const TweetCard = ({
     <>
       <Backdrop active={active} setActive={setActive} />
       <Modal
-        tweetid={tweetid}
+        tweetid={tweetId}
         active={active}
         setActive={setActive}
         avatar={avatar}

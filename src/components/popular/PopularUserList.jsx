@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from "react";
 import styled from "styled-components";
 import { getTopFollwer } from "../../api/followshipAPI";
+import { getUserFollowing } from "../../api/getUserTweets";
 import PopularUserCard from "./PopularUserCard";
 
 const StyledListContainer = styled.div`
@@ -24,6 +25,7 @@ const StyledListContainer = styled.div`
 
 const PopularUserList = () => {
   const [topFollower, setTopFollower] = useState([]);
+  const [followings, setFollowings] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -31,7 +33,13 @@ const PopularUserList = () => {
       const { data } = await getTopFollwer({ token });
       setTopFollower(data);
     };
+    //取得使用者正在追隨名單去顯示Top10使用者的button樣式
+    const getFollowings = async () => {
+      const { data } = await getUserFollowing({ token });
+      setFollowings([...data]);
+    };
     getData();
+    getFollowings();
   }, []);
   return (
     <StyledListContainer>
@@ -42,8 +50,8 @@ const PopularUserList = () => {
             key={top.id}
             avatar={top.avatar}
             name={top.name}
-            account={top .account}
-            isFollowed={false}
+            account={top.account}
+            isFollowed={followings.find(following => following.followingId === top.id)}
           />
         ))}
       </ul>

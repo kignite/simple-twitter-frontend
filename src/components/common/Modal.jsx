@@ -31,8 +31,6 @@ const StyledModalContainer = styled.div`
 
 const StyledConnectLine = styled.div`
   position: absolute;
-  /* background-color: tomato; */
-  z-index: 990;
   width: 2px;
   margin-left: 49px;
   margin-top: 16px;
@@ -43,7 +41,7 @@ const StyledConnectLine = styled.div`
 `;
 
 const Modal = ({
-  tweetid,
+  tweetId,
   active,
   setActive,
   personalInfo,
@@ -81,7 +79,7 @@ const Modal = ({
     const reply = { comment: tweetRef.current.value };
     console.log(reply);
 
-    const status = await postReply({ token, tweetid, reply });
+    const status = await postReply({ token, tweetId, reply });
     console.log(status);
     setActive(false);
   };

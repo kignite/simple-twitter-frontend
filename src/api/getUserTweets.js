@@ -34,6 +34,7 @@ export const getUserReplies = async ({ token, id, role = "user" }) => {
   }
 };
 
+
 //取得當前使用者
 export const getUserInfo = async ({ token, id, role = "user" }) => {
   if (role === "user") { id = jwt(token).id; }
@@ -65,6 +66,7 @@ export const getUserLikes = async ({ token, id, role = "user" }) => {
   }
 };
 
+//上傳使用者資料
 export const uploadUserInfo = async ({ token, info }) => {
   const id = jwt(token).id;
   try {
@@ -78,10 +80,39 @@ export const uploadUserInfo = async ({ token, info }) => {
   } catch (error) {
     console.log(error)
   }
-}
+};
+
+//取得特定使用者的追隨者
+export const getUserFollower = async ({ token }) => {
+  const id = jwt(token).id;
+  try {
+    const { data } = await axios.get(`${baseURL}/users/${id}/followers`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return { data };
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+//取得特定使用者的正在追隨
+export const getUserFollowing = async ({ token }) => {
+  const id = jwt(token).id;
+  try {
+    const { data } = await axios.get(`${baseURL}/users/${id}/followings`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return { data };
+  } catch (error) {
+    console.log(error)
+  }
+};
 
 // 新增推文
-
 export const postTweet = async ({ token, tweet }) => {
   try {
     const { status } = await axios.post(`${baseURL}/tweets`, tweet, {
@@ -96,7 +127,6 @@ export const postTweet = async ({ token, tweet }) => {
 }
 
 // 回覆一則貼文
-
 export const postReply = async ({ token, tweetid, reply }) => {
   console.log(tweetid, reply)
   try {
