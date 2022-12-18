@@ -1,0 +1,96 @@
+/* CSS reset */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
+
+:root {
+  /* brand */
+  --main_orange: #FF6600; 
+  --main_white: #FFFFFF;
+  --main_primary: #0062FF;
+  --main_secondary: #6C757D;
+  --main_success: #3DD598;
+  --main_warning: #FFC542;
+  --main_error: #FC5A5A;
+
+  /* text */
+  --main_text: #171725;
+  --account_text-in-pop: #92929D; 
+  --account_text-in-main: var(--main_secondary);
+  --textarea-placeholder: var(--main_secondary);
+
+  /* component */
+  --input-scale_light-gray: #F5F8FA;
+  --input-border_gray: #657786;
+  --input-label_gray: #696974;
+  --input-placeholder_gray: #B5B5BE;
+  --avatar-scale_gray: #C4C4C4;
+  --scale_light-gray: #FAFAFB;
+  --border_gray: #E6ECF0;
+  --nav-unactive_gray: #44444F;
+  --tab-unactive_gray: var(--input-border_gray);
+  --reply-connect-line: #CCD6DD;
+  --card-background_gray: #f6f7f8;
+  --admin-delete-icon_gray: var(--input-label_gray);
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Lato', 'Noto Sans TC', serif;
+}
+
+html {
+    overflow: -moz-hidden-unscrollable;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  height: 100%;
+	width: 100vw;
+	overflow: auto;
+}
+
+::-webkit-scrollbar {
+  /* make scrollbar transparent */
+  width: 0px;
+  background: transparent;
+}
+
+* {
+  color: var(--main_text);
+}
+
+// 共同Style-guide
+// 字體樣式-heading
+h1 {
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 78px;
+}
+
+h2 {
+  font-size: 42px;
+  font-weight: 700; 
+  line-height: 52px;
+}
+
+h3 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+h4 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+}
