@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/simple-twitter-frontend/static/css/main.dbdf1b4f.css",
+    "main.js": "/simple-twitter-frontend/static/js/main.998abd81.js",
+    "static/media/setting-icon.svg": "/simple-twitter-frontend/static/media/setting-icon.26954fe160047c7d810799e0ec6fc5d5.svg",
+    "static/media/setting-icon_active.svg": "/simple-twitter-frontend/static/media/setting-icon_active.d02c0374c2a20fda2ff16468c39435ef.svg",
+    "static/media/brand-logo.svg": "/simple-twitter-frontend/static/media/brand-logo.f3519ac2e93e58fd6c1c5c3a9e5dfb3b.svg",
+    "static/media/logout-icon.svg": "/simple-twitter-frontend/static/media/logout-icon.f59afd993657feace420243350027480.svg",
+    "static/media/profile-icon.svg": "/simple-twitter-frontend/static/media/profile-icon.d3d9dfad68d6de920ae1053ed81b7fed.svg",
+    "static/media/camera-icon.svg": "/simple-twitter-frontend/static/media/camera-icon.667c77f5f656c476d63f151ceb438770.svg",
+    "static/media/home-icon.svg": "/simple-twitter-frontend/static/media/home-icon.0a0344ad4866a9ca1965d44064b6bc8e.svg",
+    "index.html": "/simple-twitter-frontend/index.html",
+    "static/media/reply-icon.svg": "/simple-twitter-frontend/static/media/reply-icon.576b323faccb9ad70396dd5f000ea068.svg",
+    "static/media/home-icon_active.svg": "/simple-twitter-frontend/static/media/home-icon_active.08a4a9b6d7181567d828269ea9160277.svg",
+    "static/media/tweet-icon.svg": "/simple-twitter-frontend/static/media/tweet-icon.ca4696688c36198bd15be3057c824868.svg",
+    "static/media/like-icon.svg": "/simple-twitter-frontend/static/media/like-icon.8aab96f05671372ff1ad802da589359b.svg",
+    "static/media/close-icon.svg": "/simple-twitter-frontend/static/media/close-icon.620d92c9200f8da9f7ae2498735cc401.svg",
+    "static/media/profile-icon_active.svg": "/simple-twitter-frontend/static/media/profile-icon_active.d75bf03368915ffd99ac8fb9e368e7b1.svg",
+    "static/media/turnback-icon.svg": "/simple-twitter-frontend/static/media/turnback-icon.08baf3604b371a0c8fef3d77fb3cb73f.svg",
+    "static/media/liked-icon.svg": "/simple-twitter-frontend/static/media/liked-icon.7e4abd95d90afc2dc3534c697a22c3b5.svg",
+    "main.dbdf1b4f.css.map": "/simple-twitter-frontend/static/css/main.dbdf1b4f.css.map",
+    "main.998abd81.js.map": "/simple-twitter-frontend/static/js/main.998abd81.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dbdf1b4f.css",
+    "static/js/main.998abd81.js"
+  ]
+}
