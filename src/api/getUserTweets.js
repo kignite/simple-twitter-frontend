@@ -43,7 +43,7 @@ export const getUserInfo = async ({ token }) => {
         Authorization: 'Bearer ' + token,
       },
     });
-    // console.log('取得個人資料成功')
+    console.log('取得個人資料成功')
     return data;
   } catch (error) {
     console.log(error);
@@ -109,3 +109,32 @@ export const getUserFollowing = async ({ token }) => {
     console.log(error)
   }
 };
+
+// 新增推文
+export const postTweet = async ({ token, tweet }) => {
+  try {
+    const { status } = await axios.post(`${baseURL}/tweets`, tweet, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// 回覆一則貼文
+export const postReply = async ({ token, tweetid, reply }) => {
+  console.log(tweetid,reply)
+  try {
+    const { status } = await axios.post(`${baseURL}/tweets/${tweetid}/replies`, reply, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
+import { postReply, postTweet } from "../../api/getUserTweets";
 import { CloseIcon } from "../../assets/icons";
 import { StyledTextareaContainer } from "../../pages/HomePage";
 import { StyledButton } from "./button.styled";
@@ -30,25 +31,61 @@ const StyledModalContainer = styled.div`
 
 const StyledConnectLine = styled.div`
   position: absolute;
+  /* background-color: tomato; */
+  z-index: 990;
   width: 2px;
   margin-left: 49px;
-  /* margin-top: 16px; */
+  margin-top: 16px;
   top: 50px; //資料內容還沒塞沒撐出高度看不出來
-  bottom: 0;
+  bottom: -10px;
 
   background-color: var(--reply-connect-line);
 `;
 
 const Modal = ({
+  tweetId,
   active,
   setActive,
+  personalInfo,
+  onReply,
   avatar,
   name,
   account,
   createdAt,
   description,
-  onReply,
 }) => {
+  const token = localStorage.getItem("token");
+  const tweetRef = useRef(null);
+
+  const handleTweet = async () => {
+    console.log("tweet");
+    if (tweetRef.current.value.length === 0) {
+      setActive(false);
+      return;
+    }
+    const tweet = { description: tweetRef.current.value };
+
+    const status = await postTweet({ token, tweet });
+    console.log(status);
+    tweetRef.current.value = "";
+    setActive(false);
+  };
+
+  const handleReply = async () => {
+    console.log("reply");
+
+    if (tweetRef.current.value.length === 0) {
+      setActive(false);
+      return;
+    }
+    const reply = { comment: tweetRef.current.value };
+    console.log(reply);
+
+    const status = await postReply({ token, tweetId, reply });
+    console.log(status);
+    setActive(false);
+  };
+
   return active ? (
     <StyledModalContainer>
       <div className="modal-header">
@@ -69,17 +106,22 @@ const Modal = ({
         </StyledCardContainer>
       )}
       <StyledTextareaContainer modal={true}>
-        <img src={avatar} alt="你的頭像" />
+        <img src={personalInfo.avatar} alt="你的頭像" />
         <textarea
           name=""
           id=""
           cols="50"
           rows="5"
-          placeholder={onReply ? '推你的回覆' : '有什麼新鮮事?'}
+          placeholder={onReply ? "推你的回覆" : "有什麼新鮮事?"}
+          ref={tweetRef}
         ></textarea>
-        <StyledButton className="post-tweet active">
-          {onReply ? '回覆' : '推文'}
+        <StyledButton
+          className="post-tweet active"
+          onClick={onReply ? handleReply : handleTweet}
+        >
+          {onReply ? "回覆" : "推文"}
         </StyledButton>
+        {/* <button onClick={handlePost}>123</button> */}
       </StyledTextareaContainer>
     </StyledModalContainer>
   ) : null;
