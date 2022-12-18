@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
+import { postTweet } from "../../api/getUserTweets";
 import { CloseIcon } from "../../assets/icons";
 import { StyledTextareaContainer } from "../../pages/HomePage";
 import { StyledButton } from "./button.styled";
@@ -38,16 +39,22 @@ const StyledConnectLine = styled.div`
   background-color: var(--reply-connect-line);
 `;
 
-const Modal = ({
-  active,
-  setActive,
-  avatar,
-  name,
-  account,
-  createdAt,
-  description,
-  onReply,
-}) => {
+const Modal = ({ active, setActive, personalInfo ,onReply }) => {
+  const token = localStorage.getItem("token");
+  const tweetRef = useRef(null);
+
+  const handlePost = async () => {
+    if (tweetRef.current.value.length === 0) {
+      setActive(false);
+      return;
+    }
+    const tweet = { description: tweetRef.current.value };
+
+    const status = await postTweet({ token, tweet });
+    console.log(status);
+    setActive(false);
+  };
+
   return active ? (
     <StyledModalContainer>
       <div className="modal-header">
@@ -56,29 +63,31 @@ const Modal = ({
       {onReply && (
         <StyledCardContainer modal={true}>
           <div className="left-side">
-            <img src={avatar} alt={name} />
+            <img src={personalInfo.avatar} alt={personalInfo.name} />
             <StyledConnectLine />
           </div>
           <div className="right-side">
-            <span className="name">{name}</span>
-            <span className="account">@{account}</span>
-            <span className="created-time"> · {createdAt}</span>
-            <p>{description}</p>
+            <span className="name">{personalInfo.name}</span>
+            <span className="account">@{personalInfo.account}</span>
+            <span className="created-time"> · {personalInfo.createdAt}</span>
+            <p>{personalInfo.description}</p>
           </div>
         </StyledCardContainer>
       )}
       <StyledTextareaContainer modal={true}>
-        <img src={avatar} alt="你的頭像" />
+        <img src={personalInfo.avatar} alt="你的頭像" />
         <textarea
           name=""
           id=""
           cols="50"
           rows="5"
-          placeholder={onReply ? '推你的回覆' : '有什麼新鮮事?'}
+          placeholder={onReply ? "推你的回覆" : "有什麼新鮮事?"}
+          ref={tweetRef}
         ></textarea>
-        <StyledButton className="post-tweet active">
-          {onReply ? '回覆' : '推文'}
+        <StyledButton className="post-tweet active" onClick={handlePost}>
+          {onReply ? "回覆" : "推文"}
         </StyledButton>
+        {/* <button onClick={handlePost}>123</button> */}
       </StyledTextareaContainer>
     </StyledModalContainer>
   ) : null;
