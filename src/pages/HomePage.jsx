@@ -111,7 +111,6 @@ const HomePage = () => {
     const tweet = { description: tweetRef.current.value };
     const status = await postTweet({ token, tweet });
     console.log(status);
-
   };
 
   useEffect(() => {
@@ -129,7 +128,13 @@ const HomePage = () => {
       </header>
       <StyledTextareaContainer>
         <img src={avatar} alt="你的頭像" />
-        <textarea name="" id="" rows="5" placeholder="有什麼新鮮事?" ref={tweetRef}></textarea>
+        <textarea
+          name=""
+          id=""
+          rows="5"
+          placeholder="有什麼新鮮事?"
+          ref={tweetRef}
+        ></textarea>
         <StyledButton className="post-tweet active" onClick={handlePost}>
           推文
         </StyledButton>

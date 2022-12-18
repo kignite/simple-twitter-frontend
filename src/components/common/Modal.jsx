@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { postTweet } from "../../api/getUserTweets";
+import { postReply, postTweet } from "../../api/getUserTweets";
 import { CloseIcon } from "../../assets/icons";
 import { StyledTextareaContainer } from "../../pages/HomePage";
 import { StyledButton } from "./button.styled";
@@ -31,19 +31,34 @@ const StyledModalContainer = styled.div`
 
 const StyledConnectLine = styled.div`
   position: absolute;
+  /* background-color: tomato; */
+  z-index: 990;
   width: 2px;
   margin-left: 49px;
+  margin-top: 16px;
   top: 50px; //資料內容還沒塞沒撐出高度看不出來
-  bottom: 0;
+  bottom: -10px;
 
   background-color: var(--reply-connect-line);
 `;
 
-const Modal = ({ active, setActive, personalInfo ,onReply }) => {
+const Modal = ({
+  tweetid,
+  active,
+  setActive,
+  personalInfo,
+  onReply,
+  avatar,
+  name,
+  account,
+  createdAt,
+  description,
+}) => {
   const token = localStorage.getItem("token");
   const tweetRef = useRef(null);
 
-  const handlePost = async () => {
+  const handleTweet = async () => {
+    console.log("tweet");
     if (tweetRef.current.value.length === 0) {
       setActive(false);
       return;
@@ -51,6 +66,22 @@ const Modal = ({ active, setActive, personalInfo ,onReply }) => {
     const tweet = { description: tweetRef.current.value };
 
     const status = await postTweet({ token, tweet });
+    console.log(status);
+    tweetRef.current.value = "";
+    setActive(false);
+  };
+
+  const handleReply = async () => {
+    console.log("reply");
+
+    if (tweetRef.current.value.length === 0) {
+      setActive(false);
+      return;
+    }
+    const reply = { comment: tweetRef.current.value };
+    console.log(reply);
+
+    const status = await postReply({ token, tweetid, reply });
     console.log(status);
     setActive(false);
   };
@@ -63,14 +94,14 @@ const Modal = ({ active, setActive, personalInfo ,onReply }) => {
       {onReply && (
         <StyledCardContainer modal={true}>
           <div className="left-side">
-            <img src={personalInfo.avatar} alt={personalInfo.name} />
+            <img src={avatar} alt={name} />
             <StyledConnectLine />
           </div>
           <div className="right-side">
-            <span className="name">{personalInfo.name}</span>
-            <span className="account">@{personalInfo.account}</span>
-            <span className="created-time"> · {personalInfo.createdAt}</span>
-            <p>{personalInfo.description}</p>
+            <span className="name">{name}</span>
+            <span className="account">@{account}</span>
+            <span className="created-time"> · {createdAt}</span>
+            <p>{description}</p>
           </div>
         </StyledCardContainer>
       )}
@@ -84,7 +115,10 @@ const Modal = ({ active, setActive, personalInfo ,onReply }) => {
           placeholder={onReply ? "推你的回覆" : "有什麼新鮮事?"}
           ref={tweetRef}
         ></textarea>
-        <StyledButton className="post-tweet active" onClick={handlePost}>
+        <StyledButton
+          className="post-tweet active"
+          onClick={onReply ? handleReply : handleTweet}
+        >
           {onReply ? "回覆" : "推文"}
         </StyledButton>
         {/* <button onClick={handlePost}>123</button> */}

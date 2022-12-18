@@ -94,3 +94,19 @@ export const postTweet = async ({ token, tweet }) => {
     console.log(error)
   }
 }
+
+// 回覆一則貼文
+
+export const postReply = async ({ token, tweetid, reply }) => {
+  console.log(tweetid,reply)
+  try {
+    const { status } = await axios.post(`${baseURL}/tweets/${tweetid}/replies`, reply, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}
