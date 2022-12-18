@@ -65,6 +65,7 @@ export const getUserLikes = async ({ token }) => {
   }
 };
 
+//上傳使用者資料
 export const uploadUserInfo = async ({ token, info }) => {
   const id = jwt(token).id;
   try {

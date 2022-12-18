@@ -31,8 +31,6 @@ const StyledModalContainer = styled.div`
 
 const StyledConnectLine = styled.div`
   position: absolute;
-  /* background-color: tomato; */
-  z-index: 990;
   width: 2px;
   margin-left: 49px;
   margin-top: 16px;
