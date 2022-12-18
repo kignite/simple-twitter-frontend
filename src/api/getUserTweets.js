@@ -34,7 +34,7 @@ export const getUserReplies = async ({ token }) => {
   }
 };
 
-//取得當前使用者
+//取得特定(當前)使用者資訊
 export const getUserInfo = async ({ token }) => {
   const id = jwt(token).id;
   try {
@@ -78,6 +78,34 @@ export const uploadUserInfo = async ({ token, info }) => {
   } catch (error) {
     console.log(error)
   }
-}
+};
 
+//取得特定使用者的追隨者
+export const getUserFollower = async ({ token }) => {
+  const id = jwt(token).id;
+  try {
+    const { data } = await axios.get(`${baseURL}/users/${id}/followers`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return { data };
+  } catch (error) {
+    console.log(error)
+  }
+};
 
+//取得特定使用者的正在追隨
+export const getUserFollowing = async ({ token }) => {
+  const id = jwt(token).id;
+  try {
+    const { data } = await axios.get(`${baseURL}/users/${id}/followings`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return { data };
+  } catch (error) {
+    console.log(error)
+  }
+};

@@ -11,12 +11,16 @@ const HomePageStyle = styled.div`
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
+  overflow: scroll;
+  .sticky-part {
+    position: sticky; //還沒資料看不出效果
+    top: 0;
+    background-color: var(--main_white);
+  }
   header {
     height: 74px;
     padding-left: 24px;
     border-bottom: 1px solid var(--border_gray);
-    position: sticky; //還沒資料看不出效果
-    top: 0;
     h4 {
       position: relative;
       top: 50%;
@@ -32,7 +36,7 @@ const HomePageStyle = styled.div`
 `;
 
 export const StyledTextareaContainer = styled.div`
-  position: relative;
+  /* position: relative; */
   display: flex;
   width: 100%;
   height: ${props => (props.modal ? '243px' : '136px')};
@@ -71,6 +75,11 @@ export const StyledTextareaContainer = styled.div`
 const HomeTweetslist = ({token}) => {
   const [tweetsData, setTweetsData] = useState([]);
 
+  // 點擊特定推文卡片進入特定推文回覆串
+  // const handleClick = () => {
+
+  // };
+
   useEffect(() => {
     const getTweets = async () => {
       const {data} = await getAllTweets({ token });
@@ -93,6 +102,7 @@ const HomeTweetslist = ({token}) => {
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
+
         />
       )}
     </ul>
@@ -113,15 +123,17 @@ const HomePage = () => {
 
   return (
     <HomePageStyle>
-      <header>
-        <h4 className="home">首頁</h4>
-      </header>
-      <StyledTextareaContainer>
-        <img src={avatar} alt="你的頭像" />
-        <textarea name="" id="" rows="5" placeholder="有什麼新鮮事?" ></textarea>
-        <StyledButton className="post-tweet active">推文</StyledButton>
-      </StyledTextareaContainer>
-      <div className="devider"></div>
+      <div className="sticky-part">
+        <header>
+          <h4 className="home">首頁</h4>
+        </header>
+        <StyledTextareaContainer>
+          <img src={avatar} alt="你的頭像" />
+          <textarea name="" id="" rows="5" placeholder="有什麼新鮮事?" ></textarea>
+          <StyledButton className="post-tweet active">推文</StyledButton>
+        </StyledTextareaContainer>
+        <div className="devider"></div>
+      </div>
       <HomeTweetslist token={token} />
     </HomePageStyle>
   );

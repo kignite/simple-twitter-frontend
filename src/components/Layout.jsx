@@ -28,6 +28,7 @@ const StyledLayoutContainer = styled.div`
 const Layout = () => {
   const [active, setActive] = useState(false);
 
+
   return (
     <StyledLayoutContainer>
       <Sidebar setActive={setActive}/>

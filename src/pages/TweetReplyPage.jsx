@@ -10,12 +10,14 @@ const TweetReplyPageStyle = styled.div`
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
+  overflow: scroll;
   header {
     display: flex;
     align-items: center;
     height: 74px;
     padding-left: 24px;
     border-bottom: 1px solid var(--border_gray);
+    background-color: var(--main_white);
     position: sticky; //還沒資料看不出效果
     top: 0;
   }
