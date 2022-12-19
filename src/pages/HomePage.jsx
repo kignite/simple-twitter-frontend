@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TweetCard from "../components/common/cards/TweetCard";
 import { StyledButton } from "../components/common/button.styled";
@@ -6,7 +6,6 @@ import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 
 const HomePageStyle = styled.div`
-
   position: relative;
   box-sizing: border-box;
   height: 100vh;
@@ -92,7 +91,6 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
     getTweets();
   }, []);
 
-
   return (
     <ul className="tweet-list">
       {tweetsData.map((tweet) => (
@@ -117,16 +115,25 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
 
 const HomePage = () => {
   const [avatar, setAvatar] = useState("");
+  const [tweetText, setTweetText] = useState("");
   const token = localStorage.getItem("token");
-  const tweetRef = useRef(null);
+  // const tweetRef = useRef(null);
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setTweetText(e.target.value);
+  };
 
   const handlePost = async () => {
-    if (tweetRef.current.value.length === 0) {
+    if (tweetText.length === 0) {
+      console.log("請輸入至少一個字");
       return;
     }
-    const tweet = { description: tweetRef.current.value };
+    const tweet = { description: tweetText };
     const status = await postTweet({ token, tweet });
+
     console.log(status);
+    setTweetText("");
   };
 
   useEffect(() => {
@@ -150,7 +157,8 @@ const HomePage = () => {
             id="tweetpost"
             rows="5"
             placeholder="有什麼新鮮事?"
-            ref={tweetRef}
+            value={tweetText}
+            onChange={handleChange}
           ></textarea>
           <StyledButton className="post-tweet active" onClick={handlePost}>
             推文
