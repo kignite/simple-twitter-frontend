@@ -146,8 +146,8 @@ const HomePage = () => {
         <StyledTextareaContainer>
           <img src={avatar} alt="你的頭像" />
           <textarea
-            name=""
-            id=""
+            name="tweetpost"
+            id="tweetpost"
             rows="5"
             placeholder="有什麼新鮮事?"
             ref={tweetRef}

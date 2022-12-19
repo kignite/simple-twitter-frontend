@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 // import * as jwt from "jsonwebtoken";
 import { acountSetting, getAccountSetting } from "../api/auth";
-import Input from "../components/AuthInput";
+import { Input } from "../components/AuthInput";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 // import Sidebar from "../components/Sidebar";

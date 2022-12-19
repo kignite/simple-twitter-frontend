@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { regist } from "../api/auth";
-import Input from "../components/AuthInput";
+import { Input } from "../components/AuthInput";
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AccountFormPage, AccountFormContainer } from "./LoginPage";
