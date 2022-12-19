@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TweetCard from "../components/common/cards/TweetCard";
 import { StyledButton } from "../components/common/button.styled";
@@ -77,6 +78,7 @@ export const StyledTextareaContainer = styled.div`
 const HomeTweetslist = ({ token, onTweetClick }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getTweets = async () => {
@@ -98,7 +100,7 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
       {tweetsData.map((tweet) => (
         <TweetCard
           key={tweet.id}
-          tweetid={tweet.id}
+          tweetId={tweet.id}
           personalInfo={personalInfo}
           avatar={tweet.User.avatar}
           name={tweet.User.name}
@@ -108,14 +110,18 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
-          onClick={onTweetClick}
+          onClick={() => {
+            console.log("Click!", tweet.id)
+            onTweetClick?.(tweet.id);
+            navigate('/reply_list');
+          }}
         />
       ))}
     </ul>
   );
 };
 
-const HomePage = () => {
+const HomePage = ({setTweetId}) => {
   const [avatar, setAvatar] = useState("");
   const token = localStorage.getItem("token");
   const tweetRef = useRef(null);
@@ -158,7 +164,10 @@ const HomePage = () => {
         </StyledTextareaContainer>
         <div className="devider"></div>
       </div>
-      <HomeTweetslist token={token} />
+      <HomeTweetslist token={token} onTweetClick={(tweetId) => {
+        setTweetId(tweetId);
+        console.log(tweetId);
+        }} />
     </HomePageStyle>
   );
 };

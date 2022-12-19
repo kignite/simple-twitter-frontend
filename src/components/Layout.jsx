@@ -28,6 +28,8 @@ const Layout = () => {
   const token = localStorage.getItem("token");
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
+  // const [tweetId, setTweetId] = useState(null);
+
   useEffect(() => {
     const getdata = async () => {
       const data = await getUserInfo({ token });

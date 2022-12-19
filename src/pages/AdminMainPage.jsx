@@ -17,7 +17,8 @@ export const PageStyled = styled.div`
   display: grid;
   grid-template-columns: 1fr 7fr;
   main {
-    border: 1px solid var(--border_gray);
+    border-left: 1px solid var(--border_gray);
+    border-right: 1px solid var(--border_gray);
     position: relative;
     overflow: scroll;
     header {

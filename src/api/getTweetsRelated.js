@@ -16,3 +16,32 @@ export const getAllTweets = async ({token}) => {
     console.log(error);
   }
 };
+
+//取得單一特定推文
+export const getOneTweet = async ({id, token}) => {
+  try {
+    const {data} = await axios.get(`${baseURL}/tweets/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    console.log("取得單一推文成功")
+    return {data};
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//取得單一推文回覆串
+export const getOneTweetReplies = async ({id, token}) => {
+  try {
+    const {data} = await axios.get(`${baseURL}/tweets/${id}/replies`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return {data};
+  } catch (error) {
+    console.log(error);
+  }
+}

@@ -8,10 +8,12 @@ import {
   getUserReplies,
   getUserLikes,
 } from "../../api/getUserTweets";
+import { useNavigate } from "react-router-dom";
 
-const UserPanel = ({ personalInfo }) => {
-  const [activeTab, setActiveTab] = useState("reply");
+const UserPanel = ({ personalInfo, onTweetClick }) => {
+  const [activeTab, setActiveTab] = useState("tweet");
   const [panelData, setPanelData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let ignore = false;
@@ -19,7 +21,7 @@ const UserPanel = ({ personalInfo }) => {
       const token = localStorage.getItem("token") || null;
       // 如需調整使用者請先手動 自己role=user id=14;
       const id = personalInfo.id;
-      const role = "other";
+      const role = "user";
       switch (activeTab) {
         case "tweet": {
           const { data } = await getUserTweets({ token, id, role });
@@ -110,7 +112,7 @@ const UserPanel = ({ personalInfo }) => {
             return (
               <TweetCard
                 key={item.id}
-                tweetid={item.id}
+                tweetId={item.id}
                 personalInfo={personalInfo}
                 avatar={item.User.avatar}
                 name={item.User.name}
@@ -120,13 +122,17 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.replyCount}
                 likeCount={item.likeCount}
                 isLiked={item.isLiked}
+                onClick={() => {
+                  onTweetClick?.(item.id);
+                  navigate('/reply_list');
+                }}
               />
             );
           } else {
             return (
               <TweetCard
                 key={item.id}
-                id={item.id}
+                tweetId={item.TweetId}
                 personalInfo={personalInfo}
                 avatar={item.Tweet.User.avatar}
                 name={item.Tweet.User.name}
@@ -136,6 +142,10 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.Tweet.replyCount}
                 likeCount={item.Tweet.likeCount}
                 isLiked={item.Tweet.isLiked}
+                onClick={() => {
+                  onTweetClick?.(item.TweetId);
+                  navigate('/reply_list');
+                }}
               />
             );
           }
