@@ -10,7 +10,8 @@ const TweetReplyPageStyle = styled.div`
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   header {
     display: flex;
     align-items: center;

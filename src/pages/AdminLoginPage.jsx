@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { login } from "../api/auth";
-import Input from "../components/AuthInput";
+import { Input } from "../components/AuthInput";
 import { AccountFormPage, AccountFormContainer } from "./LoginPage";
 import { StyledBigButton, StyledLinkText } from "../components/common/button.styled";
 import { BrandLogo } from "../assets/icons";

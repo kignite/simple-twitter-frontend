@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Input from "../AuthInput";
+import { Input, Textarea } from "../AuthInput";
 import { useState } from "react";
 import { uploadUserInfo } from "../../api/getUserTweets";
 // import { getUserInfo } from "../../api/getUserTweets";
@@ -41,18 +41,24 @@ const UserInfoPicture = styled.div`
   .modal-avatar {
     position: relative;
     .img-box {
+      box-sizing: border-box;
       display: flex;
       align-items: center;
       justify-content: center;
       position: absolute;
-      left: 66px;
+      left: 16px;
+      bottom: 0;
+      transform: translateY(50%);
+
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 5px solid white;
+      overflow: hidden;
       img {
-        box-sizing: border-box;
-        position: absolute;
-        bottom: 0;
-        transform: translateY(50%);
-        border-radius: 50%;
-        border: 5px solid white;
+        width: 100%;
+        height: 100%;
+        filter: brightness(0.5);
       }
       .camera-icon {
         position: absolute;
@@ -73,6 +79,7 @@ const UserInfoPicture = styled.div`
       z-index: -1;
 
       background-color: var(--main_secondary);
+      filter: brightness(0.5);
     }
     .change-cover-actions {
       position: absolute;
@@ -102,8 +109,8 @@ const UserInfoPicture = styled.div`
 `;
 
 const UserInfoText = styled.div`
-  width: 100%;
-  margin-top: 72px;
+  margin-top: 82px;
+  padding: 0 16px 0 16px;
 `;
 
 const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
@@ -215,7 +222,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
                   onChange={handleUploadAvatar}
                 />
               </label>
-              <img width={100} height={100} src={tmpImg.avatar} alt="" />
+              <img src={tmpImg.avatar} alt="" />
             </div>
           </div>
         </UserInfoPicture>
@@ -228,7 +235,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
               setPersonalInfo({ ...prev, name: name });
             }}
           />
-          <Input
+          <Textarea
             label={"自我介紹"}
             value={personalInfo.introduction}
             onChange={(introduction) => {

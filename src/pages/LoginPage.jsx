@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { login } from "../api/auth";
 // import { Link } from "react-router-dom";
-import Input from "../components/AuthInput";
+import { Input } from "../components/AuthInput";
 import styled from "styled-components";
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";

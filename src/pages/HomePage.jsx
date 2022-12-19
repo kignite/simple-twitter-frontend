@@ -6,12 +6,14 @@ import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 
 const HomePageStyle = styled.div`
+
   position: relative;
   box-sizing: border-box;
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   .sticky-part {
     position: sticky; //還沒資料看不出效果
     top: 0;
@@ -72,7 +74,7 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomeTweetslist = ({ token }) => {
+const HomeTweetslist = ({ token, onTweetClick }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
 
@@ -106,7 +108,7 @@ const HomeTweetslist = ({ token }) => {
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
-
+          onClick={onTweetClick}
         />
       ))}
     </ul>
@@ -144,8 +146,8 @@ const HomePage = () => {
         <StyledTextareaContainer>
           <img src={avatar} alt="你的頭像" />
           <textarea
-            name=""
-            id=""
+            name="tweetpost"
+            id="tweetpost"
             rows="5"
             placeholder="有什麼新鮮事?"
             ref={tweetRef}

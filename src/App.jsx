@@ -14,7 +14,6 @@ import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
 import FollowPage from "./pages/FollowPage";
 
-
 function App() {
   return (
     <div className="App">
@@ -25,7 +24,7 @@ function App() {
           <Route path="admin_main" element={<AdminMainPage />} />
           <Route path="admin_users" element={<AdminUserList />} />
           <Route path="regist" element={<RegisterPage />} />
-          <Route path="setting" element={<AccounntSetting />} />
+          {/* <Route path="setting" element={<AccounntSetting />} /> */}
           {/* <Route path="/" element={<Layout />}/> */}
           <Route path="/" element={<Layout />}>
             <Route path="*" element={<HomePage />} />
@@ -35,6 +34,7 @@ function App() {
             <Route path="user/self/34" element={<OtherUserPage />} />
             <Route path="user/self/follower" element={<FollowPage pageStatus="follower" />} />
             <Route path="user/self/following" element={<FollowPage pageStatus="following" />} />
+            <Route path="setting" element={<AccounntSetting />} />
           </Route>
         </Routes>
       </BrowserRouter>

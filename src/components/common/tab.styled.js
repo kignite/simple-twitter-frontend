@@ -13,6 +13,10 @@ export const StyledTabbar = styled.div`
     color: var(--tab-unactive_gray);
     background-color: transparent;
     cursor: pointer;
+    transition: 0.5s;
+    &:hover {
+      border-bottom-color: #FF8C40;
+    }
 
     &.active {
       border-bottom-color: var(--main_orange);
