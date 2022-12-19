@@ -31,7 +31,7 @@ function App() {
             <Route path="*" element={<HomePage />} />
             <Route path="main" element={<HomePage />} />
             <Route path="reply_list" element={<TweetReplyPage />} />
-            <Route path="user/self" element={<UserPage />} />
+            <Route path="user/self" element={<UserPage/>} />
             <Route path="user/self/34" element={<OtherUserPage />} />
             <Route path="user/self/follower" element={<FollowPage pageStatus="follower" />} />
             <Route path="user/self/following" element={<FollowPage pageStatus="following" />} />

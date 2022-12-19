@@ -45,11 +45,12 @@ export const PageStyled = styled.div`
       grid-gap: 16px 16px;
     }
   }
-  
 `;
 
 const AdminMainPage = () => {
   const [tweetsData, setTweetsData] = useState([]);
+
+
   const token = localStorage.getItem("token") || null;
 
   const handleDelete = async (e) => {
@@ -57,6 +58,7 @@ const AdminMainPage = () => {
     const tweetId = parseInt(e.target.dataset.id);
     await adminDeleteUserTweet({ tweetId, token });
     setTweetsData((prev) => prev.filter((tweet) => tweet.id !== tweetId));
+
   };
   useEffect(() => {
     const getTweetsData = async () => {
@@ -75,18 +77,19 @@ const AdminMainPage = () => {
           <h4 className="title">推文清單</h4>
         </header>
         <div className="tweets-list">
-            {tweetsData.map((tweet) => (
-              <UserTweetCard
-                key={tweet.id}
-                avatar={tweet.User.avatar}
-                name={tweet.User.name}
-                account={tweet.User.account}
-                createdAt={tweet.createdAt}
-                id={tweet.id}
-                onDelete={handleDelete}
-                description={tweet.description}
-              />
-            ))}
+          {tweetsData.map((tweet) => (
+            <UserTweetCard
+              key={tweet.id}
+              avatar={tweet.User.avatar}
+              name={tweet.User.name}
+              account={tweet.User.account}
+              createdAt={tweet.createdAt}
+              id={tweet.id}
+              onDelete={handleDelete}
+              description={tweet.description}
+
+            />
+          ))}
         </div>
       </main>
     </PageStyled>

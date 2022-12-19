@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getTopFollwer } from "../../api/followshipAPI";
 import { getUserFollowing } from "../../api/getUserTweets";
@@ -26,6 +26,7 @@ const StyledListContainer = styled.div`
 const PopularUserList = () => {
   const [topFollower, setTopFollower] = useState([]);
   const [followings, setFollowings] = useState([]);
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -51,7 +52,9 @@ const PopularUserList = () => {
             avatar={top.avatar}
             name={top.name}
             account={top.account}
-            isFollowed={followings.find(following => following.followingId === top.id)}
+            isFollowed={followings.find(
+              (following) => following.followingId === top.id
+            )}
           />
         ))}
       </ul>
