@@ -21,14 +21,13 @@ const UserPanel = ({ personalInfo }) => {
     let ignore = false;
     const getPanelData = async () => {
       const token = localStorage.getItem("token") || null;
-      // 如需調整使用者請先手動 自己role=user id=14;
       let id;
+
       if (searchParams.get("id")) {
         id = searchParams.get("id");
       } else {
         id = jwtDecode(token).id;
       }
-      // console.log(id);
 
       switch (activeTab) {
         case "tweet": {
@@ -47,8 +46,6 @@ const UserPanel = ({ personalInfo }) => {
         }
         case "like": {
           const { data } = await getUserLikes({ token, id });
-          console.log(data);
-          console.log(id);
           if (!ignore) {
             setPanelData([...data]);
           }

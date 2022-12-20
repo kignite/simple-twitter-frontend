@@ -41,7 +41,7 @@ const PopularUserList = () => {
       const { data } = await getUserFollowing({ token });
       setFollowings([...data]);
     };
-    if (!isAuthenticated || currentMember.role !== "users") return;
+    if (!isAuthenticated || currentMember.role !== "user") return;
     getData();
     getFollowings();
   }, []);
