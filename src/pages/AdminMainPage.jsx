@@ -7,6 +7,7 @@ import {
 } from "../api/getAdminRelated";
 import AdminSidebar from "../components/AdminSidebar";
 import UserTweetCard from "../components/common/cards/UserTweetCard";
+import { useAuth } from "../contexts/AuthContext";
 // import jwt from "jwt-decode";
 
 export const PageStyled = styled.div`
@@ -46,11 +47,11 @@ export const PageStyled = styled.div`
       grid-gap: 16px 16px;
     }
   }
-  
 `;
 
 const AdminMainPage = () => {
   const [tweetsData, setTweetsData] = useState([]);
+  const { isAuthenticated, currentMember } = useAuth();
   const token = localStorage.getItem("token") || null;
 
   const handleDelete = async (e) => {
@@ -64,6 +65,7 @@ const AdminMainPage = () => {
       const { data } = await adminGetUserTweets({ token });
       setTweetsData(data);
     };
+    if (!isAuthenticated || currentMember.role !== "admin") return;
 
     getTweetsData();
   }, []);
@@ -76,18 +78,18 @@ const AdminMainPage = () => {
           <h4 className="title">推文清單</h4>
         </header>
         <div className="tweets-list">
-            {tweetsData.map((tweet) => (
-              <UserTweetCard
-                key={tweet.id}
-                avatar={tweet.User.avatar}
-                name={tweet.User.name}
-                account={tweet.User.account}
-                createdAt={tweet.createdAt}
-                id={tweet.id}
-                onDelete={handleDelete}
-                description={tweet.description}
-              />
-            ))}
+          {tweetsData.map((tweet) => (
+            <UserTweetCard
+              key={tweet.id}
+              avatar={tweet.User.avatar}
+              name={tweet.User.name}
+              account={tweet.User.account}
+              createdAt={tweet.createdAt}
+              id={tweet.id}
+              onDelete={handleDelete}
+              description={tweet.description}
+            />
+          ))}
         </div>
       </main>
     </PageStyled>

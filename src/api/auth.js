@@ -10,13 +10,11 @@ export const login = async ({ account, password }, role) => {
       password,
     });
 
-    const { token, user } = data;
-
+    const { token, status } = data;
     if (token) {
-      console.log(`${user.role}登入成功`)
       return { success: true, ...data };
     }
-    return data;
+    return status;
   } catch (error) {
     console.log('login-failed:', error)
     return { error };
@@ -39,7 +37,7 @@ export const regist = async ({
       name,
     });
     if (status === 200) {
-      console.log(status);
+      // console.log(status);
       return { success: true };
     }
   } catch (error) {

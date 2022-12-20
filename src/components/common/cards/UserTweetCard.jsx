@@ -41,21 +41,29 @@ const TweetCardStyled = styled.div`
       }
       cursor: pointer;
     }
+
+    .delete {
+      cursor: not-allowed;
+    }
   }
   .tweet-content {
     padding: 0 30px 0 8px;
   }
 `;
 
-const UserTweetCard = ({avatar, name, account, createdAt, id, onDelete, description}) => {
+const UserTweetCard = ({
+  avatar,
+  name,
+  account,
+  createdAt,
+  id,
+  onDelete,
+  description,
+
+}) => {
   return (
     <TweetCardStyled>
-      <img
-        width="50"
-        src={avatar}
-        alt="XX"
-        className="avatar"
-      />
+      <img width="50" src={avatar} alt="XX" className="avatar" />
       <div className="right-side">
         <div className="tweet-head">
           <div className="tweet-user-info">
@@ -65,7 +73,7 @@ const UserTweetCard = ({avatar, name, account, createdAt, id, onDelete, descript
             </span>
           </div>
           <CloseIcon
-            className="delete-icon"
+            className={`delete-icon`}
             data-id={id}
             onClick={onDelete}
           />
