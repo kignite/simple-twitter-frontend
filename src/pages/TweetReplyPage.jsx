@@ -81,7 +81,6 @@ const TweetReplyPage = ({tweetId}) => {
         }} />
         <h4>推文</h4>
       </header>
-      {console.log(tweetData)}
       <TweetCardBig
         avatar={tweetData.User.avatar}
         name={tweetData.User.name}

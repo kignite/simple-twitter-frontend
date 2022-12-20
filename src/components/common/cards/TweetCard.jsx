@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 import Backdrop from "../../Backdrop";
 import Modal from "../Modal";
+import { postTweetLike, postTweetUnLike } from "../../../api/getTweetsRelated";
+
 
 export const StyledCardContainer = styled.div`
   display: flex;
@@ -54,6 +56,7 @@ export const StyledCardContainer = styled.div`
 
     .user-actions {
       margin-top: 9px;
+      z-index: 3;
       span {
         margin-right: 41.3px;
 
@@ -81,6 +84,36 @@ const TweetCard = ({
   onClick
 }) => {
   const [active, setActive] = useState(false);
+  const [likeStatus, setLikeStatus] = useState(isLiked);
+  const token = localStorage.getItem('token');
+
+  //handleLike
+  const handleLikeClicked = async () => {
+    // console.log("tweetId",tweetId);
+    // console.log("token", token);
+    try {
+      // console.log(token);
+      const status = await postTweetLike({ tweetId, token });
+      if (status === 'success') {
+        setLikeStatus(1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //handleUnLike
+  const handleUnLikeClicked = async () => {
+    try {
+      // const token = localStorage.getItem('token');
+      const status = await postTweetUnLike({ tweetId, token: token });
+      if (status === "success") {
+        setLikeStatus(0);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   const iconSize = {
     width: "13.2px",
@@ -88,10 +121,10 @@ const TweetCard = ({
     marginRight: "9px",
   };
   return (
-    <div onClick={onClick}>
+    <div>
       <Backdrop active={active} setActive={setActive} />
       <Modal
-        tweetid={tweetId}
+        tweetId={tweetId}
         active={active}
         setActive={setActive}
         avatar={avatar}
@@ -108,18 +141,15 @@ const TweetCard = ({
           <span className="name">{name}</span>
           <span className="account">@{account}</span>
           <span className="created-time"> · {createdAt}</span>
-          <p>{description}</p>
+          <p onClick={onClick}>{description}</p>
           <div className="user-actions">
             <span className="reply">
               <ReplyIcon style={iconSize} onClick={() => setActive(true)} />
               {replyCount}
             </span>
             <span className="like">
-              {isLiked ? (
-                <LikedIcon style={iconSize} />
-              ) : (
-                <LikeIcon style={iconSize} />
-              )}
+              {likeStatus === 1 && <LikedIcon style={iconSize} onClick={handleUnLikeClicked} />}
+              {likeStatus === 0 && <LikeIcon style={iconSize} onClick={handleLikeClicked} />}
               {likeCount}
             </span>
           </div>

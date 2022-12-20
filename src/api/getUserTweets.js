@@ -119,24 +119,24 @@ export const postTweet = async ({ token, tweet }) => {
       headers: {
         Authorization: 'Bearer ' + token,
       },
-    })
-    return status
+    });
+    return status;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
 // 回覆一則貼文
-export const postReply = async ({ token, tweetid, reply }) => {
-  console.log(tweetid, reply)
+export const postReply = async ({ token, tweetId, reply }) => {
+  console.log(tweetId, reply)
   try {
-    const { status } = await axios.post(`${baseURL}/tweets/${tweetid}/replies`, reply, {
+    const { status } = await axios.post(`${baseURL}/tweets/${tweetId}/replies`, reply, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
-    })
-    return status
+    });
+    return status;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }

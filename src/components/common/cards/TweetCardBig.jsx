@@ -88,7 +88,7 @@ const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount
         </div>
       </div>
       <p className="description">{description}</p>
-      <p className="created-time">{createdAt}</p>
+      <p className="created-time">{createdAt[0]} · {createdAt[1]}</p>
       <div className="amount-footer">
         <p><span>{replyCount || 0}</span> 回覆</p>
         <p><span>{likeCount || 0}</span> 喜歡次數</p>
