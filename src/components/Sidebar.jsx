@@ -9,6 +9,7 @@ import {
   HomeIconActive,
   LogoutIcon,
 } from "../assets/icons";
+import { useAuth } from "../contexts/AuthContext";
 
 const StyledSidebarContainer = styled.div`
   position: relative;
@@ -45,12 +46,13 @@ const StyledLinkContainer = styled.div`
   }
 `;
 
-const Sidebar = ({setActive}) => {
+const Sidebar = ({ setActive }) => {
+  const { logout } = useAuth();
 
   const handleClick = () => {
-    // console.log("hi")
-    localStorage.removeItem("token");
+    logout();
   };
+
   return (
     <>
       <StyledSidebarContainer>
@@ -67,11 +69,13 @@ const Sidebar = ({setActive}) => {
           <SettingIcon />
           <Link to="setting">設定</Link>
         </StyledLinkContainer>
-        <StyledBigButton onClick={
-          () => {
+        <StyledBigButton
+          onClick={() => {
             setActive(true);
-          }
-        }>推文</StyledBigButton>
+          }}
+        >
+          推文
+        </StyledBigButton>
         <StyledLinkContainer className="logout">
           <LogoutIcon />
           {/* 暫時使用，後續改為useEffect自動跳轉 */}

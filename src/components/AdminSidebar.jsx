@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
   BrandLogo,
@@ -7,6 +7,7 @@ import {
   HomeIconActive,
   LogoutIcon,
 } from "../assets/icons";
+import { useAuth } from "../contexts/AuthContext";
 
 const StyledSidebarContainer = styled.div`
   position: sticky; //還沒資料看不出效果
@@ -45,10 +46,20 @@ const StyledLinkContainer = styled.div`
 `;
 
 const AdminSidebar = () => {
+  const { logout, isAuthenticated, currentMember } = useAuth();
+  const navigate = useNavigate();
   const handleClick = () => {
-    // console.log("hi")
-    localStorage.removeItem("token");
+    logout();
   };
+  useEffect(() => {
+    if (isAuthenticated && currentMember.role === "user") {
+      navigate("/main");
+      return;
+    } else if (!isAuthenticated) {
+      navigate("/admin");
+      return;
+    }
+  }, [navigate, isAuthenticated]);
   return (
     <StyledSidebarContainer>
       <BrandLogo className="logo" />

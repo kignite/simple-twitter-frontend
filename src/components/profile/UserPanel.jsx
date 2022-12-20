@@ -19,7 +19,7 @@ const UserPanel = ({ personalInfo }) => {
       const token = localStorage.getItem("token") || null;
       // 如需調整使用者請先手動 自己role=user id=14;
       const id = personalInfo.id;
-      const role = "other";
+      const role = "user";
       switch (activeTab) {
         case "tweet": {
           const { data } = await getUserTweets({ token, id, role });

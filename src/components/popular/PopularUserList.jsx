@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getTopFollwer } from "../../api/followshipAPI";
 import { getUserFollowing } from "../../api/getUserTweets";
+import { useAuth } from "../../contexts/AuthContext";
 import PopularUserCard from "./PopularUserCard";
 
 const StyledListContainer = styled.div`
@@ -26,6 +27,7 @@ const StyledListContainer = styled.div`
 const PopularUserList = () => {
   const [topFollower, setTopFollower] = useState([]);
   const [followings, setFollowings] = useState([]);
+  const { isAuthenticated, currentMember } = useAuth();
 
   const token = localStorage.getItem("token");
 
@@ -39,6 +41,7 @@ const PopularUserList = () => {
       const { data } = await getUserFollowing({ token });
       setFollowings([...data]);
     };
+    if (!isAuthenticated || currentMember.role !== "users") return;
     getData();
     getFollowings();
   }, []);

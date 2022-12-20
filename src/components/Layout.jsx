@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PopularUserList from "./popular/PopularUserList";
 import Sidebar from "./Sidebar";
 import Backdrop from "./Backdrop";
 import Modal from "./common/Modal";
 import { getUserInfo } from "../api/getUserTweets";
+import { useAuth } from "../contexts/AuthContext";
 
 const StyledLayoutContainer = styled.div`
   width: 1140px;
@@ -28,14 +29,25 @@ const Layout = () => {
   const token = localStorage.getItem("token");
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
+  const navigate = useNavigate();
+
+  const { isAuthenticated, currentMember } = useAuth();
+
   useEffect(() => {
     const getdata = async () => {
       const data = await getUserInfo({ token });
       setPersonalInfo(data);
     };
-    getdata();
-  }, []);
+    if (isAuthenticated && currentMember.role === "admin") {
+      navigate("/admin_main");
+      return;
+    } else if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
 
+    getdata();
+  }, [navigate, isAuthenticated]);
 
   return (
     <StyledLayoutContainer>

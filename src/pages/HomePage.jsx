@@ -4,6 +4,7 @@ import TweetCard from "../components/common/cards/TweetCard";
 import { StyledButton } from "../components/common/button.styled";
 import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
+import { useAuth } from "../contexts/AuthContext";
 
 const HomePageStyle = styled.div`
   position: relative;
@@ -76,6 +77,7 @@ export const StyledTextareaContainer = styled.div`
 const HomeTweetslist = ({ token, onTweetClick }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
+  const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
     const getTweets = async () => {
@@ -86,6 +88,8 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
       const data = await getUserInfo({ token });
       setPersonalInfo(data);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPersonalInfo();
 
     getTweets();
@@ -117,6 +121,7 @@ const HomePage = () => {
   const [avatar, setAvatar] = useState("");
   const [tweetText, setTweetText] = useState("");
   const token = localStorage.getItem("token");
+  const { isAuthenticated, currentMember } = useAuth();
   // const tweetRef = useRef(null);
 
   const handleChange = (e) => {
@@ -141,6 +146,8 @@ const HomePage = () => {
       const data = await getUserInfo({ token });
       setAvatar(data.avatar);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getCurrentUserAvatar();
   }, []);
 

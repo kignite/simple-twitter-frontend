@@ -111,7 +111,6 @@ const UserPage = () => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [tmpName, setTmpName] = useState("");
 
-
   const handleOpen = () => {
     setActive(true);
     console.log("編輯個人資料");
