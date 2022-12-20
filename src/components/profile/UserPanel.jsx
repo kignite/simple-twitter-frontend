@@ -65,7 +65,9 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "tweet" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "tweet") {
+              setPanelData([]);
+            }
             setActiveTab("tweet");
           }}
         >
@@ -76,7 +78,9 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "reply" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "reply") {
+              setPanelData([]);
+            }
             setActiveTab("reply");
           }}
         >
@@ -87,7 +91,9 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "like" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "like") {
+              setPanelData([]);
+            }
             setActiveTab("like");
           }}
         >

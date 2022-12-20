@@ -82,7 +82,9 @@ const FollowPage = ({pageStatus}) => {
   return (
     <FollowPageStyle>
       <header>
-        <TurnbackIcon className="return" />
+        <TurnbackIcon className="return" onClick={() => {
+          navigate('/user/self');
+        }} />
         <div className="header-info">
           <h5>{personalInfo.name}</h5>
           <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
@@ -94,7 +96,9 @@ const FollowPage = ({pageStatus}) => {
             "user-action-tab" + clsx(" ", { active: pageStatus === "follower" })
           }
           onClick={() => {
-            setFollowData([]);
+            if (pageStatus !== "follower") {
+              setFollowData([]);
+            }
             navigate('/user/self/follower');
           }}
         >
@@ -105,7 +109,9 @@ const FollowPage = ({pageStatus}) => {
             "user-action-tab" + clsx(" ", { active: pageStatus === "following" })
           }
           onClick={() => {
-            setFollowData([]);
+            if (pageStatus !== "following") {
+              setFollowData([]);
+            }
             navigate('/user/self/following');
           }}
         >
