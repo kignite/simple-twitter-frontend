@@ -8,7 +8,7 @@ import {
   getUserReplies,
   getUserLikes,
 } from "../../api/getUserTweets";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 
@@ -17,6 +17,7 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
   const [panelData, setPanelData] = useState([]);
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -129,7 +130,7 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
               <TweetCard
                 key={item.id}
                 userId={item.User.id}
-                tweetid={item.id}
+                tweetId={item.id}
                 personalInfo={personalInfo}
                 avatar={item.User.avatar}
                 name={item.User.name}
@@ -149,7 +150,7 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
             return (
               <TweetCard
                 key={item.id}
-                id={item.id}
+                tweetId={item.id}
                 userId={item.Tweet.User.id}
                 personalInfo={personalInfo}
                 avatar={item.Tweet.User.avatar}

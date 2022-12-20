@@ -44,4 +44,40 @@ export const getOneTweetReplies = async ({id, token}) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+//對一則推文like
+export const postTweetLike = async ({tweetId, token}) => {
+  console.log(token);
+  console.log(tweetId);
+  try {
+    const { status } = await axios({
+      method: 'POST',
+      url: `${baseURL}/tweets/${tweetId}/like`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//對一則推文unlike
+export const postTweetUnLike = async ({tweetId, token}) => {
+  console.log(token);
+  console.log(tweetId);
+  try {
+    const { status } = await axios({
+      method: 'POST',
+      url: `${baseURL}/tweets/${tweetId}/unlike`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+};

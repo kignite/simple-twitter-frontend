@@ -81,7 +81,6 @@ const TweetReplyPage = ({tweetId}) => {
         }} />
         <h4>推文</h4>
       </header>
-      {console.log(tweetData)}
       <TweetCardBig
         avatar={tweetData.User.avatar}
         name={tweetData.User.name}
@@ -91,6 +90,7 @@ const TweetReplyPage = ({tweetId}) => {
         replyCount={tweetData.replyCount}
         likeCount={tweetData.likeCount}
         isLiked={tweetData.isLiked}
+        personalInfo={tweetData.User}
       />
       {tweetReplies.map(reply =>
         <CommentCard

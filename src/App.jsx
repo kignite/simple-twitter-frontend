@@ -16,7 +16,7 @@ import FollowPage from "./pages/FollowPage";
 import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
-  const [tweetId, setTweetId] = useState(484);
+  const [tweetId, setTweetId] = useState();
 
   return (
     <div className="App">
@@ -31,10 +31,10 @@ function App() {
             {/* <Route path="setting" element={<AccounntSetting />} /> */}
             {/* <Route path="/" element={<Layout />}/> */}
             <Route path="/" element={<Layout />}>
-              <Route path="*" element={<HomePage />} />
-              <Route path="main" element={<HomePage />} />
-              <Route path="reply_list" element={<TweetReplyPage />} />
-              <Route path="user/self" element={<UserPage />} />
+              <Route path="*" element={<HomePage setTweetId={setTweetId} />} />
+              <Route path="main" element={<HomePage setTweetId={setTweetId} />} />
+              <Route path="reply_list" element={<TweetReplyPage tweetId={tweetId} />} />
+              <Route path="user/self" element={<UserPage setTweetId={setTweetId} />} />
               <Route path="user/other" element={<OtherUserPage />} />
               <Route
                 path="user/self/follower"

@@ -19,9 +19,8 @@ const CommentCard = ({
       </Link>
       <div className="right-side">
         <span className="name">
-          <Link to={`/user/other/?id=${userId}`}>{name}</Link>;
+          <Link to={`/user/other/?id=${userId}`}>{name}</Link>
         </span>
-        <button>{userId}</button>
         <span className="account">@{account}</span>
         <span className="created-time"> · {createdAt}</span>
         <p className="reply-to">

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
+import Backdrop from "../../Backdrop";
+import Modal from "../Modal";
 
 const StyledCardContainer = styled.div`
   width: 100%;
@@ -33,7 +35,7 @@ const StyledCardContainer = styled.div`
   }
   .created-time {
     margin: 8px 0;
-    font-weight: 500;  
+    font-weight: 500;
   }
 
   .description {
@@ -60,17 +62,29 @@ const StyledCardContainer = styled.div`
     }
     span {
       font-weight: 700;
-      font-family: 'Montserrat';
+      font-family: "Montserrat";
       color: var(--main_text);
     }
   }
   .icon-footer {
     padding-top: 22px;
   }
-  
 `;
 
-const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount, likeCount, isLiked}) => {
+const TweetCardBig = ({
+  tweetId,
+  avatar,
+  name,
+  account,
+  description,
+  createdAt,
+  replyCount,
+  likeCount,
+  isLiked,
+  personalInfo
+}) => {
+  const [active, setActive] = useState(false);
+
   const iconSize = {
     width: "25px",
     height: "25px",
@@ -80,6 +94,19 @@ const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount
 
   return (
     <StyledCardContainer>
+      <Backdrop active={active} setActive={setActive} />
+      <Modal
+        tweetId={tweetId}
+        active={active}
+        setActive={setActive}
+        avatar={avatar}
+        name={name}
+        account={account}
+        createdAt={createdAt}
+        description={description}
+        onReply={true}
+        personalInfo={personalInfo}
+      />
       <div className="user-info">
         <img src={avatar} alt={name} />
         <div className="user">
@@ -88,18 +115,24 @@ const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount
         </div>
       </div>
       <p className="description">{description}</p>
-      <p className="created-time">{createdAt}</p>
+      <p className="created-time">
+        {createdAt[0]} · {createdAt[1]}
+      </p>
       <div className="amount-footer">
-        <p><span>{replyCount || 0}</span> 回覆</p>
-        <p><span>{likeCount || 0}</span> 喜歡次數</p>
+        <p>
+          <span>{replyCount || 0}</span> 回覆
+        </p>
+        <p>
+          <span>{likeCount || 0}</span> 喜歡次數
+        </p>
       </div>
       <div className="icon-footer">
-        <ReplyIcon style={iconSize} />
-        {isLiked ?
+        <ReplyIcon style={iconSize} onClick={() => setActive(true)} />
+        {isLiked ? (
           <LikedIcon style={iconSize} />
-          :
+        ) : (
           <LikeIcon style={iconSize} />
-        }
+        )}
       </div>
     </StyledCardContainer>
   );

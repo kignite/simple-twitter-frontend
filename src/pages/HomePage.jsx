@@ -5,6 +5,7 @@ import { StyledButton } from "../components/common/button.styled";
 import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HomePageStyle = styled.div`
   position: relative;
@@ -78,6 +79,7 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getTweets = async () => {
@@ -103,7 +105,7 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
         <TweetCard
           key={tweet.id}
           userId={tweet.User.id}
-          tweetid={tweet.id}
+          tweetId={tweet.id}
           personalInfo={personalInfo}
           avatar={tweet.User.avatar}
           name={tweet.User.name}

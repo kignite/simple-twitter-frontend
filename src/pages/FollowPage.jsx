@@ -107,7 +107,9 @@ const FollowPage = ({ pageStatus }) => {
             "user-action-tab" + clsx(" ", { active: pageStatus === "follower" })
           }
           onClick={() => {
-            setFollowData([]);
+            if (pageStatus !== 'follower') {
+              setFollowData([]);
+            }
             navigate("/user/self/follower");
           }}
         >
@@ -119,7 +121,9 @@ const FollowPage = ({ pageStatus }) => {
             clsx(" ", { active: pageStatus === "following" })
           }
           onClick={() => {
-            setFollowData([]);
+            if (pageStatus !== 'following') {
+              setFollowData([]);
+            }
             navigate("/user/self/following");
           }}
         >
