@@ -69,7 +69,7 @@ const UserTweetCard = ({
           <div className="tweet-user-info">
             <span className="tweet-user-name">{name}</span>
             <span className="tweet-user-account">
-              @{account} . {createdAt}
+              @{account} · {createdAt}
             </span>
           </div>
           <CloseIcon

@@ -113,14 +113,18 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
-          onClick={onTweetClick}
+          onClick={() => {
+            console.log("Click!", tweet.id)
+            onTweetClick?.(tweet.id);
+            navigate('/reply_list');
+          }}
         />
       ))}
     </ul>
   );
 };
 
-const HomePage = () => {
+const HomePage = ({setTweetId}) => {
   const [avatar, setAvatar] = useState("");
   const [tweetText, setTweetText] = useState("");
   const token = localStorage.getItem("token");
@@ -176,7 +180,10 @@ const HomePage = () => {
         </StyledTextareaContainer>
         <div className="devider"></div>
       </div>
-      <HomeTweetslist token={token} />
+      <HomeTweetslist token={token} onTweetClick={(tweetId) => {
+        setTweetId(tweetId);
+        console.log(tweetId);
+        }} />
     </HomePageStyle>
   );
 };

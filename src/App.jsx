@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.scss";
 import Layout from "./components/Layout";
@@ -16,6 +16,8 @@ import FollowPage from "./pages/FollowPage";
 import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
+  const [tweetId, setTweetId] = useState(484);
+
   return (
     <div className="App">
       <BrowserRouter>

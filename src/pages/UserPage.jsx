@@ -106,7 +106,7 @@ const UserInfoText = styled.div`
   }
 `;
 
-const UserPage = () => {
+const UserPage = ({setTweetId}) => {
   const token = localStorage.getItem("token");
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
@@ -179,7 +179,10 @@ const UserPage = () => {
             </div>
           </UserInfoText>
         </div>
-        <UserPanel personalInfo={personalInfo} />
+        <UserPanel personalInfo={personalInfo} onTweetClick={(tweetId) => {
+          setTweetId(tweetId);
+          console.log(tweetId);
+        }} />
       </UserPageStyle>
     </>
   );

@@ -83,15 +83,15 @@ const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount
       <div className="user-info">
         <img src={avatar} alt={name} />
         <div className="user">
-          <p className="name">{name}Peggy</p>
-          <p className="account">@{account}peggy8422</p>
+          <p className="name">{name}</p>
+          <p className="account">@{account}</p>
         </div>
       </div>
-      <p className="description">{description}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae massa eleifend, dignissim ipsum euismod, imperdiet diam. Vivamus non bibendum velit.</p>
-      <p className="created-time">{createdAt}上午 10:05 · 2022年12月16日</p>
+      <p className="description">{description}</p>
+      <p className="created-time">{createdAt}</p>
       <div className="amount-footer">
-        <p><span>{replyCount}123</span> 回覆</p>
-        <p><span>{likeCount}84</span> 喜歡次數</p>
+        <p><span>{replyCount || 0}</span> 回覆</p>
+        <p><span>{likeCount || 0}</span> 喜歡次數</p>
       </div>
       <div className="icon-footer">
         <ReplyIcon style={iconSize} />

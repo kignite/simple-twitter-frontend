@@ -80,6 +80,7 @@ const TweetCard = ({
   replyCount,
   likeCount,
   isLiked,
+  onClick
 }) => {
   const [active, setActive] = useState(false);
 
@@ -89,7 +90,7 @@ const TweetCard = ({
     marginRight: "9px",
   };
   return (
-    <>
+    <div onClick={onClick}>
       <Backdrop active={active} setActive={setActive} />
       <Modal
         tweetid={tweetId}
@@ -131,7 +132,7 @@ const TweetCard = ({
           </div>
         </div>
       </StyledCardContainer>
-    </>
+    </div>
   );
 };
 

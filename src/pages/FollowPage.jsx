@@ -93,7 +93,9 @@ const FollowPage = ({ pageStatus }) => {
   return (
     <FollowPageStyle>
       <header>
-        <TurnbackIcon className="return" />
+        <TurnbackIcon className="return" onClick={() => {
+          navigate('/user/self');
+        }} />
         <div className="header-info">
           <h5>{personalInfo.name}</h5>
           <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
