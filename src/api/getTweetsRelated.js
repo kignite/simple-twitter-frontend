@@ -51,9 +51,11 @@ export const postTweetLike = async ({tweetId, token}) => {
   console.log(token);
   console.log(tweetId);
   try {
-    const { status } = await axios.post(`${baseURL}/tweets/${tweetId}/like`, {
+    const { status } = await axios({
+      method: 'POST',
+      url: `${baseURL}/tweets/${tweetId}/like`,
       headers: {
-        Authorization: 'Bearer ' + token,
+        'Authorization': `Bearer ${token}`,
       },
     });
     return status;
@@ -67,9 +69,11 @@ export const postTweetUnLike = async ({tweetId, token}) => {
   console.log(token);
   console.log(tweetId);
   try {
-    const { status } = await axios.post(`${baseURL}/tweets/${tweetId}/unlike`, {
+    const { status } = await axios({
+      method: 'POST',
+      url: `${baseURL}/tweets/${tweetId}/unlike`,
       headers: {
-        Authorization: 'Bearer ' + token,
+        'Authorization': `Bearer ${token}`,
       },
     });
     return status;

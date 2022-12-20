@@ -58,12 +58,13 @@ const Layout = () => {
     <StyledLayoutContainer>
       <Sidebar setActive={setActive} />
       <div className="outlet">
-        <Backdrop active={active} setActive={setActive} />
-        <Modal
-          active={active}
-          setActive={setActive}
-          personalInfo={personalInfo}
-        />
+        <Backdrop active={active} setActive={setActive}>
+          <Modal
+            active={active}
+            setActive={setActive}
+            personalInfo={personalInfo}
+          />
+        </Backdrop>
         <Outlet />
       </div>
       <PopularUserList />

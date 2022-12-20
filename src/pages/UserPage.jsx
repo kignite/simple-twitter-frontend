@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 import Backdrop from "../components/Backdrop";
 import EditInfoModal from "../components/profile/EditInfoModal";
@@ -111,6 +111,7 @@ const UserPage = ({setTweetId}) => {
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
   const [tmpName, setTmpName] = useState("");
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setActive(true);
@@ -135,7 +136,9 @@ const UserPage = ({setTweetId}) => {
       <Backdrop active={active} onClose={handleClose} />
       <UserPageStyle>
         <header>
-          <TurnbackIcon className="return" />
+          <TurnbackIcon className="return" onClick={() => {
+            navigate(-1);
+          }} />
           <div className="header-info">
             {active ? <h5>{tmpName}</h5> : <h5>{personalInfo.name}</h5>}
             <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>

@@ -91,10 +91,8 @@ const TweetCard = ({
 
   //handleLike
   const handleLikeClicked = async () => {
-    // console.log("tweetId",tweetId);
-    // console.log("token", token);
     try {
-      // console.log(token);
+
       const status = await postTweetLike({ tweetId, token });
       if (status === 'success') {
         setLikeStatus(1);
@@ -124,8 +122,8 @@ const TweetCard = ({
   };
   return (
     <div>
-      <Backdrop active={active} setActive={setActive} />
-      <Modal
+      <Backdrop active={active} setActive={setActive}>
+        <Modal
         tweetId={tweetId}
         active={active}
         setActive={setActive}
@@ -137,6 +135,7 @@ const TweetCard = ({
         onReply={true}
         personalInfo={personalInfo}
       />
+      </Backdrop>
       <StyledCardContainer>
         <Link to={`/user/other/?id=${userId}`}>
           <img src={avatar} alt={name} />
@@ -145,7 +144,6 @@ const TweetCard = ({
           <span className="name">
             <Link to={`/user/other/?id=${userId}`}>{name}</Link>
           </span>
-          <button>{userId}</button>
           <span className="account">@{account}</span>
           <span className="created-time"> · {createdAt}</span>
           <p onClick={onClick}>{description}</p>
