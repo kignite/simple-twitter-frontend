@@ -90,6 +90,7 @@ const TweetReplyPage = ({tweetId}) => {
         replyCount={tweetData.replyCount}
         likeCount={tweetData.likeCount}
         isLiked={tweetData.isLiked}
+        personalInfo={tweetData.User}
       />
       {tweetReplies.map(reply =>
         <CommentCard

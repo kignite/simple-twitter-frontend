@@ -15,7 +15,7 @@ import AdminUserList from "./pages/AdminUserList";
 import FollowPage from "./pages/FollowPage";
 
 function App() {
-  const [tweetId, setTweetId] = useState(484);
+  const [tweetId, setTweetId] = useState();
 
   return (
     <div className="App">
