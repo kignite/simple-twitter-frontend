@@ -7,6 +7,7 @@ import Backdrop from "./Backdrop";
 import Modal from "./common/Modal";
 import { getUserInfo } from "../api/getUserTweets";
 import { useAuth } from "../contexts/AuthContext";
+import jwtDecode from "jwt-decode";
 
 const StyledLayoutContainer = styled.div`
   width: 1140px;
@@ -34,10 +35,6 @@ const Layout = () => {
   const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
-    const getdata = async () => {
-      const data = await getUserInfo({ token });
-      setPersonalInfo(data);
-    };
     if (isAuthenticated && currentMember.role === "admin") {
       navigate("/admin_main");
       return;
@@ -45,10 +42,17 @@ const Layout = () => {
       navigate("/login");
       return;
     }
-
-    getdata();
   }, [navigate, isAuthenticated]);
 
+  useEffect(() => {
+    const getdata = async () => {
+      const id = jwtDecode(token).id
+      const data = await getUserInfo({ token, id });
+      setPersonalInfo(data);
+    };
+
+    getdata();
+  }, []);
   return (
     <StyledLayoutContainer>
       <Sidebar setActive={setActive} />

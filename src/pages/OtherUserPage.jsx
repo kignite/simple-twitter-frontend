@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 // import Backdrop from "../components/Backdrop";
 import UserPanel from "../components/profile/UserPanel";
@@ -105,6 +105,8 @@ const UserInfoText = styled.div`
 
 const OtherUserPage = () => {
   const token = localStorage.getItem("token");
+  const [searchParams] = useSearchParams();
+  const { key } = useLocation();
 
   // const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
@@ -118,13 +120,13 @@ const OtherUserPage = () => {
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      const role = "other";
-      const id = 34;
-      const data = await getUserInfo({ token, id, role });
+      const id = searchParams.get("id");
+      // console.log(searchParams.get("id"));
+      const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
     getPersonalInfo();
-  }, []);
+  }, [key]);
 
   return (
     <>

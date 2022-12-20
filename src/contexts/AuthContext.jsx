@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     }
     setIsAuthenticated(true);
     const tempPayload = jwtDecode(token);
-    console.log(tempPayload);
+    // console.log(tempPayload);
     setPayload(tempPayload);
   }, [pathname]);
   return (

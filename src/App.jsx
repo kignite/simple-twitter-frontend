@@ -23,9 +23,9 @@ function App() {
           <Routes>
             <Route path="login" element={<LoginPage />} />
             <Route path="admin" element={<AdminLoginPage />} />
+            <Route path="regist" element={<RegisterPage />} />
             <Route path="admin_main" element={<AdminMainPage />} />
             <Route path="admin_users" element={<AdminUserList />} />
-            <Route path="regist" element={<RegisterPage />} />
             {/* <Route path="setting" element={<AccounntSetting />} /> */}
             {/* <Route path="/" element={<Layout />}/> */}
             <Route path="/" element={<Layout />}>
@@ -33,7 +33,7 @@ function App() {
               <Route path="main" element={<HomePage />} />
               <Route path="reply_list" element={<TweetReplyPage />} />
               <Route path="user/self" element={<UserPage />} />
-              <Route path="user/self/34" element={<OtherUserPage />} />
+              <Route path="user/other" element={<OtherUserPage />} />
               <Route
                 path="user/self/follower"
                 element={<FollowPage pageStatus="follower" />}

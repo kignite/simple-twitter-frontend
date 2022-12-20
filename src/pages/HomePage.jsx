@@ -85,7 +85,9 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
       setTweetsData([...data]);
     };
     const getPersonalInfo = async () => {
-      const data = await getUserInfo({ token });
+      const id = currentMember.id;
+      const data = await getUserInfo({ token, id });
+      // console.log(data);
       setPersonalInfo(data);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
@@ -100,6 +102,7 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
       {tweetsData.map((tweet) => (
         <TweetCard
           key={tweet.id}
+          userId={tweet.User.id}
           tweetid={tweet.id}
           personalInfo={personalInfo}
           avatar={tweet.User.avatar}
@@ -122,10 +125,8 @@ const HomePage = () => {
   const [tweetText, setTweetText] = useState("");
   const token = localStorage.getItem("token");
   const { isAuthenticated, currentMember } = useAuth();
-  // const tweetRef = useRef(null);
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setTweetText(e.target.value);
   };
 
@@ -137,13 +138,15 @@ const HomePage = () => {
     const tweet = { description: tweetText };
     const status = await postTweet({ token, tweet });
 
-    console.log(status);
+    console.log("成功發文", status);
     setTweetText("");
   };
 
   useEffect(() => {
     const getCurrentUserAvatar = async () => {
-      const data = await getUserInfo({ token });
+      const id = currentMember.id;
+
+      const data = await getUserInfo({ token, id });
       setAvatar(data.avatar);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;

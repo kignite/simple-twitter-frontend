@@ -7,6 +7,7 @@ import {
 } from "../api/getAdminRelated";
 import AdminSidebar from "../components/AdminSidebar";
 import UserTweetCard from "../components/common/cards/UserTweetCard";
+import { useAuth } from "../contexts/AuthContext";
 // import jwt from "jwt-decode";
 
 export const PageStyled = styled.div`
@@ -49,8 +50,7 @@ export const PageStyled = styled.div`
 
 const AdminMainPage = () => {
   const [tweetsData, setTweetsData] = useState([]);
-
-
+  const { isAuthenticated, currentMember } = useAuth();
   const token = localStorage.getItem("token") || null;
 
   const handleDelete = async (e) => {
@@ -58,13 +58,13 @@ const AdminMainPage = () => {
     const tweetId = parseInt(e.target.dataset.id);
     await adminDeleteUserTweet({ tweetId, token });
     setTweetsData((prev) => prev.filter((tweet) => tweet.id !== tweetId));
-
   };
   useEffect(() => {
     const getTweetsData = async () => {
       const { data } = await adminGetUserTweets({ token });
       setTweetsData(data);
     };
+    if (!isAuthenticated || currentMember.role !== "admin") return;
 
     getTweetsData();
   }, []);
@@ -87,7 +87,6 @@ const AdminMainPage = () => {
               id={tweet.id}
               onDelete={handleDelete}
               description={tweet.description}
-
             />
           ))}
         </div>

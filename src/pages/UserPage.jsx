@@ -7,6 +7,7 @@ import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
+import jwtDecode from "jwt-decode";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
@@ -121,7 +122,8 @@ const UserPage = () => {
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      const data = await getUserInfo({ token });
+      const id = jwtDecode(token).id;
+      const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
       setTmpName(data.name);
     };
