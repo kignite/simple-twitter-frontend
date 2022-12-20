@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { regist } from "../api/auth";
 import { Input } from "../components/AuthInput";
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AccountFormPage, AccountFormContainer } from "./LoginPage";
-import { StyledBigButton, StyledLinkText } from "../components/common/button.styled";
+import {
+  StyledBigButton,
+  StyledLinkText,
+} from "../components/common/button.styled";
+import { useAuth } from "../contexts/AuthContext";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState(null);
@@ -13,6 +16,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState(null);
   const [checkPassword, setCheckPassword] = useState(null);
   const [name, setName] = useState(null);
+  const { regist, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleClick = async () => {
@@ -32,7 +36,7 @@ const RegisterPage = () => {
     if (checkPassword.length === 0) {
       return;
     }
-    const { success } = await regist({
+    const success = await regist({
       email,
       account,
       password,
@@ -41,13 +45,15 @@ const RegisterPage = () => {
     });
     if (success) {
       console.log(success);
-
-      console.log("註冊成功");
-      navigate("/");
+      navigate("/login");
     } else {
       console.log("註冊失敗");
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/main");
+  }, [isAuthenticated, navigate]);
 
   return (
     <AccountFormPage>
@@ -89,7 +95,9 @@ const RegisterPage = () => {
           placeholder={"請再次輸入密碼"}
           onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
         />
-        <StyledBigButton className="form-btn" onClick={handleClick}>註冊</StyledBigButton>
+        <StyledBigButton className="form-btn" onClick={handleClick}>
+          註冊
+        </StyledBigButton>
         <Link to="/login">
           <StyledLinkText className="cancel-btn">取消</StyledLinkText>
         </Link>

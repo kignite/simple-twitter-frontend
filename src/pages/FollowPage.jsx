@@ -4,8 +4,13 @@ import clsx from "clsx";
 import { StyledTabbar } from "../components/common/tab.styled";
 import UserIntroCard from "../components/UserIntroCard";
 import { TurnbackIcon } from "../assets/icons";
-import { useNavigate } from "react-router-dom";
-import { getUserInfo, getUserFollower, getUserFollowing } from "../api/getUserTweets";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  getUserInfo,
+  getUserFollower,
+  getUserFollowing,
+} from "../api/getUserTweets";
+import jwtDecode from "jwt-decode";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -37,19 +42,26 @@ const FollowPageStyle = styled.div`
       color: var(--main_secondary);
     }
   }
-  
 `;
 
-const FollowPage = ({pageStatus}) => {
+const FollowPage = ({ pageStatus }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [followData, setFollowData] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [searchParams] = useSearchParams();
 
+  let id;
+
+  if (searchParams.get("id")) {
+    id = searchParams.get("id");
+  } else {
+    id = jwtDecode(token).id;
+  }
 
   useEffect(() => {
     const getCurrentUser = async () => {
-      const data = await getUserInfo({token});
+      const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
     let ignore = false;
@@ -62,7 +74,7 @@ const FollowPage = ({pageStatus}) => {
         }
       }
       if (pageStatus === "following") {
-        const {data} = await getUserFollowing({token});
+        const { data } = await getUserFollowing({ token });
         console.log(data);
         if (!ignore) {
           setFollowData([...data]);
@@ -75,9 +87,8 @@ const FollowPage = ({pageStatus}) => {
 
     return () => {
       ignore = true;
-    }
-
-  }, [pageStatus])
+    };
+  }, [pageStatus]);
 
   return (
     <FollowPageStyle>
@@ -96,49 +107,50 @@ const FollowPage = ({pageStatus}) => {
             "user-action-tab" + clsx(" ", { active: pageStatus === "follower" })
           }
           onClick={() => {
-            if (pageStatus !== "follower") {
-              setFollowData([]);
-            }
-            navigate('/user/self/follower');
+            setFollowData([]);
+            navigate("/user/self/follower");
           }}
         >
           追隨者
         </button>
         <button
           className={
-            "user-action-tab" + clsx(" ", { active: pageStatus === "following" })
+            "user-action-tab" +
+            clsx(" ", { active: pageStatus === "following" })
           }
           onClick={() => {
-            if (pageStatus !== "following") {
-              setFollowData([]);
-            }
-            navigate('/user/self/following');
+            setFollowData([]);
+            navigate("/user/self/following");
           }}
         >
           正在追隨
         </button>
       </StyledTabbar>
       <div className="follow-list">
-        {followData.map(item => {
+        {followData.map((item) => {
           if (pageStatus === "follower") {
-            return <UserIntroCard
-              key={item.followerId}
-              avatar={item.Followers.avatar}
-              name={item.Followers.name}
-              introduction={item.Followers.introduction}
-              isFollowed={item.Followers.isFollowed}
-            />
+            return (
+              <UserIntroCard
+                key={item.followerId}
+                avatar={item.Followers.avatar}
+                name={item.Followers.name}
+                introduction={item.Followers.introduction}
+                isFollowed={item.Followers.isFollowed}
+              />
+            );
           }
           if (pageStatus === "following") {
-            return <UserIntroCard
-              key={item.followingId}
-              avatar={item.Followings.avatar}
-              name={item.Followings.name}
-              introduction={item.Followings.introduction}
-              isFollowed={item.Followings.isFollowed}
-            />
+            return (
+              <UserIntroCard
+                key={item.followingId}
+                avatar={item.Followings.avatar}
+                name={item.Followings.name}
+                introduction={item.Followings.introduction}
+                isFollowed={item.Followings.isFollowed}
+              />
+            );
           }
-         })}
+        })}
       </div>
     </FollowPageStyle>
   );

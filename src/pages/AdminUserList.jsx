@@ -14,7 +14,6 @@ const AdminUserList = () => {
 
   useEffect(() => {
     const getTweetsData = async () => {
-      // const token = localStorage.getItem("token") || null;
       const { data } = await adminGetUsersData({ token });
       setUsersData(data);
     };

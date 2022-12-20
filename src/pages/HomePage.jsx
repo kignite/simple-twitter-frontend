@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TweetCard from "../components/common/cards/TweetCard";
 import { StyledButton } from "../components/common/button.styled";
 import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
+import { useAuth } from "../contexts/AuthContext";
 
 const HomePageStyle = styled.div`
-
   position: relative;
   box-sizing: border-box;
   height: 100vh;
@@ -78,7 +77,7 @@ export const StyledTextareaContainer = styled.div`
 const HomeTweetslist = ({ token, onTweetClick }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
-  const navigate = useNavigate();
+  const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
     const getTweets = async () => {
@@ -86,21 +85,25 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
       setTweetsData([...data]);
     };
     const getPersonalInfo = async () => {
-      const data = await getUserInfo({ token });
+      const id = currentMember.id;
+      const data = await getUserInfo({ token, id });
+      // console.log(data);
       setPersonalInfo(data);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPersonalInfo();
 
     getTweets();
   }, []);
-
 
   return (
     <ul className="tweet-list">
       {tweetsData.map((tweet) => (
         <TweetCard
           key={tweet.id}
-          tweetId={tweet.id}
+          userId={tweet.User.id}
+          tweetid={tweet.id}
           personalInfo={personalInfo}
           avatar={tweet.User.avatar}
           name={tweet.User.name}
@@ -123,23 +126,35 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
 
 const HomePage = ({setTweetId}) => {
   const [avatar, setAvatar] = useState("");
+  const [tweetText, setTweetText] = useState("");
   const token = localStorage.getItem("token");
-  const tweetRef = useRef(null);
+  const { isAuthenticated, currentMember } = useAuth();
+
+  const handleChange = (e) => {
+    setTweetText(e.target.value);
+  };
 
   const handlePost = async () => {
-    if (tweetRef.current.value.length === 0) {
+    if (tweetText.length === 0) {
+      console.log("請輸入至少一個字");
       return;
     }
-    const tweet = { description: tweetRef.current.value };
+    const tweet = { description: tweetText };
     const status = await postTweet({ token, tweet });
-    console.log(status);
+
+    console.log("成功發文", status);
+    setTweetText("");
   };
 
   useEffect(() => {
     const getCurrentUserAvatar = async () => {
-      const data = await getUserInfo({ token });
+      const id = currentMember.id;
+
+      const data = await getUserInfo({ token, id });
       setAvatar(data.avatar);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getCurrentUserAvatar();
   }, []);
 
@@ -156,7 +171,8 @@ const HomePage = ({setTweetId}) => {
             id="tweetpost"
             rows="5"
             placeholder="有什麼新鮮事?"
-            ref={tweetRef}
+            value={tweetText}
+            onChange={handleChange}
           ></textarea>
           <StyledButton className="post-tweet active" onClick={handlePost}>
             推文

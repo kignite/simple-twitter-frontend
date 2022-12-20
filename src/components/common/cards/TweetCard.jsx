@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 import Backdrop from "../../Backdrop";
@@ -68,6 +69,7 @@ export const StyledCardContainer = styled.div`
 `;
 
 const TweetCard = ({
+  userId,
   tweetId,
   personalInfo,
   avatar,
@@ -103,9 +105,14 @@ const TweetCard = ({
         personalInfo={personalInfo}
       />
       <StyledCardContainer>
-        <img src={avatar} alt={name} />
+        <Link to={`/user/other/?id=${userId}`}>
+          <img src={avatar} alt={name} />
+        </Link>
         <div className="right-side">
-          <span className="name">{name}</span>
+          <span className="name">
+            <Link to={`/user/other/?id=${userId}`}>{name}</Link>
+          </span>
+          <button>{userId}</button>
           <span className="account">@{account}</span>
           <span className="created-time"> · {createdAt}</span>
           <p>{description}</p>
