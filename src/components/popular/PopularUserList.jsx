@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getTopFollwer } from "../../api/followshipAPI";
@@ -30,6 +31,7 @@ const PopularUserList = () => {
   const { isAuthenticated, currentMember } = useAuth();
 
   const token = localStorage.getItem("token");
+  const id = jwtDecode(token).id;
 
   useEffect(() => {
     const getData = async () => {
@@ -38,7 +40,7 @@ const PopularUserList = () => {
     };
     //取得使用者正在追隨名單去顯示Top10使用者的button樣式
     const getFollowings = async () => {
-      const { data } = await getUserFollowing({ token });
+      const { data } = await getUserFollowing({ token, id });
       setFollowings([...data]);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;

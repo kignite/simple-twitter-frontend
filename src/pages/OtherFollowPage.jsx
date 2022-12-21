@@ -10,7 +10,7 @@ import {
   getUserFollower,
   getUserFollowing,
 } from "../api/getUserTweets";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -44,22 +44,16 @@ const FollowPageStyle = styled.div`
   }
 `;
 
-const FollowPage = ({ pageStatus }) => {
+const OtherFollowPage = ({ pageStatus }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [followData, setFollowData] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [searchParams] = useSearchParams();
-
-  let id;
-
-  if (searchParams.get("id")) {
-    id = searchParams.get("id");
-  } else {
-    id = jwtDecode(token).id;
-  }
+  const [id] = useState(searchParams.get("id"));
 
   useEffect(() => {
+
     const getCurrentUser = async () => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
@@ -96,7 +90,7 @@ const FollowPage = ({ pageStatus }) => {
         <TurnbackIcon
           className="return"
           onClick={() => {
-            navigate("/user/self");
+            navigate(`/user/other/?id=${id}`);
           }}
         />
         <div className="header-info">
@@ -113,7 +107,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "follower") {
               setFollowData([]);
             }
-            navigate("/user/self/follower");
+            navigate(`/user/other/follower?=${id}`);
           }}
         >
           追隨者
@@ -127,7 +121,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "following") {
               setFollowData([]);
             }
-            navigate("/user/self/following");
+            navigate(`/user/other/following?=${id}`);
           }}
         >
           正在追隨
@@ -163,4 +157,4 @@ const FollowPage = ({ pageStatus }) => {
   );
 };
 
-export default FollowPage;
+export default OtherFollowPage;
