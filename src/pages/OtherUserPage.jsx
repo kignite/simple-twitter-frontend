@@ -6,6 +6,7 @@ import { getUserInfo } from "../api/getUserTweets";
 import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
+import { useAuth } from "../contexts/AuthContext";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
@@ -108,6 +109,7 @@ const OtherUserPage = () => {
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
   const id = searchParams.get("id");
+  const { isAuthenticated, currentMember } = useAuth();
 
   // const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
@@ -125,6 +127,8 @@ const OtherUserPage = () => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPersonalInfo();
   }, [key]);
 

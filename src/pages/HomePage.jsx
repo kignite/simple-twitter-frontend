@@ -118,9 +118,9 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
           onClick={() => {
-            console.log("Click!", tweet.id)
+            console.log("Click!", tweet.id);
             onTweetClick?.(tweet.id);
-            navigate('/reply_list');
+            navigate("/reply_list");
           }}
         />
       ))}
@@ -128,10 +128,10 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
   );
 };
 
-const HomePage = ({setTweetId}) => {
+const HomePage = ({ setTweetId }) => {
   const [avatar, setAvatar] = useState("");
   const [tweetText, setTweetText] = useState("");
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || null;
   const { isAuthenticated, currentMember } = useAuth();
 
   const handleChange = (e) => {
@@ -183,10 +183,14 @@ const HomePage = ({setTweetId}) => {
         </StyledTextareaContainer>
         <div className="devider"></div>
       </div>
-      <HomeTweetslist token={token} handlePost={handlePost} onTweetClick={(tweetId) => {
-        setTweetId(tweetId);
-        console.log(tweetId);
-        }} />
+      <HomeTweetslist
+        token={token}
+        handlePost={handlePost}
+        onTweetClick={(tweetId) => {
+          setTweetId(tweetId);
+          console.log(tweetId);
+        }}
+      />
     </HomePageStyle>
   );
 };

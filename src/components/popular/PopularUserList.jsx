@@ -29,9 +29,7 @@ const PopularUserList = () => {
   const [topFollower, setTopFollower] = useState([]);
   const [followings, setFollowings] = useState([]);
   const { isAuthenticated, currentMember } = useAuth();
-
-  const token = localStorage.getItem("token");
-  const id = jwtDecode(token).id;
+  const token = localStorage.getItem("token") || null;
 
   useEffect(() => {
     const getData = async () => {
@@ -44,6 +42,7 @@ const PopularUserList = () => {
       setFollowings([...data]);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
+    const id = jwtDecode(token).id;
     getData();
     getFollowings();
   }, []);

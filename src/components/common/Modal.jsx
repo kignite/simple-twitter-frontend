@@ -57,9 +57,8 @@ const Modal = ({
   const tweetRef = useRef(null);
 
   const handleTweet = async () => {
-    console.log("tweet");
     if (tweetRef.current.value.length === 0) {
-      setActive(false);
+      console.log("請輸入至少一個字");
       return;
     }
     const tweet = { description: tweetRef.current.value };
@@ -71,15 +70,11 @@ const Modal = ({
   };
 
   const handleReply = async () => {
-    console.log("reply");
-
     if (tweetRef.current.value.length === 0) {
-      setActive(false);
+      console.log("請輸入至少一個字");
       return;
     }
     const reply = { comment: tweetRef.current.value };
-    console.log(reply);
-
     const status = await postReply({ token, tweetId, reply });
     console.log(status);
     setActive(false);

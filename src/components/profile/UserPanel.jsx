@@ -8,17 +8,17 @@ import {
   getUserReplies,
   getUserLikes,
 } from "../../api/getUserTweets";
+import { useAuth } from "../../contexts/AuthContext";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-
 
 const UserPanel = ({ personalInfo, onTweetClick }) => {
   const [activeTab, setActiveTab] = useState("tweet");
   const [panelData, setPanelData] = useState([]);
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
+  const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     let ignore = false;
@@ -60,6 +60,8 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
         }
       }
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPanelData();
 
     return () => {
@@ -142,7 +144,7 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
                 isLiked={item.isLiked}
                 onClick={() => {
                   onTweetClick?.(item.id);
-                  navigate('/reply_list');
+                  navigate("/reply_list");
                 }}
               />
             );
@@ -163,7 +165,7 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
                 isLiked={item.Tweet.isLiked}
                 onClick={() => {
                   onTweetClick?.(item.TweetId);
-                  navigate('/reply_list');
+                  navigate("/reply_list");
                 }}
               />
             );

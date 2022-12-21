@@ -27,7 +27,7 @@ const StyledLayoutContainer = styled.div`
 `;
 
 const Layout = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || null;
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
   const navigate = useNavigate();
@@ -38,19 +38,27 @@ const Layout = () => {
     if (isAuthenticated && currentMember.role === "admin") {
       navigate("/admin_main");
       return;
-    } else if (!isAuthenticated) {
+    }
+    if (!isAuthenticated) {
       navigate("/login");
       return;
     }
   }, [navigate, isAuthenticated]);
 
-
   useEffect(() => {
     const getdata = async () => {
-      const id = jwtDecode(token).id
+      const id = jwtDecode(token).id;
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
+    if (isAuthenticated && currentMember.role === "admin") {
+      navigate("/admin_main");
+      return;
+    }
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
 
     getdata();
   }, []);

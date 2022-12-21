@@ -11,6 +11,7 @@ import {
   getUserFollowing,
 } from "../api/getUserTweets";
 import jwtDecode from "jwt-decode";
+import { useAuth } from "../contexts/AuthContext";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -48,16 +49,11 @@ const FollowPage = ({ pageStatus }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [followData, setFollowData] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || null;
   const [searchParams] = useSearchParams();
+  const { isAuthenticated, currentMember } = useAuth();
 
   let id;
-
-  if (searchParams.get("id")) {
-    id = searchParams.get("id");
-  } else {
-    id = jwtDecode(token).id;
-  }
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -81,6 +77,12 @@ const FollowPage = ({ pageStatus }) => {
         }
       }
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+    if (searchParams.get("id")) {
+      id = searchParams.get("id");
+    } else {
+      id = jwtDecode(token).id;
+    }
 
     getCurrentUser();
     getFollowData();

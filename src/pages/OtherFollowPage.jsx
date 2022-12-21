@@ -10,6 +10,7 @@ import {
   getUserFollower,
   getUserFollowing,
 } from "../api/getUserTweets";
+import { useAuth } from "../contexts/AuthContext";
 // import jwtDecode from "jwt-decode";
 
 const FollowPageStyle = styled.div`
@@ -48,12 +49,13 @@ const OtherFollowPage = ({ pageStatus }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [followData, setFollowData] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || null;
   const [searchParams] = useSearchParams();
   const [id] = useState(searchParams.get("id"));
 
-  useEffect(() => {
+  const { isAuthenticated, currentMember } = useAuth();
 
+  useEffect(() => {
     const getCurrentUser = async () => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
@@ -75,6 +77,9 @@ const OtherFollowPage = ({ pageStatus }) => {
         }
       }
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
+
 
     getCurrentUser();
     getFollowData();

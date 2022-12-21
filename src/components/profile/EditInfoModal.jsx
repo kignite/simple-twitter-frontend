@@ -116,6 +116,8 @@ const UserInfoText = styled.div`
 const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
+  const [introduction, setIntroduction] = useState("");
+  const [name, setName] = useState(personalInfo.name);
   const [deleteCover, setDeleteCover] = useState(false);
   const [tmpImg, setTmpImg] = useState({
     avatar: personalInfo.avatar,
@@ -123,10 +125,20 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   });
 
   const handleSave = async () => {
-    console.log("cover-before", cover);
+    if (name.length === 0) {
+      // 待補樣式
+      console.log("名稱不能為空白!");
+      return;
+    } else if (name.length > 50) {
+      // 待補樣式
+      console.log("太長了!");
+      return;
+    }
     if (!cover && !deleteCover) {
       const info = {
         ...personalInfo,
+        name: name,
+        introduction: introduction,
         avatar: avatar,
       };
 
@@ -229,18 +241,16 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
         <UserInfoText>
           <Input
             label={"名稱"}
-            value={personalInfo.name}
+            value={name}
             onChange={(name) => {
-              const prev = { ...personalInfo };
-              setPersonalInfo({ ...prev, name: name });
+              setName(name);
             }}
           />
           <Textarea
             label={"自我介紹"}
             value={personalInfo.introduction}
             onChange={(introduction) => {
-              const prev = { ...personalInfo };
-              setPersonalInfo({ ...prev, introduction: introduction });
+              setIntroduction(introduction);
             }}
           />
         </UserInfoText>

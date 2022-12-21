@@ -80,7 +80,6 @@ export const uploadUserInfo = async ({ token, info }) => {
 
 //取得特定使用者的追隨者
 export const getUserFollower = async ({ token, id }) => {
-  console.log(id)
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}/followers`, {
       headers: {

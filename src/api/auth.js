@@ -59,6 +59,7 @@ export const acountSetting = async ({
   name,
 }) => {
   try {
+    console.log(userID)
     const { status } = await axios.put(`${baseURL}/api/users/${userID}/setting`,
       {
         email,

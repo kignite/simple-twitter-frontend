@@ -5,16 +5,16 @@ import { useState } from "react";
 import { acountSetting, getAccountSetting } from "../api/auth";
 import { Input } from "../components/AuthInput";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 // import Sidebar from "../components/Sidebar";
 import { StyledButton } from "../components/common/button.styled";
 import jwt from "jwt-decode";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
+import { useAuth } from "../contexts/AuthContext";
 
 const SettingStyle = styled.div`
   width: 100%;
-  height: 100vh; 
+  height: 100vh;
   margin: 0 auto;
 `;
 
@@ -53,9 +53,11 @@ const AccountSetting = () => {
   const [password, setPassword] = useState(null);
   const [checkPassword, setCheckPassword] = useState(null);
   const [name, setName] = useState(null);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const userID = jwt(token).id;
+  const { isAuthenticated, currentMember } = useAuth();
+  // const navigate = useNavigate();
+  const token = localStorage.getItem("token") || null;
+  let userID;
+
   // const [test, setTest] = useState("");
 
   const handleClick = async () => {
@@ -74,6 +76,12 @@ const AccountSetting = () => {
     if (checkPassword.length === 0) {
       return;
     }
+    if (password !== checkPassword) {
+      console.log("兩次輸入的密碼不相同!");
+      return;
+    }
+    userID = jwt(token).id;
+
     const { success } = await acountSetting({
       userID,
       token,
@@ -85,7 +93,6 @@ const AccountSetting = () => {
     });
     if (success) {
       console.log("修改成功");
-      navigate("/");
     } else {
       console.log("修改失敗");
     }
@@ -98,6 +105,9 @@ const AccountSetting = () => {
       setName(data.name);
       setEmail(data.email);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+    userID = jwt(token).id;
+
     getData();
   }, []);
 
@@ -146,7 +156,9 @@ const AccountSetting = () => {
             placeholder={"請再次輸入密碼"}
             onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
           />
-          <StyledButton className = "save-btn active" onClick={handleClick}>儲存</StyledButton>
+          <StyledButton className="save-btn active" onClick={handleClick}>
+            儲存
+          </StyledButton>
         </div>
       </SettingContainerStyle>
       <div></div>
