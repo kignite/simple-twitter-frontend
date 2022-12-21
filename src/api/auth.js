@@ -59,7 +59,6 @@ export const acountSetting = async ({
   name,
 }) => {
   try {
-    console.log(userID)
     const { status } = await axios.put(`${baseURL}/api/users/${userID}/setting`,
       {
         email,
@@ -80,10 +79,8 @@ export const acountSetting = async ({
       return { success: true };
     }
   } catch (error) {
-    // const { status } = error.request;
-    console.log("setting-failed:", error);
-    return { success: false };
-
+    const errorMessage = JSON.parse(error.request.response)
+    return errorMessage;
   }
 };
 
@@ -95,17 +92,13 @@ export const getAccountSetting = async ({
     const { data } = await axios.get(`${baseURL}/api/users/${userID}/setting`,
       {
         headers: {
-          // 'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token,
         },
       },
     );
-    console.log(data)
-
     return data;
 
   } catch (error) {
-    // const { status } = error.request;
     console.log("setting-failed:", error);
     return { success: false };
 

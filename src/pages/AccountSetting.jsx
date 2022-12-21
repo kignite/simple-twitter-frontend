@@ -54,6 +54,7 @@ const AccountSetting = () => {
   const [checkPassword, setCheckPassword] = useState(null);
   const [name, setName] = useState(null);
   const { isAuthenticated, currentMember } = useAuth();
+  const [errorMessage, setErrorMessage] = useState({});
   // const navigate = useNavigate();
   const token = localStorage.getItem("token") || null;
   let userID;
@@ -61,28 +62,9 @@ const AccountSetting = () => {
   // const [test, setTest] = useState("");
 
   const handleClick = async () => {
-    if (account.length === 0) {
-      return;
-    }
-    if (name.length === 0) {
-      return;
-    }
-    if (email.length === 0) {
-      return;
-    }
-    if (password.length === 0) {
-      return;
-    }
-    if (checkPassword.length === 0) {
-      return;
-    }
-    if (password !== checkPassword) {
-      console.log("兩次輸入的密碼不相同!");
-      return;
-    }
     userID = jwt(token).id;
 
-    const { success } = await acountSetting({
+    const error = await acountSetting({
       userID,
       token,
       email,
@@ -91,11 +73,9 @@ const AccountSetting = () => {
       checkPassword,
       name,
     });
-    if (success) {
-      console.log("修改成功");
-    } else {
-      console.log("修改失敗");
-    }
+    console.log(error);
+    setErrorMessage(error.message);
+    // console.log(data);
   };
 
   useEffect(() => {
@@ -126,6 +106,7 @@ const AccountSetting = () => {
             label={"帳號"}
             value={account}
             placeholder={"請輸入帳號"}
+            errorMessage={errorMessage.account || null}
             onChange={(nameInputValue) => setAccount(nameInputValue)}
           />
           <Input
@@ -133,6 +114,7 @@ const AccountSetting = () => {
             label={"名稱"}
             value={name}
             placeholder={"請輸入名稱"}
+            errorMessage={errorMessage.name || null}
             onChange={(nameInputValue) => setName(nameInputValue)}
           />
           <Input
@@ -140,6 +122,7 @@ const AccountSetting = () => {
             label={"Email"}
             value={email}
             placeholder={"請輸入Email"}
+            errorMessage={errorMessage.email || null}
             onChange={(nameInputValue) => setEmail(nameInputValue)}
           />
           <Input
@@ -147,6 +130,7 @@ const AccountSetting = () => {
             label={"密碼"}
             value={password}
             placeholder={"請設定密碼"}
+            errorMessage={errorMessage.password || null}
             onChange={(nameInputValue) => setPassword(nameInputValue)}
           />
           <Input
@@ -154,6 +138,7 @@ const AccountSetting = () => {
             label={"密碼確認"}
             value={checkPassword}
             placeholder={"請再次輸入密碼"}
+            errorMessage={errorMessage.passwordCheck || null}
             onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
           />
           <StyledButton className="save-btn active" onClick={handleClick}>
