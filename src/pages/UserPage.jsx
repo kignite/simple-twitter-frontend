@@ -131,7 +131,7 @@ const UserPage = ({ setTweetId }) => {
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getPersonalInfo();
-  }, [active]);
+  }, [active, isAuthenticated]);
 
   return (
     <>

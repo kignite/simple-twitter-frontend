@@ -109,7 +109,7 @@ const AccountSetting = () => {
     userID = jwt(token).id;
 
     getData();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <SettingStyle>

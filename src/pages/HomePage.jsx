@@ -159,7 +159,7 @@ const HomePage = ({ setTweetId }) => {
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getCurrentUserAvatar();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <HomePageStyle>

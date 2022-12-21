@@ -130,7 +130,7 @@ const OtherUserPage = () => {
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getPersonalInfo();
-  }, [key]);
+  }, [key,isAuthenticated]);
 
   return (
     <>

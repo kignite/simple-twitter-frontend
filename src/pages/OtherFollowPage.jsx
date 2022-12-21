@@ -79,15 +79,13 @@ const OtherFollowPage = ({ pageStatus }) => {
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
 
-
-
     getCurrentUser();
     getFollowData();
 
     return () => {
       ignore = true;
     };
-  }, [pageStatus]);
+  }, [pageStatus, isAuthenticated]);
 
   return (
     <FollowPageStyle>

@@ -90,7 +90,7 @@ const FollowPage = ({ pageStatus }) => {
     return () => {
       ignore = true;
     };
-  }, [pageStatus]);
+  }, [pageStatus, isAuthenticated]);
 
   return (
     <FollowPageStyle>

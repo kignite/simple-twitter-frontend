@@ -68,7 +68,7 @@ const AdminMainPage = () => {
     if (!isAuthenticated || currentMember.role !== "admin") return;
 
     getTweetsData();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <PageStyled>

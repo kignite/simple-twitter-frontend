@@ -45,6 +45,7 @@ export const getUserInfo = async ({ token, id }) => {
     return data;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 
@@ -59,6 +60,7 @@ export const getUserLikes = async ({ token, id }) => {
     return data;
   } catch (error) {
     console.log(error);
+    return error
   }
 };
 

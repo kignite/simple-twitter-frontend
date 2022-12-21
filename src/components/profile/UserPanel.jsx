@@ -67,7 +67,7 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
     return () => {
       ignore = true;
     };
-  }, [activeTab, key]);
+  }, [activeTab, key, isAuthenticated]);
 
   return (
     <div className="user-panel">
