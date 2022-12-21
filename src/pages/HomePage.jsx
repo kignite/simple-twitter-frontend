@@ -74,7 +74,7 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomeTweetslist = ({ token, onTweetClick }) => {
+const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
@@ -84,17 +84,19 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
       const { data } = await getAllTweets({ token });
       setTweetsData([...data]);
     };
+
+    if (!isAuthenticated || currentMember.role !== "user") return;
+    getTweets();
+  }, [handlePost]);
+
+  useEffect(() => {
     const getPersonalInfo = async () => {
       const id = currentMember.id;
       const data = await getUserInfo({ token, id });
-      // console.log(data);
       setPersonalInfo(data);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
-
     getPersonalInfo();
-
-    getTweets();
   }, []);
 
   return (
@@ -145,7 +147,6 @@ const HomePage = () => {
   useEffect(() => {
     const getCurrentUserAvatar = async () => {
       const id = currentMember.id;
-
       const data = await getUserInfo({ token, id });
       setAvatar(data.avatar);
     };
@@ -176,7 +177,7 @@ const HomePage = () => {
         </StyledTextareaContainer>
         <div className="devider"></div>
       </div>
-      <HomeTweetslist token={token} />
+      <HomeTweetslist token={token} handlePost={handlePost}/>
     </HomePageStyle>
   );
 };

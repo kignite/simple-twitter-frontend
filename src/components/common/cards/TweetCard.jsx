@@ -82,12 +82,12 @@ const TweetCard = ({
   isLiked,
 }) => {
   const [active, setActive] = useState(false);
-
   const iconSize = {
     width: "13.2px",
     height: "13px",
     marginRight: "9px",
   };
+
   return (
     <>
       <Backdrop active={active} setActive={setActive} />

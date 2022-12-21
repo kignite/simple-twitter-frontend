@@ -119,7 +119,6 @@ const Modal = ({
         >
           {onReply ? "回覆" : "推文"}
         </StyledButton>
-        {/* <button onClick={handlePost}>123</button> */}
       </StyledTextareaContainer>
     </StyledModalContainer>
   ) : null;
