@@ -17,6 +17,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import OtherFollowPage from "./pages/OtherFollowPage";
 
 function App() {
+  //要記得重構，再單一推文頁刷新會取到初始的空值
   const [tweetId, setTweetId] = useState();
 
   return (

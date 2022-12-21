@@ -8,6 +8,8 @@ import Modal from "./common/Modal";
 import { getUserInfo } from "../api/getUserTweets";
 import { useAuth } from "../contexts/AuthContext";
 import jwtDecode from "jwt-decode";
+//test
+// import AccountSetting from "../pages/AccountSetting";
 
 const StyledLayoutContainer = styled.div`
   width: 1140px;
