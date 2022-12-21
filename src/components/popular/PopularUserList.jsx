@@ -1,4 +1,3 @@
-import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getTopFollwer, postFollowed, deleteFollowed } from "../../api/followshipAPI";
@@ -71,7 +70,7 @@ const PopularUserList = () => {
     };
 
     if (!isAuthenticated || currentMember.role !== "user") return;
-    const id = jwtDecode(token).id;
+
     getData();
     getFollowings();
 
