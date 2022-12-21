@@ -10,9 +10,10 @@ const StyledModalContainer = styled.div`
   position: absolute;
   top: 56px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% - 37px));
   margin: 0;
   width: 634px;
+  opacity: initial;
 
   border-radius: 14px;
   background-color: var(--main_white);

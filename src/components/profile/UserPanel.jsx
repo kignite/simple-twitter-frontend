@@ -8,14 +8,17 @@ import {
   getUserReplies,
   getUserLikes,
 } from "../../api/getUserTweets";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-const UserPanel = ({ personalInfo }) => {
-  const [activeTab, setActiveTab] = useState("reply");
+
+const UserPanel = ({ personalInfo, onTweetClick }) => {
+  const [activeTab, setActiveTab] = useState("tweet");
   const [panelData, setPanelData] = useState([]);
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     let ignore = false;
@@ -72,7 +75,9 @@ const UserPanel = ({ personalInfo }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "tweet" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "tweet") {
+              setPanelData([]);
+            }
             setActiveTab("tweet");
           }}
         >
@@ -83,7 +88,9 @@ const UserPanel = ({ personalInfo }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "reply" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "reply") {
+              setPanelData([]);
+            }
             setActiveTab("reply");
           }}
         >
@@ -94,7 +101,9 @@ const UserPanel = ({ personalInfo }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "like" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "like") {
+              setPanelData([]);
+            }
             setActiveTab("like");
           }}
         >
@@ -121,7 +130,7 @@ const UserPanel = ({ personalInfo }) => {
               <TweetCard
                 key={item.id}
                 userId={item.User.id}
-                tweetid={item.id}
+                tweetId={item.id}
                 personalInfo={personalInfo}
                 avatar={item.User.avatar}
                 name={item.User.name}
@@ -131,13 +140,17 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.replyCount}
                 likeCount={item.likeCount}
                 isLiked={item.isLiked}
+                onClick={() => {
+                  onTweetClick?.(item.id);
+                  navigate('/reply_list');
+                }}
               />
             );
           } else {
             return (
               <TweetCard
                 key={item.id}
-                id={item.id}
+                tweetId={item.id}
                 userId={item.Tweet.User.id}
                 personalInfo={personalInfo}
                 avatar={item.Tweet.User.avatar}
@@ -148,6 +161,10 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.Tweet.replyCount}
                 likeCount={item.Tweet.likeCount}
                 isLiked={item.Tweet.isLiked}
+                onClick={() => {
+                  onTweetClick?.(item.TweetId);
+                  navigate('/reply_list');
+                }}
               />
             );
           }

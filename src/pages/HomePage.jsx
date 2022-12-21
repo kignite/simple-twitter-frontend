@@ -5,6 +5,7 @@ import { StyledButton } from "../components/common/button.styled";
 import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HomePageStyle = styled.div`
   position: relative;
@@ -78,6 +79,7 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getTweets = async () => {
@@ -105,7 +107,7 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
         <TweetCard
           key={tweet.id}
           userId={tweet.User.id}
-          tweetid={tweet.id}
+          tweetId={tweet.id}
           personalInfo={personalInfo}
           avatar={tweet.User.avatar}
           name={tweet.User.name}
@@ -115,14 +117,18 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
-          onClick={onTweetClick}
+          onClick={() => {
+            console.log("Click!", tweet.id)
+            onTweetClick?.(tweet.id);
+            navigate('/reply_list');
+          }}
         />
       ))}
     </ul>
   );
 };
 
-const HomePage = () => {
+const HomePage = ({setTweetId}) => {
   const [avatar, setAvatar] = useState("");
   const [tweetText, setTweetText] = useState("");
   const token = localStorage.getItem("token");
@@ -177,7 +183,10 @@ const HomePage = () => {
         </StyledTextareaContainer>
         <div className="devider"></div>
       </div>
-      <HomeTweetslist token={token} handlePost={handlePost}/>
+      <HomeTweetslist token={token} handlePost={handlePost} onTweetClick={(tweetId) => {
+        setTweetId(tweetId);
+        console.log(tweetId);
+        }} />
     </HomePageStyle>
   );
 };

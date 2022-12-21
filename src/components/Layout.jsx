@@ -44,6 +44,7 @@ const Layout = () => {
     }
   }, [navigate, isAuthenticated]);
 
+
   useEffect(() => {
     const getdata = async () => {
       const id = jwtDecode(token).id
@@ -57,12 +58,13 @@ const Layout = () => {
     <StyledLayoutContainer>
       <Sidebar setActive={setActive} />
       <div className="outlet">
-        <Backdrop active={active} setActive={setActive} />
-        <Modal
-          active={active}
-          setActive={setActive}
-          personalInfo={personalInfo}
-        />
+        <Backdrop active={active} setActive={setActive}>
+          <Modal
+            active={active}
+            setActive={setActive}
+            personalInfo={personalInfo}
+          />
+        </Backdrop>
         <Outlet />
       </div>
       <PopularUserList />
