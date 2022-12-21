@@ -45,6 +45,7 @@ export const getUserInfo = async ({ token, id }) => {
     return data;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 
@@ -59,6 +60,7 @@ export const getUserLikes = async ({ token, id }) => {
     return data;
   } catch (error) {
     console.log(error);
+    return error
   }
 };
 
@@ -79,8 +81,7 @@ export const uploadUserInfo = async ({ token, info }) => {
 };
 
 //取得特定使用者的追隨者
-export const getUserFollower = async ({ token }) => {
-  const id = jwt(token).id;
+export const getUserFollower = async ({ token, id }) => {
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}/followers`, {
       headers: {
@@ -94,8 +95,7 @@ export const getUserFollower = async ({ token }) => {
 };
 
 //取得特定使用者的正在追隨
-export const getUserFollowing = async ({ token }) => {
-  const id = jwt(token).id;
+export const getUserFollowing = async ({ token, id }) => {
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}/followings`, {
       headers: {

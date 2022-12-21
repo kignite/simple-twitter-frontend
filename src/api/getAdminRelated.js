@@ -48,3 +48,4 @@ export const adminGetUsersData = async ({ token }) => {
     console.log(error)
   }
 }
+

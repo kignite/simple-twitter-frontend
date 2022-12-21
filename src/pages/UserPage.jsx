@@ -8,6 +8,7 @@ import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
 import jwtDecode from "jwt-decode";
+import { useAuth } from "../contexts/AuthContext";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
@@ -106,11 +107,11 @@ const UserInfoText = styled.div`
   }
 `;
 
-const UserPage = ({setTweetId}) => {
+const UserPage = ({ setTweetId }) => {
   const token = localStorage.getItem("token");
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
-  const [tmpName, setTmpName] = useState("");
+  const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -126,21 +127,25 @@ const UserPage = ({setTweetId}) => {
       const id = jwtDecode(token).id;
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
-      setTmpName(data.name);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPersonalInfo();
-  }, [active]);
+  }, [active, isAuthenticated]);
 
   return (
     <>
       <Backdrop active={active} onClose={handleClose} />
       <UserPageStyle>
         <header>
-          <TurnbackIcon className="return" onClick={() => {
-            navigate(-1);
-          }} />
+          <TurnbackIcon
+            className="return"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
           <div className="header-info">
-            {active ? <h5>{tmpName}</h5> : <h5>{personalInfo.name}</h5>}
+            <h5>{personalInfo.name}</h5>
             <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
           </div>
         </header>
@@ -182,10 +187,13 @@ const UserPage = ({setTweetId}) => {
             </div>
           </UserInfoText>
         </div>
-        <UserPanel personalInfo={personalInfo} onTweetClick={(tweetId) => {
-          setTweetId(tweetId);
-          console.log(tweetId);
-        }} />
+        <UserPanel
+          personalInfo={personalInfo}
+          onTweetClick={(tweetId) => {
+            setTweetId(tweetId);
+            console.log(tweetId);
+          }}
+        />
       </UserPageStyle>
     </>
   );

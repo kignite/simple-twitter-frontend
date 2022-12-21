@@ -75,7 +75,7 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomeTweetslist = ({ token, onTweetClick }) => {
+const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
@@ -86,17 +86,19 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
       const { data } = await getAllTweets({ token });
       setTweetsData([...data]);
     };
+
+    if (!isAuthenticated || currentMember.role !== "user") return;
+    getTweets();
+  }, [handlePost]);
+
+  useEffect(() => {
     const getPersonalInfo = async () => {
       const id = currentMember.id;
       const data = await getUserInfo({ token, id });
-      // console.log(data);
       setPersonalInfo(data);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
-
     getPersonalInfo();
-
-    getTweets();
   }, []);
 
   return (
@@ -116,9 +118,9 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
           onClick={() => {
-            console.log("Click!", tweet.id)
+            console.log("Click!", tweet.id);
             onTweetClick?.(tweet.id);
-            navigate('/reply_list');
+            navigate("/reply_list");
           }}
         />
       ))}
@@ -126,10 +128,10 @@ const HomeTweetslist = ({ token, onTweetClick }) => {
   );
 };
 
-const HomePage = ({setTweetId}) => {
+const HomePage = ({ setTweetId }) => {
   const [avatar, setAvatar] = useState("");
   const [tweetText, setTweetText] = useState("");
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || null;
   const { isAuthenticated, currentMember } = useAuth();
 
   const handleChange = (e) => {
@@ -151,14 +153,13 @@ const HomePage = ({setTweetId}) => {
   useEffect(() => {
     const getCurrentUserAvatar = async () => {
       const id = currentMember.id;
-
       const data = await getUserInfo({ token, id });
       setAvatar(data.avatar);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getCurrentUserAvatar();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <HomePageStyle>
@@ -182,10 +183,14 @@ const HomePage = ({setTweetId}) => {
         </StyledTextareaContainer>
         <div className="devider"></div>
       </div>
-      <HomeTweetslist token={token} onTweetClick={(tweetId) => {
-        setTweetId(tweetId);
-        console.log(tweetId);
-        }} />
+      <HomeTweetslist
+        token={token}
+        handlePost={handlePost}
+        onTweetClick={(tweetId) => {
+          setTweetId(tweetId);
+          console.log(tweetId);
+        }}
+      />
     </HomePageStyle>
   );
 };

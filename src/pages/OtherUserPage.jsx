@@ -6,6 +6,7 @@ import { getUserInfo } from "../api/getUserTweets";
 import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
+import { useAuth } from "../contexts/AuthContext";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
@@ -107,6 +108,8 @@ const OtherUserPage = () => {
   const token = localStorage.getItem("token");
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
+  const id = searchParams.get("id");
+  const { isAuthenticated, currentMember } = useAuth();
 
   // const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
@@ -120,13 +123,14 @@ const OtherUserPage = () => {
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      const id = searchParams.get("id");
       // console.log(searchParams.get("id"));
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPersonalInfo();
-  }, [key]);
+  }, [key,isAuthenticated]);
 
   return (
     <>
@@ -156,13 +160,13 @@ const OtherUserPage = () => {
             <div className="follow-info">
               <p>
                 {personalInfo.followingCount}
-                <Link to="/user/self/following">
+                <Link to={`/user/other/following?id=${id}`}>
                   <span> 跟隨中</span>
                 </Link>
               </p>
               <p>
                 {personalInfo.followerCount}
-                <Link to="/user/self/follower">
+                <Link to={`/user/other/follower?id=${id}`}>
                   <span> 跟隨者</span>
                 </Link>
               </p>

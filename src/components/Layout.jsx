@@ -27,7 +27,7 @@ const StyledLayoutContainer = styled.div`
 `;
 
 const Layout = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || null;
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
   const navigate = useNavigate();
@@ -35,25 +35,27 @@ const Layout = () => {
   const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
-    if (isAuthenticated && currentMember.role === "admin") {
-      navigate("/admin_main");
-      return;
-    } else if (!isAuthenticated) {
-      // navigate("/login");
+    const getdata = async () => {
+      if (isAuthenticated && currentMember.role === "admin") {
+        navigate("/admin_main");
+        return;
+      }
+      const id = jwtDecode(token).id;
+      const data = await getUserInfo({ token, id });
+      if (data) {
+        setPersonalInfo(data);
+      } else {
+        navigate("/login");
+        return;
+      }
+    };
+    if (!isAuthenticated || currentMember.role === "admin") {
       return;
     }
-  }, [navigate, isAuthenticated]);
-
-
-  useEffect(() => {
-    const getdata = async () => {
-      const id = jwtDecode(token).id
-      const data = await getUserInfo({ token, id });
-      setPersonalInfo(data);
-    };
 
     getdata();
-  }, []);
+  }, [navigate, isAuthenticated]);
+
   return (
     <StyledLayoutContainer>
       <Sidebar setActive={setActive} />

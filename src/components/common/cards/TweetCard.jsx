@@ -123,6 +123,7 @@ const TweetCard = ({
     height: "13px",
     marginRight: "9px",
   };
+
   return (
     <div>
       <Backdrop active={active} setActive={setActive}>

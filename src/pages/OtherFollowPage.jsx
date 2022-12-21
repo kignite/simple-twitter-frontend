@@ -10,9 +10,8 @@ import {
   getUserFollower,
   getUserFollowing,
 } from "../api/getUserTweets";
-import { postFollowed, deleteFollowed } from "../api/followshipAPI";
-import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/AuthContext";
+// import jwtDecode from "jwt-decode";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -46,82 +45,15 @@ const FollowPageStyle = styled.div`
   }
 `;
 
-const FollowPage = ({ pageStatus }) => {
+const OtherFollowPage = ({ pageStatus }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [followData, setFollowData] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token") || null;
   const [searchParams] = useSearchParams();
+  const [id] = useState(searchParams.get("id"));
+
   const { isAuthenticated, currentMember } = useAuth();
-
-  let id;
-
-  if (searchParams.get("id")) {
-    id = searchParams.get("id");
-  } else {
-    id = jwtDecode(token).id;
-  }
-
-  //追隨某使用者
-  const handleFollowed = async (userId) => {
-    try {
-      const status = await postFollowed({ userId, token });
-      console.log(status);
-      if (status === 200) {
-        // const { data } = await getUserFollowing({ token });
-        setFollowData(prevData => {
-          return prevData.map((prev) => {
-            if (prev.followerId === userId) {
-              return {
-                ...prev,
-                Followers: {
-                  ...prev.Followers,
-                  isFollowed: 1,
-                }
-              }
-            }
-            return prev;
-          })
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-
-  //取消追隨某位使用者
-  const handleUnFollowed = async (followingId) => {
-    try {
-      const status = await deleteFollowed({ followingId, token });
-      console.log(status);
-      if (status === 200) {
-        // const { data } = await getUserFollowing({ token });
-        setFollowData((prevData) => {
-          if (pageStatus === "following") {
-            return prevData.filter((prev) => prev.followingId !== followingId);
-          }
-          if (pageStatus === "follower") {
-            return prevData.map((prev) => {
-              if (prev.followerId === followingId) {
-                return {
-                  ...prev,
-                  Followers: {
-                    ...prev.Followers,
-                    isFollowed: 0,
-                  }
-                }
-              }
-              return prev;
-            })
-          }
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -146,11 +78,6 @@ const FollowPage = ({ pageStatus }) => {
       }
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
-    if (searchParams.get("id")) {
-      id = searchParams.get("id");
-    } else {
-      id = jwtDecode(token).id;
-    }
 
     getCurrentUser();
     getFollowData();
@@ -166,7 +93,7 @@ const FollowPage = ({ pageStatus }) => {
         <TurnbackIcon
           className="return"
           onClick={() => {
-            navigate("/user/self");
+            navigate(`/user/other/?id=${id}`);
           }}
         />
         <div className="header-info">
@@ -183,7 +110,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "follower") {
               setFollowData([]);
             }
-            navigate("/user/self/follower");
+            navigate(`/user/other/follower?=${id}`);
           }}
         >
           追隨者
@@ -197,7 +124,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "following") {
               setFollowData([]);
             }
-            navigate("/user/self/following");
+            navigate(`/user/other/following?=${id}`);
           }}
         >
           正在追隨
@@ -213,13 +140,6 @@ const FollowPage = ({ pageStatus }) => {
                 name={item.Followers.name}
                 introduction={item.Followers.introduction}
                 isFollowed={item.Followers.isFollowed}
-                onBtnClicked={() => {
-                  if (item.Followers.isFollowed) {
-                    handleUnFollowed(item.followerId);
-                  } else {
-                    handleFollowed(item.followerId);
-                  }
-                }}
               />
             );
           }
@@ -231,9 +151,6 @@ const FollowPage = ({ pageStatus }) => {
                 name={item.Followings.name}
                 introduction={item.Followings.introduction}
                 isFollowed={item.Followings.isFollowed}
-                onBtnClicked={() => {
-                  handleUnFollowed(item.followingId);
-                }}
               />
             );
           }
@@ -243,4 +160,4 @@ const FollowPage = ({ pageStatus }) => {
   );
 };
 
-export default FollowPage;
+export default OtherFollowPage;

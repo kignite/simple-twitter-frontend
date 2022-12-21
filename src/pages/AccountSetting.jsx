@@ -5,16 +5,16 @@ import { useState } from "react";
 import { acountSetting, getAccountSetting } from "../api/auth";
 import { Input } from "../components/AuthInput";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 // import Sidebar from "../components/Sidebar";
 import { StyledButton } from "../components/common/button.styled";
 import jwt from "jwt-decode";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
+import { useAuth } from "../contexts/AuthContext";
 
 const SettingStyle = styled.div`
   width: 100%;
-  height: 100vh; 
+  height: 100vh;
   margin: 0 auto;
 `;
 
@@ -53,28 +53,18 @@ const AccountSetting = () => {
   const [password, setPassword] = useState(null);
   const [checkPassword, setCheckPassword] = useState(null);
   const [name, setName] = useState(null);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const userID = jwt(token).id;
+  const { isAuthenticated, currentMember } = useAuth();
+  const [errorMessage, setErrorMessage] = useState({});
+  // const navigate = useNavigate();
+  const token = localStorage.getItem("token") || null;
+  let userID;
+
   // const [test, setTest] = useState("");
 
   const handleClick = async () => {
-    if (account.length === 0) {
-      return;
-    }
-    if (name.length === 0) {
-      return;
-    }
-    if (email.length === 0) {
-      return;
-    }
-    if (password.length === 0) {
-      return;
-    }
-    if (checkPassword.length === 0) {
-      return;
-    }
-    const { success } = await acountSetting({
+    userID = jwt(token).id;
+
+    const error = await acountSetting({
       userID,
       token,
       email,
@@ -83,12 +73,9 @@ const AccountSetting = () => {
       checkPassword,
       name,
     });
-    if (success) {
-      console.log("修改成功");
-      navigate("/");
-    } else {
-      console.log("修改失敗");
-    }
+    console.log(error);
+    setErrorMessage(error.message);
+    // console.log(data);
   };
 
   useEffect(() => {
@@ -98,8 +85,11 @@ const AccountSetting = () => {
       setName(data.name);
       setEmail(data.email);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+    userID = jwt(token).id;
+
     getData();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <SettingStyle>
@@ -116,6 +106,7 @@ const AccountSetting = () => {
             label={"帳號"}
             value={account}
             placeholder={"請輸入帳號"}
+            errorMessage={errorMessage.account || null}
             onChange={(nameInputValue) => setAccount(nameInputValue)}
           />
           <Input
@@ -123,6 +114,7 @@ const AccountSetting = () => {
             label={"名稱"}
             value={name}
             placeholder={"請輸入名稱"}
+            errorMessage={errorMessage.name || null}
             onChange={(nameInputValue) => setName(nameInputValue)}
           />
           <Input
@@ -130,6 +122,7 @@ const AccountSetting = () => {
             label={"Email"}
             value={email}
             placeholder={"請輸入Email"}
+            errorMessage={errorMessage.email || null}
             onChange={(nameInputValue) => setEmail(nameInputValue)}
           />
           <Input
@@ -137,6 +130,7 @@ const AccountSetting = () => {
             label={"密碼"}
             value={password}
             placeholder={"請設定密碼"}
+            errorMessage={errorMessage.password || null}
             onChange={(nameInputValue) => setPassword(nameInputValue)}
           />
           <Input
@@ -144,9 +138,12 @@ const AccountSetting = () => {
             label={"密碼確認"}
             value={checkPassword}
             placeholder={"請再次輸入密碼"}
+            errorMessage={errorMessage.passwordCheck || null}
             onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
           />
-          <StyledButton className = "save-btn active" onClick={handleClick}>儲存</StyledButton>
+          <StyledButton className="save-btn active" onClick={handleClick}>
+            儲存
+          </StyledButton>
         </div>
       </SettingContainerStyle>
       <div></div>

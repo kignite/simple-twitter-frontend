@@ -14,6 +14,7 @@ import AdminMainPage from "./pages/AdminMainPage";
 import AdminUserList from "./pages/AdminUserList";
 import FollowPage from "./pages/FollowPage";
 import { AuthProvider } from "./contexts/AuthContext";
+import OtherFollowPage from "./pages/OtherFollowPage";
 
 function App() {
   const [tweetId, setTweetId] = useState();
@@ -32,10 +33,19 @@ function App() {
             {/* <Route path="/" element={<Layout />}/> */}
             <Route path="/" element={<Layout />}>
               <Route path="*" element={<HomePage setTweetId={setTweetId} />} />
-              <Route path="main" element={<HomePage setTweetId={setTweetId} />} />
-              <Route path="reply_list" element={<TweetReplyPage tweetId={tweetId} />} />
-              <Route path="user/self" element={<UserPage setTweetId={setTweetId} />} />
-              <Route path="user/other" element={<OtherUserPage />} />
+              <Route
+                path="main"
+                element={<HomePage setTweetId={setTweetId} />}
+              />
+              <Route
+                path="reply_list"
+                element={<TweetReplyPage tweetId={tweetId} />}
+              />
+              <Route path="setting" element={<AccounntSetting />} />;
+              <Route
+                path="user/self"
+                element={<UserPage setTweetId={setTweetId} />}
+              />
               <Route
                 path="user/self/follower"
                 element={<FollowPage pageStatus="follower" />}
@@ -44,7 +54,15 @@ function App() {
                 path="user/self/following"
                 element={<FollowPage pageStatus="following" />}
               />
-              <Route path="setting" element={<AccounntSetting />} />
+              <Route path="user/other" element={<OtherUserPage />} />
+              <Route
+                path="user/other/follower"
+                element={<OtherFollowPage pageStatus="follower" />}
+              />
+              <Route
+                path="user/other/following"
+                element={<OtherFollowPage pageStatus="following" />}
+              />
             </Route>
           </Routes>
         </AuthProvider>

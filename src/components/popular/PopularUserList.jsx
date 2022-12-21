@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getTopFollwer, postFollowed, deleteFollowed } from "../../api/followshipAPI";
@@ -28,8 +29,7 @@ const PopularUserList = () => {
   const [topFollowers, setTopFollowers] = useState([]);
   const [followings, setFollowings] = useState([]);
   const { isAuthenticated, currentMember } = useAuth();
-
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || null;
 
   //追隨某使用者
   const handleFollowed = async (userId) => {
@@ -69,10 +69,13 @@ const PopularUserList = () => {
       const { data } = await getUserFollowing({ token });
       setFollowings(data);
     };
+
     if (!isAuthenticated || currentMember.role !== "user") return;
+    const id = jwtDecode(token).id;
     getData();
     getFollowings();
-  }, []);
+
+  }, [isAuthenticated]);
 
   return (
     <StyledListContainer>
