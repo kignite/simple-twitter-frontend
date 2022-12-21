@@ -41,11 +41,13 @@ const PopularUserList = () => {
       const { data } = await getUserFollowing({ token, id });
       setFollowings([...data]);
     };
+
     if (!isAuthenticated || currentMember.role !== "user") return;
     const id = jwtDecode(token).id;
     getData();
     getFollowings();
-  }, []);
+
+  }, [isAuthenticated]);
   return (
     <StyledListContainer>
       <h4>推薦追隨</h4>

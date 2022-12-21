@@ -129,7 +129,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
       // 待補樣式
       console.log("名稱不能為空白!");
       return;
-    } else if (name.length > 50) {
+    } else if (name.length > 50 || introduction.length > 160) {
       // 待補樣式
       console.log("太長了!");
       return;
@@ -150,6 +150,8 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
 
     const info = {
       ...personalInfo,
+      name: name,
+      introduction: introduction,
       avatar: avatar,
       cover: cover,
     };
@@ -248,7 +250,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
           />
           <Textarea
             label={"自我介紹"}
-            value={personalInfo.introduction}
+            value={introduction}
             onChange={(introduction) => {
               setIntroduction(introduction);
             }}
