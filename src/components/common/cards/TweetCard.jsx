@@ -87,6 +87,7 @@ const TweetCard = ({
 }) => {
   const [active, setActive] = useState(false);
   const [likeStatus, setLikeStatus] = useState(isLiked);
+  const [newLikeCount, setNewLikeCount] = useState(likeCount);
   const token = localStorage.getItem('token');
 
   //handleLike
@@ -94,8 +95,9 @@ const TweetCard = ({
     try {
 
       const status = await postTweetLike({ tweetId, token });
-      if (status === 'success') {
+      if (status === 200) {
         setLikeStatus(1);
+        setNewLikeCount(newLikeCount + 1);
       }
     } catch (error) {
       console.error(error);
@@ -106,8 +108,9 @@ const TweetCard = ({
     try {
       // const token = localStorage.getItem('token');
       const status = await postTweetUnLike({ tweetId, token: token });
-      if (status === "success") {
+      if (status === 200) {
         setLikeStatus(0);
+        setNewLikeCount(newLikeCount - 1);
       }
     } catch (error) {
       console.error(error);
@@ -153,9 +156,12 @@ const TweetCard = ({
               {replyCount}
             </span>
             <span className="like">
-              {likeStatus === 1 && <LikedIcon style={iconSize} onClick={handleUnLikeClicked} />}
-              {likeStatus === 0 && <LikeIcon style={iconSize} onClick={handleLikeClicked} />}
-              {likeCount}
+              {likeStatus ?
+                <LikedIcon style={iconSize} onClick={handleUnLikeClicked} />
+                :
+                <LikeIcon style={iconSize} onClick={handleLikeClicked} />
+              }
+              {newLikeCount}
             </span>
           </div>
         </div>
