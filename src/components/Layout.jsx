@@ -39,7 +39,7 @@ const Layout = () => {
       navigate("/admin_main");
       return;
     } else if (!isAuthenticated) {
-      navigate("/login");
+      // navigate("/login");
       return;
     }
   }, [navigate, isAuthenticated]);
