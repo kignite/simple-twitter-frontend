@@ -4,7 +4,6 @@ import { getTopFollwer, postFollowed, deleteFollowed } from "../../api/followshi
 import { getUserFollowing } from "../../api/getUserTweets";
 import { useAuth } from "../../contexts/AuthContext";
 import PopularUserCard from "./PopularUserCard";
-import jwtDecode from "jwt-decode";
 
 const StyledListContainer = styled.div`
   grid-column: 3 / 4;
@@ -30,8 +29,6 @@ const PopularUserList = () => {
   const [followings, setFollowings] = useState([]);
   const { isAuthenticated, currentMember } = useAuth();
   const token = localStorage.getItem("token") || null;
-  const id = jwtDecode(token).id;
-  console.log(id);
 
   //追隨某使用者
   const handleFollowed = async (userId) => {
@@ -39,7 +36,7 @@ const PopularUserList = () => {
       const status = await postFollowed({userId, token});
       console.log(status);
       if (status === 200) {
-        const { data } = await getUserFollowing({ token, id });
+        const { data } = await getUserFollowing({ token });
         console.log(data);
         setFollowings([...data]);
       }
