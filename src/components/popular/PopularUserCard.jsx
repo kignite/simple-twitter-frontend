@@ -51,7 +51,7 @@ const StyledAvatar = styled.img`
 `;
 
 
-const PopularUserCard = ({avatar, name, account, isFollowed}) => {
+const PopularUserCard = ({avatar, name, account, isFollowed, onBtnClicked}) => {
   return (
     <StyledItemContainer>
       <StyledAvatar src={avatar} alt="" />
@@ -59,9 +59,9 @@ const PopularUserCard = ({avatar, name, account, isFollowed}) => {
         <p className="user-name">{name}</p>
         <p className="user-account">@{account}</p>
       </div>
-      <StyledButton className={"follow-btn" + clsx(' ', {active: isFollowed})}>
+      <StyledButton className={"follow-btn" + clsx(' ', {active: isFollowed})} onClick={onBtnClicked}>
         {isFollowed ? '正在跟隨' : '跟隨'}
-      </StyledButton> {/*還沒做追蹤/取消追蹤API*/}
+      </StyledButton>
     </StyledItemContainer>
   );
 };
