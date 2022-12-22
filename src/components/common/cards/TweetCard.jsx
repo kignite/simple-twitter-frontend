@@ -93,7 +93,6 @@ const TweetCard = ({
   //handleLike
   const handleLikeClicked = async () => {
     try {
-
       const status = await postTweetLike({ tweetId, token });
       if (status === 200) {
         setLikeStatus(1);

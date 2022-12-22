@@ -25,7 +25,6 @@ export const PageStyled = styled.div`
     header {
       position: sticky; //還沒資料看不出效果
       top: 0;
-      z-index: 99;
       background-color: var(--main_white);
     }
     .title {
@@ -54,12 +53,11 @@ const AdminMainPage = () => {
   const { isAuthenticated, currentMember } = useAuth();
   const token = localStorage.getItem("token") || null;
 
-  const handleDelete = async (e) => {
-    // 型別轉為數字
-    const tweetId = parseInt(e.target.dataset.id);
+  const handleDelete = async (tweetId) => {
+    const token = localStorage.getItem("token");
     await adminDeleteUserTweet({ tweetId, token });
-    setTweetsData((prev) => prev.filter((tweet) => tweet.id !== tweetId));
   };
+
   useEffect(() => {
     const getTweetsData = async () => {
       const { data } = await adminGetUserTweets({ token });
@@ -68,7 +66,7 @@ const AdminMainPage = () => {
     if (!isAuthenticated || currentMember.role !== "admin") return;
 
     getTweetsData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, handleDelete]);
 
   return (
     <PageStyled>
@@ -85,9 +83,9 @@ const AdminMainPage = () => {
               name={tweet.User.name}
               account={tweet.User.account}
               createdAt={tweet.createdAt}
-              id={tweet.id}
-              onDelete={handleDelete}
+              tweetId={tweet.id}
               description={tweet.description}
+              onDelete={handleDelete}
             />
           ))}
         </div>

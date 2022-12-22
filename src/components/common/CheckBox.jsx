@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { adminDeleteUserTweet } from "../../api/getAdminRelated";
+// import { adminDeleteUserTweet } from "../../api/getAdminRelated";
 
 const CheckBoxStyled = styled.div`
   display: block;
@@ -9,6 +9,7 @@ const CheckBoxStyled = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 200;
   height: 250px;
   width: 500px;
   border: 1px solid var(--main_orange);
@@ -29,20 +30,21 @@ const CheckBoxStyled = styled.div`
     margin: 0 10px;
   }
 `;
-const CheckBox = ({ setCheckDelete, tweetId }) => {
-  console.log(tweetId);
-  const handleDelte = async () => {
-    const token = localStorage.getItem("token");
-    await adminDeleteUserTweet({ tweetId, token });
-  };
+const CheckBox = ({ setCheckTweetId, tweetId, onDelete }) => {
   return (
     <CheckBoxStyled>
       <div className="double-check">是否刪除?</div>
       <div className="btn-area">
-        <button className="delete" onClick={handleDelte}>
+        <button className="keep" onClick={() => setCheckTweetId(null)}>
           保留
         </button>
-        <button className="keep" onClick={() => setCheckDelete(false)}>
+        <button
+          className="delete"
+          onClick={() => {
+            onDelete(tweetId);
+            setCheckTweetId(null);
+          }}
+        >
           刪除
         </button>
       </div>

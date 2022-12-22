@@ -8,7 +8,7 @@ const BackdropStyle = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 50;
 `;
 
 const Backdrop = ({ active, onClose, children }) => {
