@@ -47,31 +47,42 @@ export const AccountFormContainer = styled.div`
 const LoginPage = () => {
   const { login, isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
-  const [account, setAccount] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [account, setAccount] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState({});
   const role = "users";
 
   const handleClick = async () => {
+    if (account.length === 0 && password.length === 0) {
+      setErrorMessage({
+        ...errorMessage,
+        account: "請輸入帳號",
+        password: "請輸入密碼",
+      });
+
+      return;
+    }
     if (account.length === 0) {
+      setErrorMessage({ ...errorMessage, account: "請輸入帳號" });
       return;
     }
     if (password.length === 0) {
+      setErrorMessage({ ...errorMessage, password: "請輸入密碼" });
       return;
     }
-
-    const status = await login(
+    const { success } = await login(
       {
         account,
         password,
       },
       role
     );
-    if (status === "success") {
-      // console.log(status);
-      console.log("登入成功");
-    } else {
-      //待補失敗處理
-      console.log("登入失敗");
+    if (!success) {
+      setErrorMessage({
+        ...errorMessage,
+        account: "帳號或密碼錯誤",
+        password: "帳號或密碼錯誤",
+      });
     }
   };
 
@@ -94,14 +105,22 @@ const LoginPage = () => {
           label={"帳號"}
           value={account}
           placeholder={"請輸入帳號"}
-          onChange={(nameInputValue) => setAccount(nameInputValue)}
+          errorMessage={errorMessage.account || null}
+          onChange={(nameInputValue) => {
+            setAccount(nameInputValue);
+            setErrorMessage({ ...errorMessage, account: null });
+          }}
         />
         <Input
           type={"password"}
           label={"密碼"}
           value={password}
           placeholder={"請輸入密碼"}
-          onChange={(passwordInputValue) => setPassword(passwordInputValue)}
+          errorMessage={errorMessage.password || null}
+          onChange={(nameInputValue) => {
+            setPassword(nameInputValue);
+            setErrorMessage({ ...errorMessage, password: null });
+          }}
         />
         <StyledBigButton className="form-btn" onClick={handleClick}>
           登入

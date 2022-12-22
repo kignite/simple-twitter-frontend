@@ -52,15 +52,15 @@ export const AuthProvider = ({ children }) => {
           return success;
         },
         login: async (data, role) => {
-          const { status, token } = await login(
+          const { success, token } = await login(
             {
               account: data.account,
               password: data.password,
             },
             role
           );
-          const tempPayload = jwtDecode(token);
-          if (tempPayload) {
+          if (token) {
+            const tempPayload = jwtDecode(token);
             setPayload(tempPayload);
             setIsAuthenticated(true);
             localStorage.setItem("token", token);
@@ -68,7 +68,8 @@ export const AuthProvider = ({ children }) => {
             setPayload(null);
             setIsAuthenticated(false);
           }
-          return status;
+          if (success) return { success: true };
+          else return { success: false };
         },
         logout: () => {
           localStorage.removeItem("token");

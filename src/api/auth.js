@@ -16,8 +16,7 @@ export const login = async ({ account, password }, role) => {
     }
     return status;
   } catch (error) {
-    console.log('login-failed:', error)
-    return { error };
+    return { success: false }
   }
 };
 

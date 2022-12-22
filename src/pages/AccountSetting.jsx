@@ -75,7 +75,7 @@ const AccountSetting = () => {
     });
     console.log(error);
     setErrorMessage(error.message);
-    // console.log(data);
+    console.log(errorMessage);
   };
 
   useEffect(() => {
@@ -107,7 +107,10 @@ const AccountSetting = () => {
             value={account}
             placeholder={"請輸入帳號"}
             errorMessage={errorMessage.account || null}
-            onChange={(nameInputValue) => setAccount(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setAccount(nameInputValue);
+              setErrorMessage({ ...errorMessage, account: null });
+            }}
           />
           <Input
             type={"text"}
@@ -115,7 +118,10 @@ const AccountSetting = () => {
             value={name}
             placeholder={"請輸入名稱"}
             errorMessage={errorMessage.name || null}
-            onChange={(nameInputValue) => setName(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setName(nameInputValue);
+              setErrorMessage({ ...errorMessage, name: null });
+            }}
           />
           <Input
             type={"email"}
@@ -123,7 +129,10 @@ const AccountSetting = () => {
             value={email}
             placeholder={"請輸入Email"}
             errorMessage={errorMessage.email || null}
-            onChange={(nameInputValue) => setEmail(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setEmail(nameInputValue);
+              setErrorMessage({ ...errorMessage, email: null });
+            }}
           />
           <Input
             type={"password"}
@@ -131,7 +140,10 @@ const AccountSetting = () => {
             value={password}
             placeholder={"請設定密碼"}
             errorMessage={errorMessage.password || null}
-            onChange={(nameInputValue) => setPassword(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setPassword(nameInputValue);
+              setErrorMessage({ ...errorMessage, password: null });
+            }}
           />
           <Input
             type={"password"}
@@ -139,7 +151,10 @@ const AccountSetting = () => {
             value={checkPassword}
             placeholder={"請再次輸入密碼"}
             errorMessage={errorMessage.passwordCheck || null}
-            onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setCheckPassword(nameInputValue);
+              setErrorMessage({ ...errorMessage, passwordCheck: null });
+            }}
           />
           <StyledButton className="save-btn active" onClick={handleClick}>
             儲存

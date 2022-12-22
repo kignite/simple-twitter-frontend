@@ -77,19 +77,17 @@ export const Input = ({
   value,
   placeholder,
   onChange,
-  maxLength = 50,
+  maxLength = 100,
   errorMessage = null,
 }) => {
-  // const errorCondition = () => {
-  //   if (label === "名稱" && value !== null && value.length === 50) {
-  //     return true;
-  //   }
-  // };
   return (
     <DefaultInputStyled>
       <label>{label}</label>
       <input
-        className={clsx(" ", { error: errorMessage})}
+        className={clsx(" ", {
+          error:
+            errorMessage || (label === "名稱" && value && value.length > 50),
+        })}
         type={type || "text"}
         value={value || ""}
         placeholder={placeholder || ""}
@@ -99,8 +97,17 @@ export const Input = ({
         }}
       />
       <div className="hint">
-        <p className={"error-msg" + clsx(" ", { show: errorMessage })}>
-          {errorMessage || "字數不可超過50字!"}
+        <p
+          className={
+            "error-msg" +
+            clsx(" ", {
+              show:
+                errorMessage ||
+                (label === "名稱" && value && value.length > 50),
+            })
+          }
+        >
+          {errorMessage}
         </p>
         {value !== null && label === "名稱" && (
           <p className="text-num">{value.length}/50</p>
