@@ -28,9 +28,10 @@ const StyledLayoutContainer = styled.div`
   }
 `;
 
-const Layout = () => {
+const Layout = ({active, setActive}) => {
   const token = localStorage.getItem("token") || null;
-  const [active, setActive] = useState(false);
+  // //Modal的開關
+  // const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
   const navigate = useNavigate();
 
@@ -62,8 +63,9 @@ const Layout = () => {
     <StyledLayoutContainer>
       <Sidebar setActive={setActive} />
       <div className="outlet">
-        <Backdrop active={active} setActive={setActive}>
+        <Backdrop active={active}>
           <Modal
+            // onReply={false}
             active={active}
             setActive={setActive}
             personalInfo={personalInfo}

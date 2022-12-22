@@ -6,6 +6,8 @@ import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+// import Backdrop from "../components/Backdrop";
+// import Modal from "../components/common/Modal";
 
 const HomePageStyle = styled.div`
   position: relative;
@@ -75,12 +77,13 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
+const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
 
+  //取得所有推文
   useEffect(() => {
     const getTweets = async () => {
       const { data } = await getAllTweets({ token });
@@ -89,7 +92,7 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
 
     if (!isAuthenticated || currentMember.role !== "user") return;
     getTweets();
-  }, [handlePost]);
+  }, [handlePost, active]);
 
   useEffect(() => {
     const getPersonalInfo = async () => {
@@ -122,15 +125,19 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost }) => {
             onTweetClick?.(tweet.id);
             navigate("/reply_list");
           }}
+          active={active}
+          setActive={setActive}
         />
       ))}
     </ul>
   );
 };
 
-const HomePage = ({ setTweetId }) => {
+const HomePage = ({ setTweetId, active, setActive }) => {
   const [avatar, setAvatar] = useState("");
+  // const [personalInfo, setPersonalInfo] = useState({});
   const [tweetText, setTweetText] = useState("");
+  // const [modalTweetId, setModalTweetId] = useState();
   const token = localStorage.getItem("token") || null;
   const { isAuthenticated, currentMember } = useAuth();
 
@@ -163,6 +170,20 @@ const HomePage = ({ setTweetId }) => {
 
   return (
     <HomePageStyle>
+      {/* <Backdrop active={active}>
+        <Modal
+          tweetId={modalTweetId}
+          active={active}
+          setActive={setActive}
+          avatar={avatar}
+          name={name}
+          account={account}
+          createdAt={createdAt}
+          description={description}
+          onReply={true}
+          personalInfo={personalInfo} //只有這個是自己
+        />
+      </Backdrop> */}
       <div className="sticky-part">
         <header>
           <h4 className="home">首頁</h4>
@@ -190,6 +211,8 @@ const HomePage = ({ setTweetId }) => {
           setTweetId(tweetId);
           console.log(tweetId);
         }}
+        active={active}
+        setActive={setActive}
       />
     </HomePageStyle>
   );

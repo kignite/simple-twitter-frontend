@@ -74,7 +74,6 @@ export const StyledCardContainer = styled.div`
 const TweetCard = ({
   userId,
   tweetId,
-  personalInfo,
   avatar,
   name,
   account,
@@ -83,12 +82,16 @@ const TweetCard = ({
   replyCount,
   likeCount,
   isLiked,
-  onClick
+  onClick,
+  active,
+  setActive,
+  personalInfo
 }) => {
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
   const [likeStatus, setLikeStatus] = useState(isLiked);
   const [newLikeCount, setNewLikeCount] = useState(likeCount);
   const token = localStorage.getItem('token');
+  // console.log('tweet', tweetId);
 
   //handleLike
   const handleLikeClicked = async () => {
@@ -125,22 +128,22 @@ const TweetCard = ({
   };
 
   return (
-    <div>
-      <Backdrop active={active} setActive={setActive}>
-        <Modal
-        tweetId={tweetId}
-        active={active}
-        setActive={setActive}
-        avatar={avatar}
-        name={name}
-        account={account}
-        createdAt={createdAt}
-        description={description}
-        onReply={true}
-        personalInfo={personalInfo}
-      />
-      </Backdrop>
       <StyledCardContainer>
+        <Backdrop active={active}>
+          <Modal
+            key={tweetId}
+            tweetId={tweetId}
+            active={active}
+            setActive={setActive}
+            avatar={avatar}
+            name={name}
+            account={account}
+            createdAt={createdAt}
+            description={description}
+            onReply={true}
+            personalInfo={personalInfo}
+          />
+        </Backdrop>
         <Link to={`/user/other/?id=${userId}`}>
           <img src={avatar} alt={name} />
         </Link>
@@ -153,7 +156,13 @@ const TweetCard = ({
           <p onClick={onClick}>{description}</p>
           <div className="user-actions">
             <span className="reply">
-              <ReplyIcon style={iconSize} onClick={() => setActive(true)} />
+              <ReplyIcon key={tweetId} style={iconSize} onClick={(e) => {
+                if (e.target.key === Modal.key) {
+                  setActive(true);
+                  setActive(prev => !prev);
+                }
+                console.log(tweetId);
+                }} />
               {replyCount}
             </span>
             <span className="like">
@@ -167,7 +176,6 @@ const TweetCard = ({
           </div>
         </div>
       </StyledCardContainer>
-    </div>
   );
 };
 

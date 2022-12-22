@@ -17,8 +17,18 @@ import { AuthProvider } from "./contexts/AuthContext";
 import OtherFollowPage from "./pages/OtherFollowPage";
 
 function App() {
-  //要記得重構，再單一推文頁刷新會取到初始的空值
-  const [tweetId, setTweetId] = useState();
+  //要記得重構，在單一推文頁刷新會取到初始的空值
+  const [tweetId, setTweetId] = useState(0);
+  // const tweetIdRef = useRef(tweetId);
+  // const currentTweetId = tweetIdRef.current;
+
+  //Modal的開關
+  //reply的
+  const [active, setActive] = useState(false);
+  //tweet的
+  const [tweetModalActive, setTweetModalActive] = useState(false);
+
+
 
   return (
     <div className="App">
@@ -32,15 +42,15 @@ function App() {
             <Route path="admin_users" element={<AdminUserList />} />
             {/* <Route path="setting" element={<AccounntSetting />} /> */}
             {/* <Route path="/" element={<Layout />}/> */}
-            <Route path="/" element={<Layout />}>
-              <Route path="*" element={<HomePage setTweetId={setTweetId} />} />
+            <Route path="/" element={<Layout active={tweetModalActive} setActive={setTweetModalActive} />}>
+              <Route path="*" element={<HomePage setTweetId={setTweetId} active={active} setActive={setActive} />} />
               <Route
                 path="main"
-                element={<HomePage setTweetId={setTweetId} />}
+                element={<HomePage setTweetId={setTweetId} active={active} setActive={setActive} />}
               />
               <Route
                 path="reply_list"
-                element={<TweetReplyPage tweetId={tweetId} />}
+                element={<TweetReplyPage tweetId={tweetId} active={active} setActive={setActive} />}
               />
               <Route path="setting" element={<AccounntSetting />} />;
               <Route

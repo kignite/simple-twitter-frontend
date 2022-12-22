@@ -37,7 +37,7 @@ const TweetReplyPageStyle = styled.div`
   }
 `;
 
-const TweetReplyPage = ({tweetId}) => {
+const TweetReplyPage = ({tweetId, active, setActive}) => {
   const [tweetData, setTweetData] = useState({
     "id": 0,
     "createdAt": "0",
@@ -53,25 +53,29 @@ const TweetReplyPage = ({tweetId}) => {
     }
   });
   const [tweetReplies, setTweetReplies] = useState([]);
+  // const currentTweetId = tweetId;
+  // const tweetIdRef = useRef(currentTweetId);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  console.log(tweetId);
+  // console.log(tweetIdRef.current);
 
   useEffect(() => {
     //發送取得單一推文資料的請求
     const getOneSpecificTweet = async () => {
+      // const id = tweetIdRef.current;
       const {data} = await getOneTweet({id: tweetId, token});
       setTweetData(data);
     };
     //發送取得單一推文回覆串的請求
     const getOneSpecificTweetReplies = async () => {
+      // const id = tweetIdRef.current;
       const {data} = await getOneTweetReplies({id: tweetId, token});
       setTweetReplies([...data])
     };
 
     getOneSpecificTweet();
     getOneSpecificTweetReplies();
-  }, [tweetId])
+  }, [active])
 
   return (
     <TweetReplyPageStyle>
@@ -82,6 +86,7 @@ const TweetReplyPage = ({tweetId}) => {
         <h4>推文</h4>
       </header>
       <TweetCardBig
+        tweetId={tweetId}
         avatar={tweetData.User.avatar}
         name={tweetData.User.name}
         account={tweetData.User.account}
@@ -91,6 +96,8 @@ const TweetReplyPage = ({tweetId}) => {
         likeCount={tweetData.likeCount}
         isLiked={tweetData.isLiked}
         personalInfo={tweetData.User}
+        active={active}
+        setActive={setActive}
       />
       {tweetReplies.map(reply =>
         <CommentCard

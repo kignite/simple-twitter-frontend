@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 import Backdrop from "../../Backdrop";
 import Modal from "../Modal";
+// import { postReply } from "../../../api/getUserTweets";
 
 const StyledCardContainer = styled.div`
   width: 100%;
@@ -81,9 +82,12 @@ const TweetCardBig = ({
   replyCount,
   likeCount,
   isLiked,
-  personalInfo
+  personalInfo,
+  active,
+  setActive
 }) => {
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
+  console.log(tweetId);
 
   const iconSize = {
     width: "25px",
@@ -94,19 +98,20 @@ const TweetCardBig = ({
 
   return (
     <StyledCardContainer>
-      <Backdrop active={active} setActive={setActive} />
-      <Modal
-        tweetId={tweetId}
-        active={active}
-        setActive={setActive}
-        avatar={avatar}
-        name={name}
-        account={account}
-        createdAt={createdAt}
-        description={description}
-        onReply={true}
-        personalInfo={personalInfo}
-      />
+      <Backdrop active={active}>
+        <Modal
+          tweetId={tweetId}
+          active={active}
+          setActive={setActive}
+          avatar={avatar}
+          name={name}
+          account={account}
+          createdAt={createdAt}
+          description={description}
+          onReply={true}
+          personalInfo={personalInfo}
+        />
+      </Backdrop>
       <div className="user-info">
         <img src={avatar} alt={name} />
         <div className="user">
@@ -127,7 +132,10 @@ const TweetCardBig = ({
         </p>
       </div>
       <div className="icon-footer">
-        <ReplyIcon style={iconSize} onClick={() => setActive(true)} />
+        <ReplyIcon style={iconSize} onClick={() => {
+          setActive(true);
+          console.log(tweetId);
+          }} />
         {isLiked ? (
           <LikedIcon style={iconSize} />
         ) : (
