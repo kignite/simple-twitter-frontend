@@ -42,14 +42,18 @@ export const AuthProvider = ({ children }) => {
           role: payload.role,
         },
         regist: async (data) => {
-          const { success } = await regist({
+          const { success, errorMessage } = await regist({
             email: data.email,
             account: data.account,
             password: data.password,
             checkPassword: data.checkPassword,
             name: data.name,
           });
-          return success;
+          if (success) {
+            return { success: true };
+          } else {
+            return { success: false, errorMessage: errorMessage };
+          }
         },
         login: async (data, role) => {
           const { success, token } = await login(

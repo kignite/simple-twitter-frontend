@@ -64,7 +64,7 @@ const AccountSetting = () => {
   const handleClick = async () => {
     userID = jwt(token).id;
 
-    const error = await acountSetting({
+    const { success, errorMessage } = await acountSetting({
       userID,
       token,
       email,
@@ -73,9 +73,8 @@ const AccountSetting = () => {
       checkPassword,
       name,
     });
-    console.log(error);
-    setErrorMessage(error.message);
-    console.log(errorMessage);
+    if (!success) setErrorMessage(errorMessage.message)
+    else console.log("修改成功");
   };
 
   useEffect(() => {
