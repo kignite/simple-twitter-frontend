@@ -9,6 +9,7 @@ import {
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
@@ -49,6 +50,21 @@ const AdminLoginPage = () => {
         ...errorMessage,
         account: "帳號或密碼錯誤",
         password: "帳號或密碼錯誤",
+      });
+      Swal.fire({
+        position: "top",
+        title: "登入失敗",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        position: "top",
+        title: "登入成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
       });
     }
   };

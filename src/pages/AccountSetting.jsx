@@ -11,6 +11,7 @@ import jwt from "jwt-decode";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
 import { useAuth } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const SettingStyle = styled.div`
   width: 100%;
@@ -73,8 +74,24 @@ const AccountSetting = () => {
       checkPassword,
       name,
     });
-    if (!success) setErrorMessage(errorMessage.message)
-    else console.log("修改成功");
+    if (!success) {
+      setErrorMessage(errorMessage.message);
+      Swal.fire({
+        position: "top",
+        title: "設定失敗",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        position: "top",
+        title: "設定成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
+    }
   };
 
   useEffect(() => {

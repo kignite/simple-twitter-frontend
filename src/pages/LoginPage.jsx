@@ -11,6 +11,7 @@ import {
   StyledLinkText,
 } from "../components/common/button.styled";
 import { useAuth } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 export const AccountFormPage = styled.div`
   height: 100%;
@@ -82,6 +83,21 @@ const LoginPage = () => {
         ...errorMessage,
         account: "帳號或密碼錯誤",
         password: "帳號或密碼錯誤",
+      });
+      Swal.fire({
+        position: "top",
+        title: "登入失敗",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        position: "top",
+        title: "登入成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
       });
     }
   };

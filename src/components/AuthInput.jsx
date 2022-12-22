@@ -107,7 +107,8 @@ export const Input = ({
             })
           }
         >
-          {errorMessage}
+          {errorMessage ||
+            (label === "名稱" && value && value.length > 50 && "名稱超過50字")}
         </p>
         {value !== null && label === "名稱" && (
           <p className="text-num">{value.length}/50</p>
@@ -117,7 +118,13 @@ export const Input = ({
   );
 };
 
-export const Textarea = ({ label, value, onChange, errorMessage = null }) => {
+export const Textarea = ({
+  label,
+  value,
+  onChange,
+  errorMessage = null,
+  maxLength = 400,
+}) => {
   return (
     <DefaultInputStyled>
       <label>{label}</label>
@@ -128,6 +135,7 @@ export const Textarea = ({ label, value, onChange, errorMessage = null }) => {
         rows="5"
         value={value || ""}
         placeholder="請輸入自我介紹"
+        maxLength={maxLength}
         onChange={(e) => {
           onChange?.(e.target.value);
         }}
