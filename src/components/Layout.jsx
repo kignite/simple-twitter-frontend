@@ -35,6 +35,17 @@ const Layout = () => {
   const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
+    if (isAuthenticated && currentMember.role === "admin") {
+      navigate("/admin_main");
+      return;
+    } else if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+  }, [navigate, isAuthenticated]);
+
+
+  useEffect(() => {
     const getdata = async () => {
       if (isAuthenticated && currentMember.role === "admin") {
         navigate("/admin_main");

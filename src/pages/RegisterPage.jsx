@@ -21,21 +21,6 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    if (account.length === 0) {
-      return;
-    }
-    if (name.length === 0) {
-      return;
-    }
-    if (email.length === 0) {
-      return;
-    }
-    if (password.length === 0) {
-      return;
-    }
-    if (checkPassword.length === 0) {
-      return;
-    }
     const { success, errorMessage } = await regist({
       email,
       account,
@@ -43,8 +28,9 @@ const RegisterPage = () => {
       checkPassword,
       name,
     });
+    console.log(errorMessage);
     if (!success) setErrorMessage(errorMessage.message);
-    else navigate("/login")
+    else navigate("/login");
   };
 
   useEffect(() => {

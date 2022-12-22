@@ -69,7 +69,7 @@ const FollowPage = ({ pageStatus }) => {
       console.log(status);
       if (status === 200) {
         // const { data } = await getUserFollowing({ token });
-        setFollowData(prevData => {
+        setFollowData((prevData) => {
           return prevData.map((prev) => {
             if (prev.followerId === userId) {
               return {
@@ -77,18 +77,17 @@ const FollowPage = ({ pageStatus }) => {
                 Followers: {
                   ...prev.Followers,
                   isFollowed: 1,
-                }
-              }
+                },
+              };
             }
             return prev;
-          })
+          });
         });
       }
     } catch (error) {
       console.error(error);
     }
   };
-
 
   //取消追隨某位使用者
   const handleUnFollowed = async (followingId) => {
@@ -109,11 +108,11 @@ const FollowPage = ({ pageStatus }) => {
                   Followers: {
                     ...prev.Followers,
                     isFollowed: 0,
-                  }
-                }
+                  },
+                };
               }
               return prev;
-            })
+            });
           }
         });
       }
@@ -121,7 +120,6 @@ const FollowPage = ({ pageStatus }) => {
       console.error(error);
     }
   };
-
 
   useEffect(() => {
     const getCurrentUser = async () => {
