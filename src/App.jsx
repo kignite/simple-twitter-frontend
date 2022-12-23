@@ -52,10 +52,10 @@ function App() {
                 path="reply_list"
                 element={<TweetReplyPage active={active} setActive={setActive} />}
               />
-              <Route path="setting" element={<AccounntSetting />} />;
+              <Route path="setting" element={<AccounntSetting />} />
               <Route
                 path="user/self"
-                element={<UserPage />}
+                element={<UserPage active={active} setActive={setActive} />}
               />
               <Route
                 path="user/self/follower"

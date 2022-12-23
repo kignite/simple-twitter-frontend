@@ -108,19 +108,19 @@ const UserInfoText = styled.div`
   }
 `;
 
-const UserPage = () => {
+const UserPage = ({active, setActive}) => {
   const token = localStorage.getItem("token");
-  const [active, setActive] = useState(false);
+  const [editActive, setEditActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    setActive(true);
+    setEditActive(true);
     console.log("編輯個人資料");
   };
   const handleClose = () => {
-    setActive(false);
+    setEditActive(false);
   };
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const UserPage = () => {
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getPersonalInfo();
-  }, [active, isAuthenticated]);
+  }, [editActive, isAuthenticated]);
 
   return (
     <>
@@ -205,6 +205,8 @@ const UserPage = () => {
         </div>
         <UserPanel
           personalInfo={personalInfo}
+          active={active}
+          setActive={setActive}
         />
       </UserPageStyle>
     </>

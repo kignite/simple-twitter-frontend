@@ -137,7 +137,6 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
-          active={active}
           setActive={setActive}
           setReplyToData={setReplyToData}
         />

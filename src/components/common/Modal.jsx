@@ -60,6 +60,7 @@ const Modal = ({
   const token = localStorage.getItem("token");
   const tweetRef = useRef(null);
   console.log(tweetId);
+  console.log("replyTo:", name);
 
   const handleTweet = async () => {
     if (tweetRef.current.value.length === 0) {

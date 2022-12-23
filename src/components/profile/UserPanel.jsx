@@ -3,22 +3,26 @@ import clsx from "clsx";
 import { StyledTabbar } from "../common/tab.styled";
 import TweetCard from "../common/cards/TweetCard";
 import CommentCard from "../common/cards/CommentCard";
+import Backdrop from "../Backdrop";
+import Modal from "../common/Modal";
 import {
   getUserTweets,
   getUserReplies,
   getUserLikes,
 } from "../../api/getUserTweets";
 import { useAuth } from "../../contexts/AuthContext";
-import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-const UserPanel = ({ personalInfo }) => {
+const UserPanel = ({ personalInfo, active, setActive }) => {
   const [activeTab, setActiveTab] = useState("tweet");
   const [panelData, setPanelData] = useState([]);
+  const [replyToData, setReplyToData] = useState({});
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
   const { isAuthenticated, currentMember } = useAuth();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const modalTweetId = searchParams.get("reply_to");
 
   useEffect(() => {
     let ignore = false;
@@ -69,8 +73,28 @@ const UserPanel = ({ personalInfo }) => {
     };
   }, [activeTab, key, isAuthenticated]);
 
+  // useEffect(() => {
+  //   setReplyToData(replyToData);
+  //   console.log(replyToData);
+  // }, [replyToData])
+
   return (
     <div className="user-panel">
+      <Backdrop active={active}>
+        <Modal
+          tweetId={modalTweetId}
+          active={active}
+          setActive={setActive}
+          avatar={replyToData.avatar}
+          name={replyToData.name}
+          account={replyToData.account}
+          createdAt={replyToData.createdAt}
+          description={replyToData.description}
+          onReply={true}
+          onPages={true}
+          personalInfo={personalInfo} //只有這個是自己
+        />
+      </Backdrop>
       <StyledTabbar>
         <button
           className={
@@ -142,16 +166,15 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.replyCount}
                 likeCount={item.likeCount}
                 isLiked={item.isLiked}
-                onClick={() => {
-                  navigate("/reply_list");
-                }}
+                setActive={setActive}
+                setReplyToData={setReplyToData}
               />
             );
-          } else {
+          } else { //使用者喜歡的內容
             return (
               <TweetCard
                 key={item.id}
-                tweetId={item.id}
+                tweetId={item.TweetId}
                 userId={item.Tweet.User.id}
                 personalInfo={personalInfo}
                 avatar={item.Tweet.User.avatar}
@@ -162,9 +185,9 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.Tweet.replyCount}
                 likeCount={item.Tweet.likeCount}
                 isLiked={item.Tweet.isLiked}
-                onClick={() => {
-                  navigate("/reply_list");
-                }}
+                setActive={setActive}
+                setReplyToData={setReplyToData}
+                setPanelData={setPanelData}
               />
             );
           }

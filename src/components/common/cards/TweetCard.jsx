@@ -83,7 +83,8 @@ const TweetCard = ({
   likeCount,
   isLiked,
   setActive,
-  setReplyToData
+  setReplyToData,
+  setPanelData
 }) => {
   // const [active, setActive] = useState(false);
   const [likeStatus, setLikeStatus] = useState(isLiked);
@@ -112,6 +113,9 @@ const TweetCard = ({
       if (status === 200) {
         setLikeStatus(0);
         setNewLikeCount(newLikeCount - 1);
+        setPanelData((prevData) => {
+          return prevData.filter((prev) => prev.TweetId !== tweetId);
+        });
       }
     } catch (error) {
       console.error(error);
@@ -127,21 +131,6 @@ const TweetCard = ({
 
   return (
       <StyledCardContainer>
-        {/* <Backdrop active={active}>
-          <Modal
-            key={tweetId}
-            tweetId={tweetId}
-            active={active}
-            setActive={setActive}
-            avatar={avatar}
-            name={name}
-            account={account}
-            createdAt={createdAt}
-            description={description}
-            onReply={true}
-            personalInfo={personalInfo}
-          />
-        </Backdrop> */}
         <Link to={`/user/other/?id=${userId}`}>
           <img src={avatar} alt={name} />
         </Link>
@@ -157,7 +146,7 @@ const TweetCard = ({
           <div className="user-actions">
             <span className="reply">
               <Link to={`/reply/?reply_to=${tweetId}`}>
-                <ReplyIcon key={tweetId} style={iconSize} onClick={() => {
+                <ReplyIcon style={iconSize} onClick={() => {
                   setReplyToData({
                     avatar,
                     name,
