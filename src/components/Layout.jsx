@@ -57,7 +57,7 @@ const Layout = ({active, setActive}) => {
     }
 
     getdata();
-  }, [navigate, isAuthenticated]);
+  }, [isAuthenticated]);
 
   return (
     <StyledLayoutContainer>

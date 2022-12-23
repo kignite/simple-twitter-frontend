@@ -43,7 +43,7 @@ function App() {
             <Route path="/admin_users" element={<AdminUserList />} />
             {/* <Route path="setting" element={<AccounntSetting />} /> */}
             {/* <Route path="/" element={<Layout />}/> */}
-            <Route path="/" element={<Layout active={tweetModalActive} setActive={setTweetModalActive} />}>
+            <Route path="/layout" element={<Layout active={tweetModalActive} setActive={setTweetModalActive} />}>
               {/* <Route path="*" element={<HomePage active={active} setActive={setActive} />} /> */}
               <Route
                 path="main"
