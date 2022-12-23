@@ -151,7 +151,7 @@ const UserPage = ({active, setActive}) => {
           personalInfo={personalInfo} //只有這個是自己
         />
       </Backdrop> */}
-      <Backdrop active={active} onClose={handleClose} />
+      <Backdrop active={editActive} onClose={handleClose} />
       <UserPageStyle>
         <header>
           <TurnbackIcon
@@ -171,7 +171,7 @@ const UserPage = ({active, setActive}) => {
               <img src={personalInfo.cover} alt="" className="cover" />
               <img src={personalInfo.avatar} alt="" className="avatar" />
             </div>
-            {active ? (
+            {editActive ? (
               <EditInfoModal
                 token={token}
                 personalInfo={personalInfo}
