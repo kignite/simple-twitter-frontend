@@ -18,7 +18,7 @@ import OtherFollowPage from "./pages/OtherFollowPage";
 
 function App() {
   //要記得重構，在單一推文頁刷新會取到初始的空值
-  const [tweetId, setTweetId] = useState(0);
+  // const [tweetId, setTweetId] = useState(0);
   // const tweetIdRef = useRef(tweetId);
   // const currentTweetId = tweetIdRef.current;
 
@@ -43,19 +43,19 @@ function App() {
             {/* <Route path="setting" element={<AccounntSetting />} /> */}
             {/* <Route path="/" element={<Layout />}/> */}
             <Route path="/" element={<Layout active={tweetModalActive} setActive={setTweetModalActive} />}>
-              <Route path="*" element={<HomePage setTweetId={setTweetId} active={active} setActive={setActive} />} />
+              <Route path="*" element={<HomePage active={active} setActive={setActive} />} />
               <Route
                 path="main"
-                element={<HomePage setTweetId={setTweetId} active={active} setActive={setActive} />}
+                element={<HomePage active={active} setActive={setActive} />}
               />
               <Route
                 path="reply_list"
-                element={<TweetReplyPage tweetId={tweetId} active={active} setActive={setActive} />}
+                element={<TweetReplyPage active={active} setActive={setActive} />}
               />
               <Route path="setting" element={<AccounntSetting />} />;
               <Route
                 path="user/self"
-                element={<UserPage setTweetId={setTweetId} />}
+                element={<UserPage />}
               />
               <Route
                 path="user/self/follower"

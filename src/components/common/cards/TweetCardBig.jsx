@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 import Backdrop from "../../Backdrop";
 import Modal from "../Modal";
 // import { postReply } from "../../../api/getUserTweets";
+import { postTweetLike, postTweetUnLike } from "../../../api/getTweetsRelated";
 
 const StyledCardContainer = styled.div`
   width: 100%;
@@ -86,8 +87,20 @@ const TweetCardBig = ({
   active,
   setActive
 }) => {
-  // const [active, setActive] = useState(false);
   console.log(tweetId);
+  console.log("LikeCount:", likeCount);
+  const [likeStatus, setLikeStatus] = useState(isLiked);
+  const [newLikeCount, setNewLikeCount] = useState(likeCount);
+  // let newLikeCount = likeCount;
+  const token = localStorage.getItem("token");
+  console.log("NewLikeCount:", newLikeCount);
+
+  //從動態路由拿到tweetId後還拿不到其他資料，要等取得單一推文資料成功後再初始化以下數值一次...
+  useEffect(() => {
+    setLikeStatus(isLiked);
+    setNewLikeCount(likeCount);
+  }, [isLiked, likeCount])
+
 
   const iconSize = {
     width: "25px",
@@ -95,6 +108,33 @@ const TweetCardBig = ({
     marginRight: "133px",
     cursor: "pointer", //加上點擊指標
   };
+
+  //handleLike
+  const handleLikeClicked = async () => {
+    try {
+      const status = await postTweetLike({ tweetId, token });
+      if (status === 200) {
+        setLikeStatus(1);
+        setNewLikeCount(newLikeCount + 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //handleUnLike
+  const handleUnLikeClicked = async () => {
+    try {
+      // const token = localStorage.getItem('token');
+      const status = await postTweetUnLike({ tweetId, token: token });
+      if (status === 200) {
+        setLikeStatus(0);
+        setNewLikeCount(newLikeCount - 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <StyledCardContainer>
@@ -125,10 +165,10 @@ const TweetCardBig = ({
       </p>
       <div className="amount-footer">
         <p>
-          <span>{replyCount || 0}</span> 回覆
+          <span>{replyCount}</span> 回覆
         </p>
         <p>
-          <span>{likeCount || 0}</span> 喜歡次數
+          <span>{newLikeCount}</span> 喜歡次數
         </p>
       </div>
       <div className="icon-footer">
@@ -136,10 +176,10 @@ const TweetCardBig = ({
           setActive(true);
           console.log(tweetId);
           }} />
-        {isLiked ? (
-          <LikedIcon style={iconSize} />
+        {likeStatus ? (
+          <LikedIcon style={iconSize} onClick={handleUnLikeClicked} />
         ) : (
-          <LikeIcon style={iconSize} />
+          <LikeIcon style={iconSize} onClick={handleLikeClicked} />
         )}
       </div>
     </StyledCardContainer>

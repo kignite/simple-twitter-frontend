@@ -12,7 +12,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-const UserPanel = ({ personalInfo, onTweetClick }) => {
+const UserPanel = ({ personalInfo }) => {
   const [activeTab, setActiveTab] = useState("tweet");
   const [panelData, setPanelData] = useState([]);
   const [searchParams] = useSearchParams();
@@ -143,7 +143,6 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
                 likeCount={item.likeCount}
                 isLiked={item.isLiked}
                 onClick={() => {
-                  onTweetClick?.(item.id);
                   navigate("/reply_list");
                 }}
               />
@@ -164,7 +163,6 @@ const UserPanel = ({ personalInfo, onTweetClick }) => {
                 likeCount={item.Tweet.likeCount}
                 isLiked={item.Tweet.isLiked}
                 onClick={() => {
-                  onTweetClick?.(item.TweetId);
                   navigate("/reply_list");
                 }}
               />

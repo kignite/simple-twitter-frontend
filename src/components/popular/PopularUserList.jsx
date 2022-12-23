@@ -9,18 +9,24 @@ const StyledListContainer = styled.div`
   grid-column: 3 / 4;
   align-self: flex-start;
   width: calc(100% - 25px);
+  height: 700px;
   margin-left: 25px;
   border-radius: 16px;
   background-color: var(--scale_light-gray);
+  overflow: scroll;
 
   h4 {
+    position: sticky;
+    top: 0;
     padding: 24px;
     margin: 0;
     color: var(--main_text);
+    background-color: var(--scale_light-gray);
     font-size: 24px;
     font-weight: 700;
     line-height: 26px;
     border-bottom: 1px solid var(--border_gray);
+    z-index: 1;
   }
 `;
 

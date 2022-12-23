@@ -5,7 +5,7 @@ import { StyledButton } from "../components/common/button.styled";
 import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
 
@@ -77,12 +77,11 @@ export const StyledTextareaContainer = styled.div`
   }
 `;
 
-const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) => {
+const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const [replyToData, setReplyToData] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const modalTweetId = searchParams.get('reply_to');
 
@@ -120,6 +119,7 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) 
           createdAt={replyToData.createdAt}
           description={replyToData.description}
           onReply={true}
+          onPages={true}
           personalInfo={personalInfo} //只有這個是自己
         />
       </Backdrop>
@@ -137,11 +137,6 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) 
           replyCount={tweet.replyCount}
           likeCount={tweet.likeCount}
           isLiked={tweet.isLiked}
-          onClick={() => {
-            console.log("Click!", tweet.id);
-            onTweetClick?.(tweet.id);
-            navigate("/reply_list");
-          }}
           active={active}
           setActive={setActive}
           setReplyToData={setReplyToData}
@@ -151,7 +146,7 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) 
   );
 };
 
-const HomePage = ({ setTweetId, active, setActive }) => {
+const HomePage = ({ active, setActive }) => {
   const [avatar, setAvatar] = useState("");
   // const [personalInfo, setPersonalInfo] = useState({});
   const [tweetText, setTweetText] = useState("");
@@ -210,10 +205,6 @@ const HomePage = ({ setTweetId, active, setActive }) => {
       <HomeTweetslist
         token={token}
         handlePost={handlePost}
-        onTweetClick={(tweetId) => {
-          setTweetId(tweetId);
-          console.log(tweetId);
-        }}
         active={active}
         setActive={setActive}
       />

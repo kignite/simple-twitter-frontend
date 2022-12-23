@@ -82,7 +82,6 @@ const TweetCard = ({
   replyCount,
   likeCount,
   isLiked,
-  onClick,
   setActive,
   setReplyToData
 }) => {
@@ -152,10 +151,12 @@ const TweetCard = ({
           </span>
           <span className="account">@{account}</span>
           <span className="created-time"> · {createdAt}</span>
-          <p onClick={onClick}>{description}</p>
+          <Link to={`/reply_list/?reply_to=${tweetId}`}>
+            <p>{description}</p>
+          </Link>
           <div className="user-actions">
             <span className="reply">
-              <Link to={`/main/reply/?reply_to=${tweetId}`}>
+              <Link to={`/reply/?reply_to=${tweetId}`}>
                 <ReplyIcon key={tweetId} style={iconSize} onClick={() => {
                   setReplyToData({
                     avatar,

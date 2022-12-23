@@ -5,6 +5,7 @@ import { CloseIcon } from "../../assets/icons";
 import { StyledTextareaContainer } from "../../pages/HomePage";
 import { StyledButton } from "./button.styled";
 import { StyledCardContainer } from "./cards/TweetCard";
+import { useNavigate } from "react-router-dom";
 
 const StyledModalContainer = styled.div`
   position: absolute;
@@ -48,12 +49,14 @@ const Modal = ({
   setActive,
   personalInfo,
   onReply,
+  onPages,
   avatar,
   name,
   account,
   createdAt,
   description,
 }) => {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const tweetRef = useRef(null);
   console.log(tweetId);
@@ -80,12 +83,20 @@ const Modal = ({
     const status = await postReply({ token, tweetId, reply });
     console.log(status);
     setActive(false);
+    if (onPages) {
+      navigate(-1);
+    }
   };
 
   return active ? (
     <StyledModalContainer>
       <div className="modal-header">
-        <CloseIcon className="close" onClick={() => setActive(false)} />
+        <CloseIcon className="close" onClick={() => {
+          setActive(false);
+          if (onPages) {
+            navigate(-1);
+          }
+        }} />
       </div>
       {onReply && (
         <StyledCardContainer modal={true}>

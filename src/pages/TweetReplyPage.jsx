@@ -4,7 +4,7 @@ import TweetCardBig from "../components/common/cards/TweetCardBig";
 import CommentCard from "../components/common/cards/CommentCard";
 import { TurnbackIcon } from "../assets/icons";
 import { getOneTweet, getOneTweetReplies } from "../api/getTweetsRelated";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const TweetReplyPageStyle = styled.div`
   position: relative;
@@ -37,7 +37,7 @@ const TweetReplyPageStyle = styled.div`
   }
 `;
 
-const TweetReplyPage = ({tweetId, active, setActive}) => {
+const TweetReplyPage = ({active, setActive}) => {
   const [tweetData, setTweetData] = useState({
     "id": 0,
     "createdAt": "0",
@@ -53,11 +53,11 @@ const TweetReplyPage = ({tweetId, active, setActive}) => {
     }
   });
   const [tweetReplies, setTweetReplies] = useState([]);
-  // const currentTweetId = tweetId;
-  // const tweetIdRef = useRef(currentTweetId);
+  const [searchParams] = useSearchParams();
+  const tweetId = searchParams.get('reply_to');
+  // const { key } = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  // console.log(tweetIdRef.current);
 
   useEffect(() => {
     //發送取得單一推文資料的請求

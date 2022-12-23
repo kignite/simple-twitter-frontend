@@ -11,8 +11,8 @@ const BackdropStyle = styled.div`
   z-index: 100;
 `;
 
-const Backdrop = ({ active, children }) => {
-  return active ? <BackdropStyle>{children}</BackdropStyle> : null;
+const Backdrop = ({ active, children, onClose }) => {
+  return active ? <BackdropStyle onClick={onClose}>{children}</BackdropStyle> : null;
 };
 
 export default Backdrop;

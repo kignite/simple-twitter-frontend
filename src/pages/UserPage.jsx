@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 import Backdrop from "../components/Backdrop";
+// import Modal from "../components/common/Modal";
 import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
@@ -107,7 +108,7 @@ const UserInfoText = styled.div`
   }
 `;
 
-const UserPage = ({ setTweetId }) => {
+const UserPage = () => {
   const token = localStorage.getItem("token");
   const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
@@ -135,6 +136,21 @@ const UserPage = ({ setTweetId }) => {
 
   return (
     <>
+      {/* <Backdrop active={active}>
+        <Modal
+          tweetId={modalTweetId}
+          active={active}
+          setActive={setActive}
+          avatar={replyToData.avatar}
+          name={replyToData.name}
+          account={replyToData.account}
+          createdAt={replyToData.createdAt}
+          description={replyToData.description}
+          onReply={true}
+          onPages={true}
+          personalInfo={personalInfo} //只有這個是自己
+        />
+      </Backdrop> */}
       <Backdrop active={active} onClose={handleClose} />
       <UserPageStyle>
         <header>
@@ -189,10 +205,6 @@ const UserPage = ({ setTweetId }) => {
         </div>
         <UserPanel
           personalInfo={personalInfo}
-          onTweetClick={(tweetId) => {
-            setTweetId(tweetId);
-            console.log(tweetId);
-          }}
         />
       </UserPageStyle>
     </>
