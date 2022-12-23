@@ -33,6 +33,7 @@ const StyledListContainer = styled.div`
 const PopularUserList = () => {
   const [topFollowers, setTopFollowers] = useState([]);
   const [followings, setFollowings] = useState([]);
+  const [clicking, setClicking] = useState(false);
   const { isAuthenticated, currentMember } = useAuth();
 
   const token = localStorage.getItem("token");
@@ -46,6 +47,7 @@ const PopularUserList = () => {
         const { data } = await getUserFollowing({ token });
         console.log(data);
         setFollowings([...data]);
+        setClicking(!clicking);
       }
     } catch (error) {
       console.error(error);
@@ -60,6 +62,7 @@ const PopularUserList = () => {
       if (status === 200) {
         const { data } = await getUserFollowing({ token });
         setFollowings([...data]);
+        setClicking(!clicking);
       }
     } catch (error) {
       console.error(error);
@@ -83,7 +86,7 @@ const PopularUserList = () => {
     getData();
     getFollowings();
 
-  }, [isAuthenticated]);
+  }, [isAuthenticated, clicking]);
 
   return (
     <StyledListContainer>

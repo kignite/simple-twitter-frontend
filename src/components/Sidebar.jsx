@@ -48,6 +48,9 @@ const StyledLinkContainer = styled.div`
   &.logout {
     position: absolute;
     bottom: 0;
+    a {
+      margin-left: 20px;
+    }
   }
 `;
 

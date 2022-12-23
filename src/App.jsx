@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import "./App.scss";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
@@ -32,14 +32,14 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter basename="/simple-twitter-frontend">
+      <HashRouter>
         <AuthProvider>
           <Routes>
-            <Route path="login" element={<LoginPage />} />
-            <Route path="admin" element={<AdminLoginPage />} />
-            <Route path="regist" element={<RegisterPage />} />
-            <Route path="admin_main" element={<AdminMainPage />} />
-            <Route path="admin_users" element={<AdminUserList />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/admin" element={<AdminLoginPage />} />
+            <Route path="/regist" element={<RegisterPage />} />
+            <Route path="/admin_main" element={<AdminMainPage />} />
+            <Route path="/admin_users" element={<AdminUserList />} />
             {/* <Route path="setting" element={<AccounntSetting />} /> */}
             {/* <Route path="/" element={<Layout />}/> */}
             <Route path="/" element={<Layout active={tweetModalActive} setActive={setTweetModalActive} />}>
@@ -77,7 +77,7 @@ function App() {
             </Route>
           </Routes>
         </AuthProvider>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
