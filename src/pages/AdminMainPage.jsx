@@ -26,6 +26,7 @@ export const PageStyled = styled.div`
       position: sticky; //還沒資料看不出效果
       top: 0;
       background-color: var(--main_white);
+      z-index: 5;
     }
     .title {
       border: 1px solid var(--border_gray);

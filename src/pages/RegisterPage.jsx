@@ -57,7 +57,7 @@ const RegisterPage = () => {
           type={"text"}
           label={"名稱"}
           value={name}
-          placeholder={"請輸入Email"}
+          placeholder={"請輸入名稱"}
           errorMessage={errorMessage.name || null}
           onChange={(nameInputValue) => {
             setName(nameInputValue);
