@@ -182,6 +182,19 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const handleUploadAvatar = (e) => {
     const fileReader = new FileReader();
     const file = e.target.files[0];
+    const fileMaxSize = 1024;
+    const fileSize = file.size / fileMaxSize;
+
+    if (fileSize > fileMaxSize) {
+      Swal.fire({
+        position: "top",
+        title: "檔案大小勿超過1M！",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      return
+    }
 
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, avatar: fileReader.result });
@@ -195,6 +208,19 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const handleUploadCover = (e) => {
     const fileReader = new FileReader();
     const file = e.target.files[0];
+    const fileMaxSize = 1024;
+    const fileSize = file.size / fileMaxSize;
+
+    if (fileSize > fileMaxSize) {
+      Swal.fire({
+        position: "top",
+        title: "檔案大小勿超過1M！",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      return
+    }
 
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, cover: fileReader.result });
