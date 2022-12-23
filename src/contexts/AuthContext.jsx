@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import React, { useState } from "react";
 import { login, regist } from "../api/auth";
 import jwtDecode from "jwt-decode";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const defaultAuthContext = {
   isAuthenticated: false,
@@ -19,12 +19,14 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
   const { pathname } = useLocation;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       setIsAuthenticated(false);
       setPayload(null);
+      navigate('login');
       return;
     }
     setIsAuthenticated(true);
