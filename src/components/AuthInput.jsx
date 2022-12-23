@@ -77,19 +77,17 @@ export const Input = ({
   value,
   placeholder,
   onChange,
-  maxLength = 51,
+  maxLength = 100,
   errorMessage = null,
 }) => {
-  const errorCondition = () => {
-    if (label === "名稱" && value !== null && value.length > 50) {
-      return true;
-    }
-  };
   return (
     <DefaultInputStyled>
       <label>{label}</label>
       <input
-        className={clsx(" ", { error: errorMessage || errorCondition() })}
+        className={clsx(" ", {
+          error:
+            errorMessage || (label === "名稱" && value && value.length > 50),
+        })}
         type={type || "text"}
         value={value || ""}
         placeholder={placeholder || ""}
@@ -99,8 +97,18 @@ export const Input = ({
         }}
       />
       <div className="hint">
-        <p className={"error-msg" + clsx(" ", { show: errorMessage || errorCondition() })}>
-          {errorMessage || "字數不可超過50字!"}
+        <p
+          className={
+            "error-msg" +
+            clsx(" ", {
+              show:
+                errorMessage ||
+                (label === "名稱" && value && value.length > 50),
+            })
+          }
+        >
+          {errorMessage ||
+            (label === "名稱" && value && value.length > 50 && "名稱超過50字")}
         </p>
         {value !== null && label === "名稱" && (
           <p className="text-num">{value.length}/50</p>
@@ -110,7 +118,13 @@ export const Input = ({
   );
 };
 
-export const Textarea = ({ label, value, onChange, errorMessage = null }) => {
+export const Textarea = ({
+  label,
+  value,
+  onChange,
+  errorMessage = null,
+  maxLength = 400,
+}) => {
   return (
     <DefaultInputStyled>
       <label>{label}</label>
@@ -121,6 +135,7 @@ export const Textarea = ({ label, value, onChange, errorMessage = null }) => {
         rows="5"
         value={value || ""}
         placeholder="請輸入自我介紹"
+        maxLength={maxLength}
         onChange={(e) => {
           onChange?.(e.target.value);
         }}

@@ -4,7 +4,7 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 // import Backdrop from "../components/Backdrop";
 import UserPanel from "../components/profile/UserPanel";
-import { TurnbackIcon } from "../assets/icons";
+import { TurnbackIcon, NotiIcon, MessageIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -60,11 +60,26 @@ const UserInfoPicture = styled.div`
     border-radius: 50%;
     border: 5px solid white;
   }
-  .edit {
+  .tool-box {
     position: absolute;
     bottom: 0;
     right: 16px;
     transform: translateY(calc(100% + 16px));
+    display: flex;
+
+    * {
+      margin: auto 8px;
+    }
+
+    .msg-icon,
+    .noti-icon {
+      display: flex;
+      box-sizing: border-box;
+      height: 40px;
+      width: 40px;
+      border-radius: 50px;
+      border: 1px solid var(--main_orange);
+    }
   }
 `;
 
@@ -130,7 +145,7 @@ const OtherUserPage = () => {
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getPersonalInfo();
-  }, [key,isAuthenticated]);
+  }, [key, isAuthenticated]);
 
   return (
     <>
@@ -148,10 +163,17 @@ const OtherUserPage = () => {
               <img src={personalInfo.cover} alt="" className="cover" />
               <img src={personalInfo.avatar} alt="" className="avatar" />
             </div>
-
-            <StyledButton className="edit" onClick={handleFollow}>
-              正在跟隨
-            </StyledButton>
+            <div className="tool-box">
+              <div className="msg-icon">
+                <MessageIcon />
+              </div>
+              <div className="noti-icon">
+                <NotiIcon />
+              </div>
+              <StyledButton className="edit" onClick={handleFollow}>
+                正在跟隨
+              </StyledButton>
+            </div>
           </UserInfoPicture>
           <UserInfoText>
             <h5 className="name">{personalInfo.name}</h5>

@@ -6,6 +6,7 @@ import { uploadUserInfo } from "../../api/getUserTweets";
 // import { getUserInfo } from "../../api/getUserTweets";
 import { CloseIcon, CameraIcon } from "../../assets/icons";
 import { StyledButton } from "../common/button.styled";
+import Swal from "sweetalert2";
 
 const ModalStyle = styled.div`
   box-sizing: border-box;
@@ -119,6 +120,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const [introduction, setIntroduction] = useState("");
   const [name, setName] = useState(personalInfo.name);
   const [deleteCover, setDeleteCover] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({});
   const [tmpImg, setTmpImg] = useState({
     avatar: personalInfo.avatar,
     cover: personalInfo.cover,
@@ -126,14 +128,16 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
 
   const handleSave = async () => {
     if (name.length === 0) {
-      // 待補樣式
-      console.log("名稱不能為空白!");
+      setErrorMessage({ ...errorMessage, name: "名稱不能為空白" });
       return;
-    } else if (name.length > 50 || introduction.length > 160) {
-      // 待補樣式
-      console.log("太長了!");
+    } else if (name.length > 50) {
+      setErrorMessage({ ...errorMessage, name: "名稱不能超過50字" });
+      return;
+    } else if (introduction.length > 160) {
+      setErrorMessage({ ...errorMessage, introduction: "自我介紹最多160字" });
       return;
     }
+
     if (!cover && !deleteCover) {
       const info = {
         ...personalInfo,
@@ -158,6 +162,14 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
 
     console.log(info);
     await uploadUserInfo({ token, info });
+    Swal.fire({
+      position: "top",
+      title: "設定成功！",
+      timer: 1000,
+      icon: "success",
+      showConfirmButton: false,
+    });
+
     onClose();
   };
 
@@ -244,15 +256,19 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
           <Input
             label={"名稱"}
             value={name}
+            errorMessage={errorMessage.name || null}
             onChange={(name) => {
               setName(name);
+              setErrorMessage({ ...errorMessage, name: "" });
             }}
           />
           <Textarea
             label={"自我介紹"}
             value={introduction}
+            errorMessage={errorMessage.introduction || null}
             onChange={(introduction) => {
               setIntroduction(introduction);
+              setErrorMessage({ ...errorMessage, introduction: "" });
             }}
           />
         </UserInfoText>

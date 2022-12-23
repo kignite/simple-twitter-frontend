@@ -34,7 +34,8 @@ const PopularUserList = () => {
   const [topFollowers, setTopFollowers] = useState([]);
   const [followings, setFollowings] = useState([]);
   const { isAuthenticated, currentMember } = useAuth();
-  const token = localStorage.getItem("token") || null;
+
+  const token = localStorage.getItem("token");
 
   //追隨某使用者
   const handleFollowed = async (userId) => {

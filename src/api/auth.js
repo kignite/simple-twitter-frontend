@@ -16,8 +16,7 @@ export const login = async ({ account, password }, role) => {
     }
     return status;
   } catch (error) {
-    console.log('login-failed:', error)
-    return { error };
+    return { success: false }
   }
 };
 
@@ -41,11 +40,14 @@ export const regist = async ({
       return { success: true };
     }
   } catch (error) {
-    const { status } = error.request;
-    console.log("regist-failed:", status);
-    if (status) {
-      return { success: false };
-    }
+    // const { status } = error.request;
+    // console.log("regist-failed:", status);
+    // if (status) {
+    //   return { success: false };
+    // }
+    const errorMessage = JSON.parse(error.request.response)
+    // console.log(errorMessage)
+    return { success: false, errorMessage: errorMessage }
   }
 };
 
@@ -74,13 +76,12 @@ export const acountSetting = async ({
         },
       },
     );
-    console.log(status)
     if (status === 200) {
       return { success: true };
     }
   } catch (error) {
     const errorMessage = JSON.parse(error.request.response)
-    return errorMessage;
+    return { success: false, errorMessage: errorMessage }
   }
 };
 
