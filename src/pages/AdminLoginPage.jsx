@@ -71,7 +71,7 @@ const AdminLoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (currentMember.role === "adimn") {
+      if (currentMember.role === "admin") {
         navigate("/admin_main");
       } else {
         navigate("/main");
