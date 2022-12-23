@@ -59,6 +59,7 @@ const Modal = ({
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const tweetRef = useRef(null);
+
   console.log(tweetId);
   console.log("replyTo:", name);
 

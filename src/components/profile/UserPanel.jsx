@@ -21,8 +21,6 @@ const UserPanel = ({ personalInfo, active, setActive }) => {
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
   const { isAuthenticated, currentMember } = useAuth();
-  // const navigate = useNavigate();
-  const modalTweetId = searchParams.get("reply_to");
 
   useEffect(() => {
     let ignore = false;
@@ -82,7 +80,7 @@ const UserPanel = ({ personalInfo, active, setActive }) => {
     <div className="user-panel">
       <Backdrop active={active}>
         <Modal
-          tweetId={modalTweetId}
+          tweetId={replyToData.tweetId}
           active={active}
           setActive={setActive}
           avatar={replyToData.avatar}

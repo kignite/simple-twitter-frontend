@@ -5,7 +5,7 @@ import { StyledButton } from "../components/common/button.styled";
 import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 import { useAuth } from "../contexts/AuthContext";
-import { useSearchParams } from "react-router-dom";
+// import { useSearchParams } from "react-router-dom";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
 
@@ -82,8 +82,7 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [replyToData, setReplyToData] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
-  const [searchParams] = useSearchParams();
-  const modalTweetId = searchParams.get('reply_to');
+  console.log(replyToData);
 
   //取得所有推文
   useEffect(() => {
@@ -110,7 +109,7 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
     <ul className="tweet-list">
       <Backdrop active={active}>
         <Modal
-          tweetId={modalTweetId}
+          tweetId={replyToData.tweetId}
           active={active}
           setActive={setActive}
           avatar={replyToData.avatar}
