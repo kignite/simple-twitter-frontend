@@ -75,6 +75,7 @@ function App() {
                 element={<OtherFollowPage pageStatus="following" />}
               />
             </Route>
+            <Route path="*" element={<LoginPage />} />
           </Routes>
         </AuthProvider>
       </HashRouter>
