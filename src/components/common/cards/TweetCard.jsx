@@ -130,16 +130,16 @@ const TweetCard = ({
 
   return (
       <StyledCardContainer>
-        <Link to={`/user/other/?id=${userId}`}>
+        <Link to={`/layout/user/other/?id=${userId}`}>
           <img src={avatar} alt={name} />
         </Link>
         <div className="right-side">
           <span className="name">
-            <Link to={`/user/other/?id=${userId}`}>{name}</Link>
+            <Link to={`/layout/user/other/?id=${userId}`}>{name}</Link>
           </span>
           <span className="account">@{account}</span>
           <span className="created-time"> · {createdAt}</span>
-          <Link to={`/reply_list/?reply_to=${tweetId}`}>
+          <Link to={`/layout/reply_list/?reply_to=${tweetId}`}>
             <p>{description}</p>
           </Link>
           <div className="user-actions">

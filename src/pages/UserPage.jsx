@@ -193,13 +193,13 @@ const UserPage = ({active, setActive}) => {
             <div className="follow-info">
               <p>
                 {personalInfo.followingCount}
-                <Link to="/user/self/following">
+                <Link to="/layout/user/self/following">
                   <span> 跟隨中</span>
                 </Link>
               </p>
               <p>
                 {personalInfo.followerCount}
-                <Link to="/user/self/follower">
+                <Link to="/layout/user/self/follower">
                   <span> 跟隨者</span>
                 </Link>
               </p>

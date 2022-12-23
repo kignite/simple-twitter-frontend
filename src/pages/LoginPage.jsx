@@ -105,12 +105,13 @@ const LoginPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       if (currentMember.role === "user") {
-        navigate("/main");
+        navigate("/layout/main");
       } else {
-        navigate("/adimn_main");
+        navigate("/admin_main");
       }
     }
-  }, [navigate, isAuthenticated]);
+  }, [isAuthenticated]);
+
   return (
     <AccountFormPage>
       <AccountFormContainer>

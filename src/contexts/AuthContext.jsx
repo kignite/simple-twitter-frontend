@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     if (!token) {
       setIsAuthenticated(false);
       setPayload(null);
-      navigate('login');
+      navigate('/login');
       return;
     }
     setIsAuthenticated(true);

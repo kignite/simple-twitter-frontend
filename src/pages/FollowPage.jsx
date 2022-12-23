@@ -165,7 +165,7 @@ const FollowPage = ({ pageStatus }) => {
         <TurnbackIcon
           className="return"
           onClick={() => {
-            navigate("/user/self");
+            navigate("/layout/user/self");
           }}
         />
         <div className="header-info">
@@ -182,7 +182,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "follower") {
               setFollowData([]);
             }
-            navigate("/user/self/follower");
+            navigate("/layout/user/self/follower");
           }}
         >
           追隨者
@@ -196,7 +196,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "following") {
               setFollowData([]);
             }
-            navigate("/user/self/following");
+            navigate("/layout/user/self/following");
           }}
         >
           正在追隨
