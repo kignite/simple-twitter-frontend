@@ -35,6 +35,7 @@ function App() {
       <HashRouter>
         <AuthProvider>
           <Routes>
+            <Route path="*" element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin" element={<AdminLoginPage />} />
             <Route path="/regist" element={<RegisterPage />} />
@@ -75,7 +76,6 @@ function App() {
                 element={<OtherFollowPage pageStatus="following" />}
               />
             </Route>
-            <Route path="*" element={<LoginPage />} />
           </Routes>
         </AuthProvider>
       </HashRouter>
