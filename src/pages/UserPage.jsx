@@ -29,6 +29,9 @@ const UserPageStyle = styled.div`
 
     background-color: var(--main_white);
     z-index: 99;
+    .return {
+      cursor: pointer;
+    }
   }
   .header-info {
     margin-left: 19px;

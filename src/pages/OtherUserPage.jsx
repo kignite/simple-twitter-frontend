@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 // import Backdrop from "../components/Backdrop";
 import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon, NotiIcon, MessageIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
 import { useAuth } from "../contexts/AuthContext";
+import { postFollowed, deleteFollowed } from "../api/followshipAPI";
+import { getUserFollowing } from "../api/getUserTweets";
+import clsx from "clsx";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
@@ -25,6 +28,9 @@ const UserPageStyle = styled.div`
 
     background-color: var(--main_white);
     z-index: 99;
+    .return {
+      cursor: pointer;
+    }
   }
   .header-info {
     margin-left: 19px;
@@ -124,17 +130,49 @@ const OtherUserPage = () => {
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
   const id = searchParams.get("id");
+  const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
 
-  // const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
+  const [isFollowed, setIsFollowed] = useState(false);
 
-  const handleFollow = () => {
-    console.log("follow");
+  //追隨某使用者
+  const handleFollowed = async (userId) => {
+    try {
+      const status = await postFollowed({ userId, token });
+      console.log(status);
+      if (status === 200) {
+        setIsFollowed(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
-  // const handleClose = () => {
-  //   setActive(false);
-  // };
+
+  //取消追隨某位使用者
+  const handleUnFollowed = async (followingId) => {
+    try {
+      const status = await deleteFollowed({ followingId, token });
+      console.log(status);
+      if (status === 200) {
+        setIsFollowed(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const getCurrentMemberFollowings = async () => {
+      const { data } = await getUserFollowing({ token });
+      if (data.some(d => d.followingId === Number(id))) {
+        setIsFollowed(true);
+        console.log(isFollowed);
+      }
+    };
+
+    getCurrentMemberFollowings();
+  }, [])
 
   useEffect(() => {
     const getPersonalInfo = async () => {
@@ -151,7 +189,9 @@ const OtherUserPage = () => {
     <>
       <UserPageStyle>
         <header>
-          <TurnbackIcon className="return" />
+          <TurnbackIcon className="return" onClick={() => {
+            navigate(-1);
+          }} />
           <div className="header-info">
             <h5>{personalInfo.name}</h5>
             <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
@@ -170,8 +210,8 @@ const OtherUserPage = () => {
               <div className="noti-icon">
                 <NotiIcon />
               </div>
-              <StyledButton className="edit" onClick={handleFollow}>
-                正在跟隨
+              <StyledButton className={"follow-btn" + clsx(" ", { active: isFollowed })} onClick={() => {isFollowed ? handleUnFollowed(id) : handleFollowed(id)}}>
+                {isFollowed ? "正在跟隨" : "跟隨"}
               </StyledButton>
             </div>
           </UserInfoPicture>
