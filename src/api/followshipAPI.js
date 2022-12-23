@@ -24,6 +24,7 @@ export const getTopFollwer = async ({ token }) => {
 
 //追隨
 export const postFollowed = async ({userId, token}) => {
+  console.log(userId)
   try {
     const { status } = await axios.post(`${baseURL}/followships?=${userId}`, {id: userId}, {
       headers: {

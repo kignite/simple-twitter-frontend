@@ -11,6 +11,7 @@ import jwt from "jwt-decode";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
 import { useAuth } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const SettingStyle = styled.div`
   width: 100%;
@@ -64,7 +65,7 @@ const AccountSetting = () => {
   const handleClick = async () => {
     userID = jwt(token).id;
 
-    const error = await acountSetting({
+    const { success, errorMessage } = await acountSetting({
       userID,
       token,
       email,
@@ -73,9 +74,24 @@ const AccountSetting = () => {
       checkPassword,
       name,
     });
-    console.log(error);
-    setErrorMessage(error.message);
-    // console.log(data);
+    if (!success) {
+      setErrorMessage(errorMessage.message);
+      Swal.fire({
+        position: "top",
+        title: "設定失敗",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        position: "top",
+        title: "設定成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
+    }
   };
 
   useEffect(() => {
@@ -107,7 +123,10 @@ const AccountSetting = () => {
             value={account}
             placeholder={"請輸入帳號"}
             errorMessage={errorMessage.account || null}
-            onChange={(nameInputValue) => setAccount(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setAccount(nameInputValue);
+              setErrorMessage({ ...errorMessage, account: null });
+            }}
           />
           <Input
             type={"text"}
@@ -115,7 +134,10 @@ const AccountSetting = () => {
             value={name}
             placeholder={"請輸入名稱"}
             errorMessage={errorMessage.name || null}
-            onChange={(nameInputValue) => setName(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setName(nameInputValue);
+              setErrorMessage({ ...errorMessage, name: null });
+            }}
           />
           <Input
             type={"email"}
@@ -123,7 +145,10 @@ const AccountSetting = () => {
             value={email}
             placeholder={"請輸入Email"}
             errorMessage={errorMessage.email || null}
-            onChange={(nameInputValue) => setEmail(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setEmail(nameInputValue);
+              setErrorMessage({ ...errorMessage, email: null });
+            }}
           />
           <Input
             type={"password"}
@@ -131,7 +156,10 @@ const AccountSetting = () => {
             value={password}
             placeholder={"請設定密碼"}
             errorMessage={errorMessage.password || null}
-            onChange={(nameInputValue) => setPassword(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setPassword(nameInputValue);
+              setErrorMessage({ ...errorMessage, password: null });
+            }}
           />
           <Input
             type={"password"}
@@ -139,7 +167,10 @@ const AccountSetting = () => {
             value={checkPassword}
             placeholder={"請再次輸入密碼"}
             errorMessage={errorMessage.passwordCheck || null}
-            onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
+            onChange={(nameInputValue) => {
+              setCheckPassword(nameInputValue);
+              setErrorMessage({ ...errorMessage, passwordCheck: null });
+            }}
           />
           <StyledButton className="save-btn active" onClick={handleClick}>
             儲存

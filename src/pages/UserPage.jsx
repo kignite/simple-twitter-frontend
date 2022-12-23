@@ -28,7 +28,10 @@ const UserPageStyle = styled.div`
     top: 0;
 
     background-color: var(--main_white);
-    z-index: 99;
+    z-index: 5;
+    .return {
+      cursor: pointer;
+    }
   }
   .header-info {
     margin-left: 19px;

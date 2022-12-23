@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import React, { useState } from "react";
 import { login, regist } from "../api/auth";
 import jwtDecode from "jwt-decode";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const defaultAuthContext = {
   isAuthenticated: false,
@@ -19,12 +19,14 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
   const { pathname } = useLocation;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       setIsAuthenticated(false);
       setPayload(null);
+      navigate('login');
       return;
     }
     setIsAuthenticated(true);
@@ -42,25 +44,29 @@ export const AuthProvider = ({ children }) => {
           role: payload.role,
         },
         regist: async (data) => {
-          const { success } = await regist({
+          const { success, errorMessage } = await regist({
             email: data.email,
             account: data.account,
             password: data.password,
             checkPassword: data.checkPassword,
             name: data.name,
           });
-          return success;
+          if (success) {
+            return { success: true };
+          } else {
+            return { success: false, errorMessage: errorMessage };
+          }
         },
         login: async (data, role) => {
-          const { status, token } = await login(
+          const { success, token } = await login(
             {
               account: data.account,
               password: data.password,
             },
             role
           );
-          const tempPayload = jwtDecode(token);
-          if (tempPayload) {
+          if (token) {
+            const tempPayload = jwtDecode(token);
             setPayload(tempPayload);
             setIsAuthenticated(true);
             localStorage.setItem("token", token);
@@ -68,7 +74,8 @@ export const AuthProvider = ({ children }) => {
             setPayload(null);
             setIsAuthenticated(false);
           }
-          return status;
+          if (success) return { success: true };
+          else return { success: false };
         },
         logout: () => {
           localStorage.removeItem("token");

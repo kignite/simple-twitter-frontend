@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename="/simple-twitter-frontend">
         <AuthProvider>
           <Routes>
             <Route path="login" element={<LoginPage />} />
