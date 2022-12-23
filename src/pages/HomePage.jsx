@@ -5,9 +5,9 @@ import { StyledButton } from "../components/common/button.styled";
 import { getUserInfo, postTweet } from "../api/getUserTweets";
 import { getAllTweets } from "../api/getTweetsRelated";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-// import Backdrop from "../components/Backdrop";
-// import Modal from "../components/common/Modal";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import Backdrop from "../components/Backdrop";
+import Modal from "../components/common/Modal";
 
 const HomePageStyle = styled.div`
   position: relative;
@@ -80,8 +80,11 @@ export const StyledTextareaContainer = styled.div`
 const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) => {
   const [tweetsData, setTweetsData] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
+  const [replyToData, setReplyToData] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const modalTweetId = searchParams.get('reply_to');
 
   //取得所有推文
   useEffect(() => {
@@ -106,6 +109,20 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) 
 
   return (
     <ul className="tweet-list">
+      <Backdrop active={active}>
+        <Modal
+          tweetId={modalTweetId}
+          active={active}
+          setActive={setActive}
+          avatar={replyToData.avatar}
+          name={replyToData.name}
+          account={replyToData.account}
+          createdAt={replyToData.createdAt}
+          description={replyToData.description}
+          onReply={true}
+          personalInfo={personalInfo} //只有這個是自己
+        />
+      </Backdrop>
       {tweetsData.map((tweet) => (
         <TweetCard
           key={tweet.id}
@@ -127,6 +144,7 @@ const HomeTweetslist = ({ token, onTweetClick, handlePost, active, setActive }) 
           }}
           active={active}
           setActive={setActive}
+          setReplyToData={setReplyToData}
         />
       ))}
     </ul>
@@ -137,7 +155,6 @@ const HomePage = ({ setTweetId, active, setActive }) => {
   const [avatar, setAvatar] = useState("");
   // const [personalInfo, setPersonalInfo] = useState({});
   const [tweetText, setTweetText] = useState("");
-  // const [modalTweetId, setModalTweetId] = useState();
   const token = localStorage.getItem("token") || null;
   const { isAuthenticated, currentMember } = useAuth();
 
@@ -170,20 +187,6 @@ const HomePage = ({ setTweetId, active, setActive }) => {
 
   return (
     <HomePageStyle>
-      {/* <Backdrop active={active}>
-        <Modal
-          tweetId={modalTweetId}
-          active={active}
-          setActive={setActive}
-          avatar={avatar}
-          name={name}
-          account={account}
-          createdAt={createdAt}
-          description={description}
-          onReply={true}
-          personalInfo={personalInfo} //只有這個是自己
-        />
-      </Backdrop> */}
       <div className="sticky-part">
         <header>
           <h4 className="home">首頁</h4>

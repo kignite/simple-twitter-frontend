@@ -14,6 +14,7 @@ const StyledModalContainer = styled.div`
   margin: 0;
   width: 634px;
   opacity: initial;
+  overflow: hidden;
 
   border-radius: 14px;
   background-color: var(--main_white);

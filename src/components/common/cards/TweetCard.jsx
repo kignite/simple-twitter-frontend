@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
-import Backdrop from "../../Backdrop";
-import Modal from "../Modal";
+// import Backdrop from "../../Backdrop";
+// import Modal from "../Modal";
 import { postTweetLike, postTweetUnLike } from "../../../api/getTweetsRelated";
 
 
@@ -83,9 +83,8 @@ const TweetCard = ({
   likeCount,
   isLiked,
   onClick,
-  active,
   setActive,
-  personalInfo
+  setReplyToData
 }) => {
   // const [active, setActive] = useState(false);
   const [likeStatus, setLikeStatus] = useState(isLiked);
@@ -129,7 +128,7 @@ const TweetCard = ({
 
   return (
       <StyledCardContainer>
-        <Backdrop active={active}>
+        {/* <Backdrop active={active}>
           <Modal
             key={tweetId}
             tweetId={tweetId}
@@ -143,7 +142,7 @@ const TweetCard = ({
             onReply={true}
             personalInfo={personalInfo}
           />
-        </Backdrop>
+        </Backdrop> */}
         <Link to={`/user/other/?id=${userId}`}>
           <img src={avatar} alt={name} />
         </Link>
@@ -156,13 +155,19 @@ const TweetCard = ({
           <p onClick={onClick}>{description}</p>
           <div className="user-actions">
             <span className="reply">
-              <ReplyIcon key={tweetId} style={iconSize} onClick={(e) => {
-                if (e.target.key === Modal.key) {
+              <Link to={`/main/reply/?reply_to=${tweetId}`}>
+                <ReplyIcon key={tweetId} style={iconSize} onClick={() => {
+                  setReplyToData({
+                    avatar,
+                    name,
+                    account,
+                    createdAt,
+                    description,
+                  });
                   setActive(true);
-                  setActive(prev => !prev);
-                }
-                console.log(tweetId);
+                  console.log(tweetId);
                 }} />
+              </Link>
               {replyCount}
             </span>
             <span className="like">
