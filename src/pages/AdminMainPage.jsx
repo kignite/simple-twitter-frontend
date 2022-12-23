@@ -51,22 +51,34 @@ export const PageStyled = styled.div`
 const AdminMainPage = () => {
   const [tweetsData, setTweetsData] = useState([]);
   const { isAuthenticated, currentMember } = useAuth();
+  const [checkTweetId, setCheckTweetId] = useState(null);
   const token = localStorage.getItem("token") || null;
+  const [isDelete, setIsDelete] = useState(false);
 
   const handleDelete = async (tweetId) => {
     const token = localStorage.getItem("token");
-    await adminDeleteUserTweet({ tweetId, token });
+    const {success} = await adminDeleteUserTweet({ tweetId, token });
+    if(success)setIsDelete(true);
   };
+
+  useEffect(() => {
+    if(!checkTweetId)return
+    let prev = [...tweetsData];
+    setTweetsData(prev.filter((tweet) => tweet.id !== checkTweetId));
+    setCheckTweetId(null);
+    setIsDelete(false)
+  }, [isDelete]);
 
   useEffect(() => {
     const getTweetsData = async () => {
       const { data } = await adminGetUserTweets({ token });
       setTweetsData(data);
     };
-    if (!isAuthenticated || currentMember.role !== "admin") return;
 
+    if (!isAuthenticated || currentMember.role !== "admin") return;
+    console.log("我在跟SERVER拿資料")
     getTweetsData();
-  }, [isAuthenticated, handleDelete]);
+  }, [isAuthenticated]);
 
   return (
     <PageStyled>
@@ -86,6 +98,8 @@ const AdminMainPage = () => {
               tweetId={tweet.id}
               description={tweet.description}
               onDelete={handleDelete}
+              checkTweetId={checkTweetId}
+              setCheckTweetId={setCheckTweetId}
             />
           ))}
         </div>

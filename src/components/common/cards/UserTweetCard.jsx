@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { CloseIcon } from "../../../assets/icons";
 import Backdrop from "../../Backdrop";
+
 import CheckBox from "../CheckBox";
 
 const TweetCardStyled = styled.div`
@@ -13,7 +14,7 @@ const TweetCardStyled = styled.div`
   .checkbox-container {
     position: absolute;
     top: 30%;
-    left: 20%;
+    left: 30%;
   }
   .right-side {
     width: 100%;
@@ -67,8 +68,10 @@ const UserTweetCard = ({
   tweetId,
   onDelete,
   description,
+  checkTweetId,
+  setCheckTweetId,
 }) => {
-  const [checkTweetId, setCheckTweetId] = useState();
+  const [active, setActive] = useState(false);
   return (
     <TweetCardStyled>
       <img width="50" src={avatar} alt="XX" className="avatar" />
@@ -82,27 +85,29 @@ const UserTweetCard = ({
           </div>
           <CloseIcon
             className={`delete-icon`}
-            data-id={tweetId}
             onClick={() => {
               setCheckTweetId(tweetId);
+              setActive(true)
             }}
           />
         </div>
         <p className="tweet-content">{description}</p>
       </div>
-      <div className="checkbox-container">
-        {checkTweetId
-          ? checkTweetId === tweetId && (
-              <Backdrop>
+
+      {checkTweetId
+        ? checkTweetId === tweetId && (
+            <Backdrop active={active}>
+              <div className="checkbox-container">
                 <CheckBox
                   tweetId={tweetId}
                   setCheckTweetId={setCheckTweetId}
                   onDelete={onDelete}
+                  setActive={setActive}
                 />
-              </Backdrop>
-            )
-          : ""}
-      </div>
+              </div>
+            </Backdrop>
+          )
+        : ""}
     </TweetCardStyled>
   );
 };

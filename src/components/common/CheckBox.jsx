@@ -30,19 +30,25 @@ const CheckBoxStyled = styled.div`
     margin: 0 10px;
   }
 `;
-const CheckBox = ({ setCheckTweetId, tweetId, onDelete }) => {
+const CheckBox = ({ setCheckTweetId, tweetId, onDelete, setActive }) => {
   return (
     <CheckBoxStyled>
       <div className="double-check">是否刪除?</div>
       <div className="btn-area">
-        <button className="keep" onClick={() => setCheckTweetId(null)}>
+        <button
+          className="keep"
+          onClick={() => {
+            setCheckTweetId(null);
+            setActive(false);
+          }}
+        >
           保留
         </button>
         <button
           className="delete"
           onClick={() => {
             onDelete(tweetId);
-            setCheckTweetId(null);
+            setActive(false);
           }}
         >
           刪除
