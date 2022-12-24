@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link, useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 // import Backdrop from "../components/Backdrop";
 import UserPanel from "../components/profile/UserPanel";
@@ -165,23 +170,21 @@ const OtherUserPage = () => {
   useEffect(() => {
     const getCurrentMemberFollowings = async () => {
       const { data } = await getUserFollowing({ token });
-      if (data.some(d => d.followingId === Number(id))) {
+      if (data.some((d) => d.followingId === Number(id))) {
         setIsFollowed(true);
         console.log(isFollowed);
       }
     };
 
     getCurrentMemberFollowings();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      // console.log(searchParams.get("id"));
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
-
     getPersonalInfo();
   }, [key, isAuthenticated]);
 
@@ -189,9 +192,12 @@ const OtherUserPage = () => {
     <>
       <UserPageStyle>
         <header>
-          <TurnbackIcon className="return" onClick={() => {
-            navigate(-1);
-          }} />
+          <TurnbackIcon
+            className="return"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
           <div className="header-info">
             <h5>{personalInfo.name}</h5>
             <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
@@ -210,7 +216,12 @@ const OtherUserPage = () => {
               <div className="noti-icon">
                 <NotiIcon />
               </div>
-              <StyledButton className={"follow-btn" + clsx(" ", { active: isFollowed })} onClick={() => {isFollowed ? handleUnFollowed(id) : handleFollowed(id)}}>
+              <StyledButton
+                className={"follow-btn" + clsx(" ", { active: isFollowed })}
+                onClick={() => {
+                  isFollowed ? handleUnFollowed(id) : handleFollowed(id);
+                }}
+              >
                 {isFollowed ? "正在跟隨" : "跟隨"}
               </StyledButton>
             </div>
@@ -222,13 +233,13 @@ const OtherUserPage = () => {
             <div className="follow-info">
               <p>
                 {personalInfo.followingCount}
-                <Link to={`/user/other/following?id=${id}`}>
+                <Link to={`/layout/user/other/following?id=${id}`}>
                   <span> 跟隨中</span>
                 </Link>
               </p>
               <p>
                 {personalInfo.followerCount}
-                <Link to={`/user/other/follower?id=${id}`}>
+                <Link to={`/layout/user/other/follower?id=${id}`}>
                   <span> 跟隨者</span>
                 </Link>
               </p>

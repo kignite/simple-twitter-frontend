@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { StyledButton } from "../components/common/button.styled";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 const StyledCardContainer = styled.div`
   display: flex;
@@ -40,16 +41,28 @@ const StyledCardContainer = styled.div`
       margin-top: 15px;
     }
   }
-
 `;
 
-const UserIntroCard = ({ avatar, name, introduction, isFollowed, onBtnClicked, isDisabled }) => {
+const UserIntroCard = ({
+  userId,
+  avatar,
+  name,
+  introduction,
+  isFollowed,
+  onBtnClicked,
+  isDisabled,
+}) => {
   return (
     <StyledCardContainer>
-      <img src={avatar} alt={name} />
+      <Link to={`/layout/user/other/?id=${userId}`}>
+        <img src={avatar} alt={name} />
+      </Link>
       <div className="right-side">
         <div className="name-header">
-          <span className="name">{name}</span>
+          <Link to={`/layout/user/other/?id=${userId}`}>
+            <span className="name">{name}</span>
+          </Link>
+
           <StyledButton
             className={"follow-btn" + clsx(" ", { active: isFollowed })}
             onClick={onBtnClicked}
