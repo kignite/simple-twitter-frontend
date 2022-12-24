@@ -139,7 +139,10 @@ const LoginPage = () => {
             setErrorMessage({ ...errorMessage, password: null });
           }}
         />
-        <StyledBigButton className="form-btn" onClick={handleClick}>
+        <StyledBigButton
+          className="form-btn"
+          onClick={handleClick}
+        >
           登入
         </StyledBigButton>
         <div className="user-actions">

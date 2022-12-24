@@ -136,6 +136,7 @@ const OtherFollowPage = ({ pageStatus }) => {
             return (
               <UserIntroCard
                 key={item.followerId}
+                userId={item.followerId}
                 avatar={item.Followers.avatar}
                 name={item.Followers.name}
                 introduction={item.Followers.introduction}
@@ -147,6 +148,7 @@ const OtherFollowPage = ({ pageStatus }) => {
             return (
               <UserIntroCard
                 key={item.followingId}
+                userId={item.followingId}
                 avatar={item.Followings.avatar}
                 name={item.Followings.name}
                 introduction={item.Followings.introduction}
