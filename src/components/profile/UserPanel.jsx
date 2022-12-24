@@ -29,10 +29,10 @@ const UserPanel = ({ personalInfo, active, setActive }) => {
     const getPanelData = async () => {
       const token = localStorage.getItem("token") || null;
       let id = personalInfo.id;
-      if (personalInfo.id === undefined) {
+      if (personalInfo.id === undefined && currentMember.id === searchParams.get("id")) {
         id = jwtDecode(token).id;
       } else if (currentMember.id !== personalInfo.id) {
-        id = searchParams.get("id") || personalInfo.id;
+        id = searchParams.get("id") || personalInfo.id || currentMember.id;
       }
 
       switch (activeTab) {
