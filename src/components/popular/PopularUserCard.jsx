@@ -48,6 +48,8 @@ const StyledAvatar = styled.img`
   border-radius: 50%;
 
   background-color: var(--avatar-scale_gray);
+  background-image: url('https://i.imgur.com/HD4yT2V.png');
+  object-fit: cover;
 `;
 
 

@@ -144,7 +144,7 @@ const TweetCard = ({
           </Link>
           <div className="user-actions">
             <span className="reply">
-              <Link to={`#/reply_modal`}>
+              <Link to={`#/reply_modal/?id=${userId}`}>
                 <ReplyIcon style={iconSize} onClick={() => {
                   setReplyToData({
                     tweetId,

@@ -222,13 +222,13 @@ const OtherUserPage = () => {
             <div className="follow-info">
               <p>
                 {personalInfo.followingCount}
-                <Link to={`/user/other/following?id=${id}`}>
+                <Link to={`/layout/user/other/following?id=${id}`}>
                   <span> 跟隨中</span>
                 </Link>
               </p>
               <p>
                 {personalInfo.followerCount}
-                <Link to={`/user/other/follower?id=${id}`}>
+                <Link to={`/layout/user/other/follower?id=${id}`}>
                   <span> 跟隨者</span>
                 </Link>
               </p>

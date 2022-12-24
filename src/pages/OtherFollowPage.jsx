@@ -93,7 +93,7 @@ const OtherFollowPage = ({ pageStatus }) => {
         <TurnbackIcon
           className="return"
           onClick={() => {
-            navigate(`/user/other/?id=${id}`);
+            navigate(`/layout/user/other/?id=${id}`);
           }}
         />
         <div className="header-info">
@@ -110,7 +110,7 @@ const OtherFollowPage = ({ pageStatus }) => {
             if (pageStatus !== "follower") {
               setFollowData([]);
             }
-            navigate(`/user/other/follower?=${id}`);
+            navigate(`/layout/user/other/follower?=${id}`);
           }}
         >
           追隨者
@@ -124,7 +124,7 @@ const OtherFollowPage = ({ pageStatus }) => {
             if (pageStatus !== "following") {
               setFollowData([]);
             }
-            navigate(`/user/other/following?=${id}`);
+            navigate(`/layout/user/other/following?=${id}`);
           }}
         >
           正在追隨
