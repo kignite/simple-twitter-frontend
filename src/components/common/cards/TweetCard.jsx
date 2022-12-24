@@ -133,7 +133,7 @@ const TweetCard = ({
   return (
       <StyledCardContainer>
         <Link to={currentMember.id === userId ? `/layout/user/self` : `/layout/user/other/?id=${userId}`}>
-          <img src={avatar} alt={name} />
+          <img src={avatar} alt="" />
         </Link>
         <div className="right-side">
           <span className="name">
