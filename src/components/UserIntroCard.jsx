@@ -24,13 +24,19 @@ const StyledCardContainer = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      a {
+        width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
     .name {
+      width: 100%;
       font-size: 16px;
       font-weight: 700;
       line-height: 26px;
       margin-right: 8px;
-      color: var(--main_text);
     }
 
     p {
@@ -55,7 +61,7 @@ const UserIntroCard = ({
   return (
     <StyledCardContainer>
       <Link to={`/layout/user/other/?id=${userId}`}>
-        <img src={avatar} alt={name} />
+        <img src={avatar} alt="" />
       </Link>
       <div className="right-side">
         <div className="name-header">

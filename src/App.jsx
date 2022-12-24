@@ -66,7 +66,7 @@ function App() {
                 path="user/self/following"
                 element={<FollowPage pageStatus="following" />}
               />
-              <Route path="user/other" element={<OtherUserPage />} />
+              <Route path="user/other" element={<OtherUserPage active={active} setActive={setActive} />} />
               <Route
                 path="user/other/follower"
                 element={<OtherFollowPage pageStatus="follower" />}

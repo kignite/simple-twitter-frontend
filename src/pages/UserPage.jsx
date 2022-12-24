@@ -129,31 +129,19 @@ const UserPage = ({active, setActive}) => {
   useEffect(() => {
     const getPersonalInfo = async () => {
       const id = jwtDecode(token).id;
+      console.log(id);
       const data = await getUserInfo({ token, id });
+      console.log(data);
       setPersonalInfo(data);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getPersonalInfo();
+    console.log(personalInfo);
   }, [editActive, isAuthenticated]);
 
   return (
     <>
-      {/* <Backdrop active={active}>
-        <Modal
-          tweetId={modalTweetId}
-          active={active}
-          setActive={setActive}
-          avatar={replyToData.avatar}
-          name={replyToData.name}
-          account={replyToData.account}
-          createdAt={replyToData.createdAt}
-          description={replyToData.description}
-          onReply={true}
-          onPages={true}
-          personalInfo={personalInfo} //只有這個是自己
-        />
-      </Backdrop> */}
       <Backdrop active={editActive} onClose={handleClose} />
       <UserPageStyle>
         <header>

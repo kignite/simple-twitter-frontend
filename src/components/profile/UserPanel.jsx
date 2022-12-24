@@ -23,15 +23,16 @@ const UserPanel = ({ personalInfo, active, setActive }) => {
   const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
+    console.log(personalInfo);
+    console.log(personalInfo.id);
     let ignore = false;
     const getPanelData = async () => {
       const token = localStorage.getItem("token") || null;
-      let id;
-
-      if (searchParams.get("id")) {
-        id = searchParams.get("id");
-      } else {
+      let id = personalInfo.id;
+      if (personalInfo.id === undefined) {
         id = jwtDecode(token).id;
+      } else if (currentMember.id !== personalInfo.id) {
+        id = searchParams.get("id") || personalInfo.id;
       }
 
       switch (activeTab) {

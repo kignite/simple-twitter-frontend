@@ -32,7 +32,7 @@ const UserPageStyle = styled.div`
     top: 0;
 
     background-color: var(--main_white);
-    z-index: 99;
+    z-index: 5;
     .return {
       cursor: pointer;
     }
@@ -130,11 +130,12 @@ const UserInfoText = styled.div`
   }
 `;
 
-const OtherUserPage = () => {
+const OtherUserPage = ({active, setActive}) => {
   const token = localStorage.getItem("token");
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
-  const id = searchParams.get("id");
+  const location = useLocation();
+  let id = searchParams.get("id");
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
 
@@ -180,6 +181,12 @@ const OtherUserPage = () => {
   }, []);
 
   useEffect(() => {
+    console.log("L:", location);
+    console.log(id);
+    console.log(personalInfo);
+    if (id === null) {
+      id = personalInfo.id;
+    }
     const getPersonalInfo = async () => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
@@ -246,7 +253,11 @@ const OtherUserPage = () => {
             </div>
           </UserInfoText>
         </div>
-        <UserPanel personalInfo={personalInfo} />
+        <UserPanel
+          personalInfo={personalInfo}
+          active={active}
+          setActive={setActive}
+        />
       </UserPageStyle>
     </>
   );
