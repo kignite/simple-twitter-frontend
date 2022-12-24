@@ -117,7 +117,7 @@ const UserInfoText = styled.div`
 const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
-  const [introduction, setIntroduction] = useState("");
+  const [introduction, setIntroduction] = useState(personalInfo.introduction);
   const [name, setName] = useState(personalInfo.name);
   const [deleteCover, setDeleteCover] = useState(false);
   const [errorMessage, setErrorMessage] = useState({});

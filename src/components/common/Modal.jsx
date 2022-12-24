@@ -109,7 +109,7 @@ const Modal = ({
           <div className="right-side">
             <span className="name">{name}</span>
             <span className="account">@{account}</span>
-            <span className="created-time"> · {createdAt}</span>
+            <span className="created-time"> · {Array.isArray(createdAt) ? `${createdAt[0]} ${createdAt[1]}` : createdAt}</span>
             <p>{description}</p>
           </div>
         </StyledCardContainer>
@@ -124,6 +124,7 @@ const Modal = ({
           placeholder={onReply ? "推你的回覆" : "有什麼新鮮事?"}
           ref={tweetRef}
         ></textarea>
+        <p className="error-msg">錯誤提示</p>
         <StyledButton
           className="post-tweet active"
           onClick={onReply ? handleReply : handleTweet}

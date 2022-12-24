@@ -3,31 +3,41 @@ import styled from "styled-components";
 // import { adminDeleteUserTweet } from "../../api/getAdminRelated";
 
 const CheckBoxStyled = styled.div`
-  display: block;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 200;
-  height: 250px;
-  width: 500px;
+  height: 200px;
+  width: 400px;
   border: 1px solid var(--main_orange);
-  background-color: var(--main_orange);
+  background-color: var(--main_white);
   border-radius: 15px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+
   .double-check {
-    font-size: 50px;
-    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--nav-unactive_gray);
   }
 
   .delete,
   .keep {
-    border-radius: 8px;
-    padding: 20px 50px;
-    font-size: 50px;
-    border: 1px solid var(--main_success);
+    border-radius: 10px;
+    padding: 8px 30px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 30px;
+    color: var(--main_white);
+    border: none;
+    background-color: var(--main_orange);
     cursor: pointer;
     margin: 0 10px;
+  }
+  .keep {
+    background-color: var(--main_success);
   }
 `;
 const CheckBox = ({ setCheckTweetId, tweetId, onDelete, setActive }) => {

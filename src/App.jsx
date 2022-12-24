@@ -56,7 +56,7 @@ function App() {
               {/* <Route path="setting" element={<AccounntSetting />} /> */}
               <Route
                 path="user/self"
-                element={<UserPage active={active} setActive={setActive} />}
+                element={<UserPage active={active} setActive={setActive} tweetModalActive={tweetModalActive} />}
               />
               <Route
                 path="user/self/follower"

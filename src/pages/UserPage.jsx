@@ -111,7 +111,7 @@ const UserInfoText = styled.div`
   }
 `;
 
-const UserPage = ({active, setActive}) => {
+const UserPage = ({active, setActive, tweetModalActive}) => {
   const token = localStorage.getItem("token");
   const [editActive, setEditActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
@@ -197,6 +197,7 @@ const UserPage = ({active, setActive}) => {
           personalInfo={personalInfo}
           active={active}
           setActive={setActive}
+          tweetModalActive={tweetModalActive}
         />
       </UserPageStyle>
     </>

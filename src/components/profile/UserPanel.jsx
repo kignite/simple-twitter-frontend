@@ -14,7 +14,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useLocation, useSearchParams } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-const UserPanel = ({ personalInfo, active, setActive }) => {
+const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
   const [activeTab, setActiveTab] = useState("tweet");
   const [panelData, setPanelData] = useState([]);
   const [replyToData, setReplyToData] = useState({});
@@ -70,7 +70,7 @@ const UserPanel = ({ personalInfo, active, setActive }) => {
     return () => {
       ignore = true;
     };
-  }, [activeTab, key, isAuthenticated]);
+  }, [activeTab, key, isAuthenticated, tweetModalActive]);
 
   // useEffect(() => {
   //   setReplyToData(replyToData);
