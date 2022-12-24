@@ -5,6 +5,7 @@ import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
 // import Backdrop from "../../Backdrop";
 // import Modal from "../Modal";
 import { postTweetLike, postTweetUnLike } from "../../../api/getTweetsRelated";
+import { useAuth } from "../../../contexts/AuthContext";
 
 
 export const StyledCardContainer = styled.div`
@@ -91,6 +92,7 @@ const TweetCard = ({
   const [newLikeCount, setNewLikeCount] = useState(likeCount);
   const token = localStorage.getItem('token');
   // console.log('tweet', tweetId);
+  const { currentMember } = useAuth();
 
   //handleLike
   const handleLikeClicked = async () => {
@@ -130,12 +132,12 @@ const TweetCard = ({
 
   return (
       <StyledCardContainer>
-        <Link to={`/layout/user/other/?id=${userId}`}>
+        <Link to={currentMember.id === userId ? `/layout/user/self` : `/layout/user/other/?id=${userId}`}>
           <img src={avatar} alt={name} />
         </Link>
         <div className="right-side">
           <span className="name">
-            <Link to={`/layout/user/other/?id=${userId}`}>{name}</Link>
+            <Link to={currentMember.id === userId ? `/layout/user/self` : `/layout/user/other/?id=${userId}`}>{name}</Link>
           </span>
           <span className="account">@{account}</span>
           <span className="created-time"> · {createdAt}</span>

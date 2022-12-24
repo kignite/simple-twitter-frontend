@@ -56,7 +56,7 @@ const StyledAvatar = styled.img`
 const PopularUserCard = ({avatar, name, account, isFollowed, onBtnClicked}) => {
   return (
     <StyledItemContainer>
-      <StyledAvatar src={avatar} alt="" />
+      <StyledAvatar src={avatar || 'https://i.imgur.com/HD4yT2V.png'} alt="" />
       <div className="user">
         <p className="user-name">{name}</p>
         <p className="user-account">@{account}</p>

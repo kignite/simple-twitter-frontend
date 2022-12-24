@@ -39,20 +39,16 @@ const Layout = ({active, setActive}) => {
 
   useEffect(() => {
     const getdata = async () => {
-      if (isAuthenticated && currentMember.role === "admin") {
-        navigate("/admin_main");
-        return;
-      }
       const id = jwtDecode(token).id;
       const data = await getUserInfo({ token, id });
-      if (data) {
-        setPersonalInfo(data);
-      } else {
-        navigate("/login");
-        return;
-      }
+      setPersonalInfo(data);
     };
-    if (!isAuthenticated || currentMember.role === "admin") {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+    if (isAuthenticated && currentMember.role === "admin") {
+      navigate("/admin_main");
       return;
     }
 

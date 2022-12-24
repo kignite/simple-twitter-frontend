@@ -34,9 +34,9 @@ function App() {
     <div className="App">
       <HashRouter>
         <AuthProvider>
-          <Routes>
+          <Routes> {/*test: 全部前面先加上layout*/}
             <Route path="*" element={<LoginPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/layout/login" element={<LoginPage />} />
             <Route path="/admin" element={<AdminLoginPage />} />
             <Route path="/regist" element={<RegisterPage />} />
             <Route path="/admin_main" element={<AdminMainPage />} />
