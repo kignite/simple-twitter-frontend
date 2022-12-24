@@ -41,7 +41,7 @@ export const PageStyled = styled.div`
     //AdminUsers
     .users-list {
       border: 1px solid var(--border_gray);
-      padding: 16px 15px;
+      padding: 16px 0px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-gap: 16px 16px;

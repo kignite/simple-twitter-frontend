@@ -5,8 +5,10 @@ import { TweetIcon, LikeIcon } from "../../../assets/icons";
 const CardStyled = styled.div`
   height: 314px;
   width: 100%;
+  /* max-width: 250px; */
   background-color: var(--card-background_gray);
   border-radius: 10px;
+  text-align: center;
 
   .img-area {
     position: relative;
@@ -33,13 +35,21 @@ const CardStyled = styled.div`
     }
   }
   .text-area {
-    padding: 32px 0 24px 0;
+    padding: 32px 10px 24px 10px;
+    margin: 0 auto;
     text-align: center;
+    width: 200px;
+    
 
     .name {
       font-weight: 700;
-      font-size: 16px;
+      font-size: 1px;
       line-height: 26px;
+
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
     }
 
     .account {
@@ -47,6 +57,11 @@ const CardStyled = styled.div`
       font-size: 14px;
       line-height: 22px;
       color: var(--main_secondary);
+
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
     }
     .tweet-like {
       margin: 16px 0 8px 0;
