@@ -82,7 +82,7 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [replyToData, setReplyToData] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
-  console.log(replyToData);
+  // console.log(replyToData);
 
   //取得所有推文
   useEffect(() => {
