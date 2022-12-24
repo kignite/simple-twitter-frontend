@@ -28,7 +28,7 @@ const StyledLayoutContainer = styled.div`
   }
 `;
 
-const Layout = ({active, setActive}) => {
+const Layout = ({onSettingPage = false, active, setActive}) => {
   const token = localStorage.getItem("token") || null;
   // //Modal的開關
   // const [active, setActive] = useState(false);
@@ -43,8 +43,9 @@ const Layout = ({active, setActive}) => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
+
     // if (!isAuthenticated) {
-    //   navigate("/login");
+    //   navigate("/layout/login");
     //   return;
     // }
     if (isAuthenticated && currentMember.role === "admin") {
@@ -69,7 +70,7 @@ const Layout = ({active, setActive}) => {
         </Backdrop>
         <Outlet />
       </div>
-      <PopularUserList />
+      {!onSettingPage && <PopularUserList />}
     </StyledLayoutContainer>
   );
 };

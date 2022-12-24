@@ -53,7 +53,7 @@ function App() {
                 path="reply_list"
                 element={<TweetReplyPage active={active} setActive={setActive} />}
               />
-              <Route path="setting" element={<AccounntSetting />} />
+              {/* <Route path="setting" element={<AccounntSetting />} /> */}
               <Route
                 path="user/self"
                 element={<UserPage active={active} setActive={setActive} />}
@@ -75,6 +75,9 @@ function App() {
                 path="user/other/following"
                 element={<OtherFollowPage pageStatus="following" />}
               />
+            </Route>
+            <Route path="/layout" element={<Layout onSettingPage={true} active={tweetModalActive} setActive={setTweetModalActive} />}>
+              <Route path="setting" element={<AccounntSetting />} />
             </Route>
           </Routes>
         </AuthProvider>

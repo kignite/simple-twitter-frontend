@@ -26,7 +26,8 @@ export const AuthProvider = ({ children }) => {
     if (!token) {
       setIsAuthenticated(false);
       setPayload(null);
-      navigate('/login');
+      navigate('/layout/login');
+      // console.log("執行!")
       return;
     }
     setIsAuthenticated(true);
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     // console.log(tempPayload);
     setPayload(tempPayload);
   }, [pathname]);
+
   return (
     <AuthContext.Provider
       value={{

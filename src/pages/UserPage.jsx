@@ -131,7 +131,6 @@ const UserPage = ({active, setActive}) => {
       const id = jwtDecode(token).id;
       console.log(id);
       const data = await getUserInfo({ token, id });
-      console.log(data);
       setPersonalInfo(data);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
