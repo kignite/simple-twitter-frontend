@@ -86,7 +86,6 @@ export const StyledTextareaContainer = styled.div`
       line-height: 15px;
       color: var(--main_error);
     }
-
   }
 `;
 
@@ -95,6 +94,7 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [replyToData, setReplyToData] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
+  const [replyTweetId, setReplyTweetId] = useState();
   // console.log(replyToData);
 
   //取得所有推文
@@ -133,6 +133,7 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
           onReply={true}
           onPages={true}
           personalInfo={personalInfo} //只有這個是自己
+          setReplyTweetId={setReplyTweetId}
         />
       </Backdrop>
       {tweetsData.map((tweet) => (
@@ -151,6 +152,8 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
           isLiked={tweet.isLiked}
           setActive={setActive}
           setReplyToData={setReplyToData}
+          replyTweetId={replyTweetId}
+          setReplyTweetId={setReplyTweetId}
         />
       ))}
     </ul>
@@ -229,12 +232,7 @@ const HomePage = ({ active, setActive }) => {
           ></textarea>
           <div className="action-panel">
             <p className="error-msg">
-              {
-                tweetText.length > 140 ?
-                "字數不可超過 140 字"
-                :
-                ""
-              }
+              {tweetText.length > 140 ? "字數不可超過 140 字" : ""}
               {errorMsg !== null && errorMsg}
             </p>
             <StyledButton className="post-tweet active" onClick={handlePost}>

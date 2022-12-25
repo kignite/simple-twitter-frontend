@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import React, { useState } from "react";
-import { login, regist } from "../api/auth";
+import { checkPermmision, login, regist } from "../api/auth";
 import jwtDecode from "jwt-decode";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -22,18 +22,24 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setIsAuthenticated(false);
-      setPayload(null);
-      navigate('/layout/login');
-      // console.log("執行!")
-      return;
-    }
-    setIsAuthenticated(true);
-    const tempPayload = jwtDecode(token);
-    // console.log(tempPayload);
-    setPayload(tempPayload);
+    const token = localStorage.getItem("token") || null;
+    const checkToken = async () => {
+      const { success } = await checkPermmision({ token });
+      if (!success) {
+        console.log("失敗");
+        navigate("/layout/login");
+        localStorage.removeItem("token");
+        setIsAuthenticated(false);
+        setPayload(null);
+        return;
+      }
+      console.log("成功");
+      setIsAuthenticated(true);
+      const tempPayload = jwtDecode(token);
+      // console.log(tempPayload);
+      setPayload(tempPayload);
+    };
+    checkToken();
   }, [pathname]);
 
   return (

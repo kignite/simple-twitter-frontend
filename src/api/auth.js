@@ -106,3 +106,21 @@ export const getAccountSetting = async ({
   }
 };
 
+export const checkPermmision = async ({ token }) => {
+  try {
+    const { status } = await axios({
+      method: 'GET',
+      url: `${baseURL}/api/users/token `,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    console.log(status)
+    if (status) {
+      return { success: true }
+    }
+  }
+  catch (error) {
+    if (error) return { success: false }
+  }
+}

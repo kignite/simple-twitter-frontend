@@ -174,6 +174,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
                 setReplyToData={setReplyToData}
                 replyTweetId={replyTweetId}
                 setReplyTweetId = { setReplyTweetId }
+
               />
             );
           } else {
