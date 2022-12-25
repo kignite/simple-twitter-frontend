@@ -56,6 +56,7 @@ const Modal = ({
   account,
   createdAt,
   description,
+  setReplyTweetId,
 }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -63,8 +64,8 @@ const Modal = ({
   const [draft, setDraft] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
-  console.log(tweetId);
-  console.log("replyTo:", name);
+  // console.log(tweetId);
+  // console.log("replyTo:", name);
 
   //Swal 彈窗提示
   const successedAlert = () => {
@@ -114,6 +115,7 @@ const Modal = ({
     const reply = { comment: tweetRef.current.value };
     const status = await postReply({ token, tweetId, reply });
     console.log(status);
+    setReplyTweetId(tweetId);
     setActive(false);
     if (onPages) {
       navigate(-1);
@@ -123,12 +125,15 @@ const Modal = ({
   return active ? (
     <StyledModalContainer>
       <div className="modal-header">
-        <CloseIcon className="close" onClick={() => {
-          setActive(false);
-          if (onPages) {
-            navigate(-1);
-          }
-        }} />
+        <CloseIcon
+          className="close"
+          onClick={() => {
+            setActive(false);
+            if (onPages) {
+              navigate(-1);
+            }
+          }}
+        />
       </div>
       {onReply && (
         <StyledCardContainer modal={true}>
@@ -139,7 +144,13 @@ const Modal = ({
           <div className="right-side">
             <span className="name">{name}</span>
             <span className="account">@{account}</span>
-            <span className="created-time"> · {Array.isArray(createdAt) ? `${createdAt[0]} ${createdAt[1]}` : createdAt}</span>
+            <span className="created-time">
+              {" "}
+              ·{" "}
+              {Array.isArray(createdAt)
+                ? `${createdAt[0]} ${createdAt[1]}`
+                : createdAt}
+            </span>
             <p>{description}</p>
           </div>
         </StyledCardContainer>
@@ -160,12 +171,8 @@ const Modal = ({
           }}
         ></textarea>
         <div className="action-panel">
-          <p className="error-msg">{
-            draft.length > 140 ?
-            "字數不可超過 140 字!"
-            :
-            ""
-            }
+          <p className="error-msg">
+            {draft.length > 140 ? "字數不可超過 140 字!" : ""}
             {errorMsg !== null && errorMsg}
           </p>
           <StyledButton
