@@ -1,48 +1,72 @@
-# Simple Twitter - 小型多人協作專案(前後端分離-單頁網頁應用程式開發)
+# Simple Twitter - 小型多人協作專案(前後分離SPA網頁應用程式)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+本專案為小型的前後分離網頁應用程式開發協作練習，專案成果目標為建立一個仿 twitter 的小型論壇，使用者可以透過此平台與其他使用者互動。
+(專案開發以creat-react-app建置，使用React.js)
 
-## Available Scripts
+## 專案畫面成果
 
-In the project directory, you can run:
+### 首頁示意
+![image](https://user-images.githubusercontent.com/108887372/209478286-4be8b365-34b5-4d82-8f9d-c0d1e5f8a0c9.png)
 
-### `npm start`
+## 專案功能
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+【前台：一般使用者】
+* 可以註冊、登入、登出  
+* 註冊時可設定帳號、名稱、email 和密碼  
+* 登入後能：
+  * 在首頁瀏覽所有的推文
+  * 新增推文
+  * 回覆推文
+  * 查看推文內容及回覆
+  * 對推文按 Like / Unlike
+  * 查看任意使用者：
+    * 新增的推文
+    * 回覆過的推文
+    * 按 like 的推文
+    * 關注清單
+    * 跟隨者清單
+  * 追蹤 / 取消追蹤其他使用者
+  * 查看追蹤數最高的 10 位使用者
+  * 修改自己的名稱、自我介紹、大頭照與個人頁橫幅背景
+  * 修改自己的帳號、名稱、email 與密碼 
+  
+【後台：管理者】
+* 可以登入網站後台
+* 可以在後台瀏覽全站推文的部分內容
+* 管理者可以在清單上直接刪除任何人的推文
+* 管理者可以瀏覽站內所有使用者的清單，清單的資訊包括使用者社群活躍數據：  
+  * 推文數量
+  * 推文被 like 的數量
+  * 關注人數
+  * 跟隨者人數
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 專案安裝流程
+0. 打開終端機
+1. 以指令下載此專案 
+  ```
+  git clone https://github.com/kignite/simple-twitter-frontend.git
+  ```
+2. 進入專案資料截
+  ```
+  cd simple-twitter-frontend
+  ```
+3. 安裝必備套件 
+  ```
+  npm install **此步驟會等待較長時間
+  ```
+4. 啟動專案 
+  ```
+  npm start
+  ```
+5. 於 localhost:3000 開始使用
+6. 如欲退出可按ctrl + c
 
-### `npm test`
+## 開發者
+後端 <br>
+[Howhow Chen](https://github.com/HowhowChen) <br>
+[Howard Wu](https://github.com/HowardWu5566) <br>
+<br>
+前端 <br>
+[Peggy](https://github.com/Peggy8422) <br>
+Leo
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-## 本專案使用之開發環境及相依套件
