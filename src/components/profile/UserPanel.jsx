@@ -3,40 +3,59 @@ import clsx from "clsx";
 import { StyledTabbar } from "../common/tab.styled";
 import TweetCard from "../common/cards/TweetCard";
 import CommentCard from "../common/cards/CommentCard";
+import Backdrop from "../Backdrop";
+import Modal from "../common/Modal";
 import {
   getUserTweets,
   getUserReplies,
   getUserLikes,
 } from "../../api/getUserTweets";
+import { useAuth } from "../../contexts/AuthContext";
+import { useSearchParams } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
-const UserPanel = ({ personalInfo }) => {
-  const [activeTab, setActiveTab] = useState("reply");
+const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
+  const [activeTab, setActiveTab] = useState("tweet");
   const [panelData, setPanelData] = useState([]);
+  const [replyToData, setReplyToData] = useState({});
+  const [searchParams] = useSearchParams();
+  const [replyTweetId, setReplyTweetId] = useState();
+  // const { key } = useLocation();
+  const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
+    // console.log(personalInfo);
+    // console.log(personalInfo.id);
     let ignore = false;
     const getPanelData = async () => {
       const token = localStorage.getItem("token") || null;
-      // 如需調整使用者請先手動 自己role=user id=14;
-      const id = personalInfo.id;
-      const role = "other";
+      let id = personalInfo.id;
+      if (
+        personalInfo.id === undefined &&
+        currentMember.id === searchParams.get("id")
+      ) {
+        id = jwtDecode(token).id;
+      } else if (currentMember.id !== personalInfo.id) {
+        id = searchParams.get("id") || personalInfo.id || currentMember.id;
+      }
+
       switch (activeTab) {
         case "tweet": {
-          const { data } = await getUserTweets({ token, id, role });
+          const { data } = await getUserTweets({ token, id });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
         case "reply": {
-          const { data } = await getUserReplies({ token, id, role });
+          const { data } = await getUserReplies({ token, id });
           if (!ignore) {
             setPanelData([...data]);
           }
           break;
         }
         case "like": {
-          const { data } = await getUserLikes({ token, id, role });
+          const { data } = await getUserLikes({ token, id });
           if (!ignore) {
             setPanelData([...data]);
           }
@@ -48,22 +67,47 @@ const UserPanel = ({ personalInfo }) => {
         }
       }
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPanelData();
 
     return () => {
       ignore = true;
     };
-  }, [activeTab, personalInfo]);
+  }, [activeTab, isAuthenticated, tweetModalActive]);
+
+  // useEffect(() => {
+  //   setReplyToData(replyToData);
+  //   console.log(replyToData);
+  // }, [replyToData])
 
   return (
     <div className="user-panel">
+      <Backdrop active={active}>
+        <Modal
+          tweetId={replyToData.tweetId}
+          active={active}
+          setActive={setActive}
+          avatar={replyToData.avatar}
+          name={replyToData.name}
+          account={replyToData.account}
+          createdAt={replyToData.createdAt}
+          description={replyToData.description}
+          onReply={true}
+          onPages={true}
+          personalInfo={personalInfo} //只有這個是自己
+          setReplyTweetId={setReplyTweetId}
+        />
+      </Backdrop>
       <StyledTabbar>
         <button
           className={
             "user-action-tab" + clsx(" ", { active: activeTab === "tweet" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "tweet") {
+              setPanelData([]);
+            }
             setActiveTab("tweet");
           }}
         >
@@ -74,7 +118,9 @@ const UserPanel = ({ personalInfo }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "reply" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "reply") {
+              setPanelData([]);
+            }
             setActiveTab("reply");
           }}
         >
@@ -85,7 +131,9 @@ const UserPanel = ({ personalInfo }) => {
             "user-action-tab" + clsx(" ", { active: activeTab === "like" })
           }
           onClick={() => {
-            setPanelData([]);
+            if (activeTab !== "like") {
+              setPanelData([]);
+            }
             setActiveTab("like");
           }}
         >
@@ -98,6 +146,7 @@ const UserPanel = ({ personalInfo }) => {
             return (
               <CommentCard
                 key={item.id}
+                userId={item.UserId}
                 avatar={item.User.avatar}
                 name={item.User.name}
                 account={item.User.account}
@@ -110,7 +159,8 @@ const UserPanel = ({ personalInfo }) => {
             return (
               <TweetCard
                 key={item.id}
-                tweetid={item.id}
+                userId={item.User.id}
+                tweetId={item.id}
                 personalInfo={personalInfo}
                 avatar={item.User.avatar}
                 name={item.User.name}
@@ -120,13 +170,20 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.replyCount}
                 likeCount={item.likeCount}
                 isLiked={item.isLiked}
+                setActive={setActive}
+                setReplyToData={setReplyToData}
+                replyTweetId={replyTweetId}
+                setReplyTweetId = { setReplyTweetId }
+
               />
             );
           } else {
+            //使用者喜歡的內容
             return (
               <TweetCard
                 key={item.id}
-                id={item.id}
+                tweetId={item.TweetId}
+                userId={item.Tweet.User.id}
                 personalInfo={personalInfo}
                 avatar={item.Tweet.User.avatar}
                 name={item.Tweet.User.name}
@@ -136,6 +193,12 @@ const UserPanel = ({ personalInfo }) => {
                 replyCount={item.Tweet.replyCount}
                 likeCount={item.Tweet.likeCount}
                 isLiked={item.Tweet.isLiked}
+                setActive={setActive}
+                setReplyToData={setReplyToData}
+                setPanelData={setPanelData}
+                replyTweetId={replyTweetId}
+                setReplyTweetId={setReplyTweetId}
+                activeTab={activeTab}
               />
             );
           }

@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Input from "../AuthInput";
+import { Input, Textarea } from "../AuthInput";
 import { useState } from "react";
 import { uploadUserInfo } from "../../api/getUserTweets";
 // import { getUserInfo } from "../../api/getUserTweets";
 import { CloseIcon, CameraIcon } from "../../assets/icons";
 import { StyledButton } from "../common/button.styled";
+import Swal from "sweetalert2";
 
 const ModalStyle = styled.div`
   box-sizing: border-box;
@@ -41,18 +42,24 @@ const UserInfoPicture = styled.div`
   .modal-avatar {
     position: relative;
     .img-box {
+      box-sizing: border-box;
       display: flex;
       align-items: center;
       justify-content: center;
       position: absolute;
-      left: 66px;
+      left: 16px;
+      bottom: 0;
+      transform: translateY(50%);
+
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 5px solid white;
+      overflow: hidden;
       img {
-        box-sizing: border-box;
-        position: absolute;
-        bottom: 0;
-        transform: translateY(50%);
-        border-radius: 50%;
-        border: 5px solid white;
+        width: 100%;
+        height: 100%;
+        filter: brightness(0.5);
       }
       .camera-icon {
         position: absolute;
@@ -73,6 +80,7 @@ const UserInfoPicture = styled.div`
       z-index: -1;
 
       background-color: var(--main_secondary);
+      filter: brightness(0.5);
     }
     .change-cover-actions {
       position: absolute;
@@ -102,53 +110,99 @@ const UserInfoPicture = styled.div`
 `;
 
 const UserInfoText = styled.div`
-  width: 100%;
-  margin-top: 72px;
+  margin-top: 82px;
+  padding: 0 16px 0 16px;
 `;
 
 const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
+  const [introduction, setIntroduction] = useState(personalInfo.introduction);
+  const [name, setName] = useState(personalInfo.name);
   const [deleteCover, setDeleteCover] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({});
   const [tmpImg, setTmpImg] = useState({
     avatar: personalInfo.avatar,
     cover: personalInfo.cover,
   });
 
   const handleSave = async () => {
-    console.log("cover-before", cover);
+    if (name.length === 0) {
+      setErrorMessage({ ...errorMessage, name: "名稱不能為空白" });
+      return;
+    } else if (name.length > 50) {
+      setErrorMessage({ ...errorMessage, name: "名稱不能超過50字" });
+      return;
+    } else if (introduction?.length > 160) {
+      setErrorMessage({ ...errorMessage, introduction: "自我介紹最多160字" });
+      return;
+    }
+
     if (!cover && !deleteCover) {
       const info = {
         ...personalInfo,
+        name: name,
+        introduction: introduction,
         avatar: avatar,
       };
 
       console.log(info);
       await uploadUserInfo({ token, info });
+      Swal.fire({
+        position: "top",
+        title: "設定成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
+
       onClose();
       return;
     }
 
     const info = {
       ...personalInfo,
+      name: name,
+      introduction: introduction,
       avatar: avatar,
       cover: cover,
     };
 
     console.log(info);
     await uploadUserInfo({ token, info });
+    Swal.fire({
+      position: "top",
+      title: "設定成功！",
+      timer: 1000,
+      icon: "success",
+      showConfirmButton: false,
+    });
+
     onClose();
   };
 
   const handleDeletCover = () => {
     setDeleteCover(true);
-    setTmpImg({ ...tmpImg, cover: null });
+    setTmpImg({ ...tmpImg, cover: "https://i.imgur.com/bW0IDLD.png" });
   };
 
   //上傳頭像
   const handleUploadAvatar = (e) => {
     const fileReader = new FileReader();
     const file = e.target.files[0];
+    const fileMaxSize = 1024;
+    const fileSize = file.size / fileMaxSize;
+
+    if (fileSize > fileMaxSize) {
+      Swal.fire({
+        position: "top",
+        title: "檔案大小勿超過1M！",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      return;
+    }
 
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, avatar: fileReader.result });
@@ -162,6 +216,19 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
   const handleUploadCover = (e) => {
     const fileReader = new FileReader();
     const file = e.target.files[0];
+    const fileMaxSize = 1024;
+    const fileSize = file.size / fileMaxSize;
+
+    if (fileSize > fileMaxSize) {
+      Swal.fire({
+        position: "top",
+        title: "檔案大小勿超過1M！",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      return;
+    }
 
     fileReader.onload = () => {
       setTmpImg({ ...tmpImg, cover: fileReader.result });
@@ -215,25 +282,27 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
                   onChange={handleUploadAvatar}
                 />
               </label>
-              <img width={100} height={100} src={tmpImg.avatar} alt="" />
+              <img src={tmpImg.avatar} alt="" />
             </div>
           </div>
         </UserInfoPicture>
         <UserInfoText>
           <Input
             label={"名稱"}
-            value={personalInfo.name}
+            value={name}
+            errorMessage={errorMessage.name || null}
             onChange={(name) => {
-              const prev = { ...personalInfo };
-              setPersonalInfo({ ...prev, name: name });
+              setName(name);
+              setErrorMessage({ ...errorMessage, name: "" });
             }}
           />
-          <Input
+          <Textarea
             label={"自我介紹"}
-            value={personalInfo.introduction}
+            value={introduction}
+            errorMessage={errorMessage.introduction || null}
             onChange={(introduction) => {
-              const prev = { ...personalInfo };
-              setPersonalInfo({ ...prev, introduction: introduction });
+              setIntroduction(introduction);
+              setErrorMessage({ ...errorMessage, introduction: "" });
             }}
           />
         </UserInfoText>

@@ -1,18 +1,22 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { postReply, postTweet } from "../../api/getUserTweets";
 import { CloseIcon } from "../../assets/icons";
 import { StyledTextareaContainer } from "../../pages/HomePage";
 import { StyledButton } from "./button.styled";
 import { StyledCardContainer } from "./cards/TweetCard";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const StyledModalContainer = styled.div`
   position: absolute;
   top: 56px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% - 37px));
   margin: 0;
   width: 634px;
+  opacity: initial;
+  overflow: hidden;
 
   border-radius: 14px;
   background-color: var(--main_white);
@@ -46,19 +50,47 @@ const Modal = ({
   setActive,
   personalInfo,
   onReply,
+  onPages,
   avatar,
   name,
   account,
   createdAt,
   description,
+  setReplyTweetId,
 }) => {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const tweetRef = useRef(null);
+  const [draft, setDraft] = useState("");
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  // console.log(tweetId);
+  // console.log("replyTo:", name);
+
+  //Swal 彈窗提示
+  const successedAlert = () => {
+    Swal.fire({
+      position: "top",
+      title: "推文發送成功！",
+      timer: 1000,
+      icon: "success",
+      showConfirmButton: false,
+    });
+  };
+  const failedAlert = () => {
+    Swal.fire({
+      position: "top",
+      title: "推文發送失敗！",
+      timer: 1000,
+      icon: "error",
+      showConfirmButton: false,
+    });
+  };
 
   const handleTweet = async () => {
-    console.log("tweet");
     if (tweetRef.current.value.length === 0) {
-      setActive(false);
+      console.log("請輸入至少一個字");
+      setErrorMsg("內容不可空白");
       return;
     }
     const tweet = { description: tweetRef.current.value };
@@ -67,27 +99,41 @@ const Modal = ({
     console.log(status);
     tweetRef.current.value = "";
     setActive(false);
+    if (status === 200) {
+      successedAlert();
+    } else {
+      failedAlert();
+    }
   };
 
   const handleReply = async () => {
-    console.log("reply");
-
     if (tweetRef.current.value.length === 0) {
-      setActive(false);
+      console.log("請輸入至少一個字");
+      setErrorMsg("內容不可空白");
       return;
     }
     const reply = { comment: tweetRef.current.value };
-    console.log(reply);
-
     const status = await postReply({ token, tweetId, reply });
     console.log(status);
+    setReplyTweetId(tweetId);
     setActive(false);
+    if (onPages) {
+      navigate(-1);
+    }
   };
 
   return active ? (
     <StyledModalContainer>
       <div className="modal-header">
-        <CloseIcon className="close" onClick={() => setActive(false)} />
+        <CloseIcon
+          className="close"
+          onClick={() => {
+            setActive(false);
+            if (onPages) {
+              navigate(-1);
+            }
+          }}
+        />
       </div>
       {onReply && (
         <StyledCardContainer modal={true}>
@@ -98,7 +144,13 @@ const Modal = ({
           <div className="right-side">
             <span className="name">{name}</span>
             <span className="account">@{account}</span>
-            <span className="created-time"> · {createdAt}</span>
+            <span className="created-time">
+              {" "}
+              ·{" "}
+              {Array.isArray(createdAt)
+                ? `${createdAt[0]} ${createdAt[1]}`
+                : createdAt}
+            </span>
             <p>{description}</p>
           </div>
         </StyledCardContainer>
@@ -112,14 +164,24 @@ const Modal = ({
           rows="5"
           placeholder={onReply ? "推你的回覆" : "有什麼新鮮事?"}
           ref={tweetRef}
+          value={draft}
+          onChange={(e) => {
+            setErrorMsg(null);
+            setDraft(e.target.value);
+          }}
         ></textarea>
-        <StyledButton
-          className="post-tweet active"
-          onClick={onReply ? handleReply : handleTweet}
-        >
-          {onReply ? "回覆" : "推文"}
-        </StyledButton>
-        {/* <button onClick={handlePost}>123</button> */}
+        <div className="action-panel">
+          <p className="error-msg">
+            {draft.length > 140 ? "字數不可超過 140 字!" : ""}
+            {errorMsg !== null && errorMsg}
+          </p>
+          <StyledButton
+            className="post-tweet active"
+            onClick={onReply ? handleReply : handleTweet}
+          >
+            {onReply ? "回覆" : "推文"}
+          </StyledButton>
+        </div>
       </StyledTextareaContainer>
     </StyledModalContainer>
   ) : null;

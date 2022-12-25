@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
+import Backdrop from "../../Backdrop";
+import Modal from "../Modal";
+// import { postReply } from "../../../api/getUserTweets";
+import { postTweetLike, postTweetUnLike } from "../../../api/getTweetsRelated";
 
 const StyledCardContainer = styled.div`
   width: 100%;
@@ -33,7 +37,7 @@ const StyledCardContainer = styled.div`
   }
   .created-time {
     margin: 8px 0;
-    font-weight: 500;  
+    font-weight: 500;
   }
 
   .description {
@@ -60,17 +64,44 @@ const StyledCardContainer = styled.div`
     }
     span {
       font-weight: 700;
-      font-family: 'Montserrat';
+      font-family: "Montserrat";
       color: var(--main_text);
     }
   }
   .icon-footer {
     padding-top: 22px;
   }
-  
 `;
 
-const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount, likeCount, isLiked}) => {
+const TweetCardBig = ({
+  tweetId,
+  avatar,
+  name,
+  account,
+  description,
+  createdAt,
+  replyCount,
+  likeCount,
+  isLiked,
+  personalInfo,
+  active,
+  setActive
+}) => {
+  console.log(tweetId);
+  console.log("LikeCount:", likeCount);
+  const [likeStatus, setLikeStatus] = useState(isLiked);
+  const [newLikeCount, setNewLikeCount] = useState(likeCount);
+  // let newLikeCount = likeCount;
+  const token = localStorage.getItem("token");
+  console.log("NewLikeCount:", newLikeCount);
+
+  //從動態路由拿到tweetId後還拿不到其他資料，要等取得單一推文資料成功後再初始化以下數值一次...
+  useEffect(() => {
+    setLikeStatus(isLiked);
+    setNewLikeCount(likeCount);
+  }, [isLiked, likeCount])
+
+
   const iconSize = {
     width: "25px",
     height: "25px",
@@ -78,28 +109,78 @@ const TweetCardBig = ({avatar, name, account, description, createdAt, replyCount
     cursor: "pointer", //加上點擊指標
   };
 
+  //handleLike
+  const handleLikeClicked = async () => {
+    try {
+      const status = await postTweetLike({ tweetId, token });
+      if (status === 200) {
+        setLikeStatus(1);
+        setNewLikeCount(newLikeCount + 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //handleUnLike
+  const handleUnLikeClicked = async () => {
+    try {
+      // const token = localStorage.getItem('token');
+      const status = await postTweetUnLike({ tweetId, token: token });
+      if (status === 200) {
+        setLikeStatus(0);
+        setNewLikeCount(newLikeCount - 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   return (
     <StyledCardContainer>
+      <Backdrop active={active}>
+        <Modal
+          tweetId={tweetId}
+          active={active}
+          setActive={setActive}
+          avatar={avatar}
+          name={name}
+          account={account}
+          createdAt={createdAt}
+          description={description}
+          onReply={true}
+          personalInfo={personalInfo}
+        />
+      </Backdrop>
       <div className="user-info">
         <img src={avatar} alt={name} />
         <div className="user">
-          <p className="name">{name}Peggy</p>
-          <p className="account">@{account}peggy8422</p>
+          <p className="name">{name}</p>
+          <p className="account">@{account}</p>
         </div>
       </div>
-      <p className="description">{description}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae massa eleifend, dignissim ipsum euismod, imperdiet diam. Vivamus non bibendum velit.</p>
-      <p className="created-time">{createdAt}上午 10:05 · 2022年12月16日</p>
+      <p className="description">{description}</p>
+      <p className="created-time">
+        {createdAt[0]} · {createdAt[1]}
+      </p>
       <div className="amount-footer">
-        <p><span>{replyCount}123</span> 回覆</p>
-        <p><span>{likeCount}84</span> 喜歡次數</p>
+        <p>
+          <span>{replyCount}</span> 回覆
+        </p>
+        <p>
+          <span>{newLikeCount}</span> 喜歡次數
+        </p>
       </div>
       <div className="icon-footer">
-        <ReplyIcon style={iconSize} />
-        {isLiked ?
-          <LikedIcon style={iconSize} />
-          :
-          <LikeIcon style={iconSize} />
-        }
+        <ReplyIcon style={iconSize} onClick={() => {
+          setActive(true);
+          console.log(tweetId);
+          }} />
+        {likeStatus ? (
+          <LikedIcon style={iconSize} onClick={handleUnLikeClicked} />
+        ) : (
+          <LikeIcon style={iconSize} onClick={handleLikeClicked} />
+        )}
       </div>
     </StyledCardContainer>
   );

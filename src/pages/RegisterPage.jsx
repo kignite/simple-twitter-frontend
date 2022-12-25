@@ -1,53 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { regist } from "../api/auth";
-import Input from "../components/AuthInput";
+import { Input } from "../components/AuthInput";
 import { BrandLogo } from "../assets/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AccountFormPage, AccountFormContainer } from "./LoginPage";
-import { StyledBigButton, StyledLinkText } from "../components/common/button.styled";
+import {
+  StyledBigButton,
+  StyledLinkText,
+} from "../components/common/button.styled";
+import { useAuth } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
-  const [email, setEmail] = useState(null);
-  const [account, setAccount] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [checkPassword, setCheckPassword] = useState(null);
-  const [name, setName] = useState(null);
+  const [email, setEmail] = useState("");
+  const [account, setAccount] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
+  const [name, setName] = useState("");
+  const { regist, isAuthenticated } = useAuth();
+  const [errorMessage, setErrorMessage] = useState({});
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    // if (password !== checkPassword) return;
-    if (account.length === 0) {
-      return;
-    }
-    if (name.length === 0) {
-      return;
-    }
-    if (email.length === 0) {
-      return;
-    }
-    if (password.length === 0) {
-      return;
-    }
-    if (checkPassword.length === 0) {
-      return;
-    }
-    const { success } = await regist({
+    const { success, errorMessage } = await regist({
       email,
       account,
       password,
       checkPassword,
       name,
     });
+    console.log(errorMessage);
     if (success) {
-      console.log(success);
-
-      console.log("註冊成功");
-      navigate("/");
-    } else {
-      console.log("註冊失敗");
+      Swal.fire({
+        position: "top",
+        title: "註冊成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
     }
+    if (!success) setErrorMessage(errorMessage.message);
+    else navigate("/login");
   };
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/main");
+  }, [isAuthenticated, navigate]);
 
   return (
     <AccountFormPage>
@@ -59,37 +57,59 @@ const RegisterPage = () => {
           label={"帳號"}
           value={account}
           placeholder={"請輸入帳號"}
-          onChange={(nameInputValue) => setAccount(nameInputValue)}
+          errorMessage={errorMessage.account || null}
+          onChange={(nameInputValue) => {
+            setAccount(nameInputValue);
+            setErrorMessage({ ...errorMessage, account: null });
+          }}
         />
         <Input
           type={"text"}
           label={"名稱"}
           value={name}
           placeholder={"請輸入名稱"}
-          onChange={(nameInputValue) => setName(nameInputValue)}
+          errorMessage={errorMessage.name || null}
+          onChange={(nameInputValue) => {
+            setName(nameInputValue);
+            setErrorMessage({ ...errorMessage, name: null });
+          }}
         />
         <Input
           type={"email"}
           label={"Email"}
           value={email}
           placeholder={"請輸入Email"}
-          onChange={(nameInputValue) => setEmail(nameInputValue)}
+          errorMessage={errorMessage.email || null}
+          onChange={(nameInputValue) => {
+            setEmail(nameInputValue);
+            setErrorMessage({ ...errorMessage, email: null });
+          }}
         />
         <Input
           type={"password"}
           label={"密碼"}
           value={password}
           placeholder={"請設定密碼"}
-          onChange={(nameInputValue) => setPassword(nameInputValue)}
+          errorMessage={errorMessage.password || null}
+          onChange={(nameInputValue) => {
+            setPassword(nameInputValue);
+            setErrorMessage({ ...errorMessage, password: null });
+          }}
         />
         <Input
           type={"password"}
           label={"密碼確認"}
           value={checkPassword}
           placeholder={"請再次輸入密碼"}
-          onChange={(nameInputValue) => setCheckPassword(nameInputValue)}
+          errorMessage={errorMessage.passwordCheck || null}
+          onChange={(nameInputValue) => {
+            setCheckPassword(nameInputValue);
+            setErrorMessage({ ...errorMessage, passwordCheck: null });
+          }}
         />
-        <StyledBigButton className="form-btn" onClick={handleClick}>註冊</StyledBigButton>
+        <StyledBigButton className="form-btn" onClick={handleClick}>
+          註冊
+        </StyledBigButton>
         <Link to="/login">
           <StyledLinkText className="cancel-btn">取消</StyledLinkText>
         </Link>

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 // const baseURL = "http://simpletwitter.ddns.net/api";
 const baseURL = "https://calm-basin-50282.herokuapp.com/api";
 // admin
@@ -20,14 +21,12 @@ export const adminGetUserTweets = async ({ token }) => {
 
 export const adminDeleteUserTweet = async ({ tweetId, token }) => {
   try {
-    const data = await axios.delete(`${baseURL}/admin/tweets/${tweetId}`, {
+    const { status } = await axios.delete(`${baseURL}/admin/tweets/${tweetId}`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     })
-    if (data) {
-      // console.log(data)
-    }
+    if (status === 200) return { success: true }
   } catch (error) {
     console.log(error)
   }
@@ -47,3 +46,4 @@ export const adminGetUsersData = async ({ token }) => {
     console.log(error)
   }
 }
+

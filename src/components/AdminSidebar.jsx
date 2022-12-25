@@ -1,16 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
   BrandLogo,
   ProfileIcon,
+  ProfileIconActive,
+  HomeIcon,
   HomeIconActive,
   LogoutIcon,
 } from "../assets/icons";
+import { useAuth } from "../contexts/AuthContext";
 
 const StyledSidebarContainer = styled.div`
-  position: sticky; //還沒資料看不出效果
-  top: 0;
+  position: relative;
   margin-right: 24px;
   width: 178px;
   height: 100%;
@@ -26,39 +28,80 @@ const StyledLinkContainer = styled.div`
   padding: 16px;
 
   a {
-    margin-left: 20px;
-
+    display: flex;
+    align-items: center;
     color: var(--nav-unactive_gray);
     text-decoration: none;
     font-size: 18px;
     font-weight: 700;
     line-height: 26px;
-    &.active {
-      color: var(--main_orange);
+    span {
+      margin-left: 20px;
+      color: inherit;
     }
   }
 
   &.logout {
     position: absolute;
     bottom: 0;
-  }
+    a {
+      margin-left: 20px;
+    }
+  }  
 `;
 
 const AdminSidebar = () => {
+  const { logout, isAuthenticated, currentMember } = useAuth();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token") || null;
+
   const handleClick = () => {
-    // console.log("hi")
-    localStorage.removeItem("token");
+    logout();
   };
+
+  useEffect(() => {
+    if (isAuthenticated && currentMember.role === "user") {
+      navigate("/main");
+      return;
+    } else if (!token) {
+      navigate("/admin");
+      return;
+    }
+  }, [navigate, isAuthenticated]);
   return (
     <StyledSidebarContainer>
       <BrandLogo className="logo" />
       <StyledLinkContainer>
-        <HomeIconActive />
-        <Link to="/admin_main">推文清單</Link>
+        <NavLink to="/admin_main" style={({ isActive }) => ({ color: isActive && '#FF6600' })}>
+          {({ isActive }) => (
+            isActive ?
+            <>
+              <HomeIconActive />
+              <span>推文清單</span>
+            </>
+            :
+            <>
+              <HomeIcon />
+              <span>推文清單</span>
+            </>
+          )}
+        </NavLink>
       </StyledLinkContainer>
       <StyledLinkContainer>
-        <ProfileIcon />
-        <Link to="/admin_users">使用者列表</Link>
+        <NavLink to="/admin_users" style={({ isActive }) => ({ color: isActive && '#FF6600' })}>
+          {({ isActive }) => (
+            isActive ?
+            <>
+              <ProfileIconActive />
+              <span>使用者列表</span>
+            </>
+            :
+            <>
+              <ProfileIcon />
+              <span>使用者列表</span>
+            </>
+          )}
+        </NavLink>
       </StyledLinkContainer>
       <StyledLinkContainer className="logout">
         <LogoutIcon />

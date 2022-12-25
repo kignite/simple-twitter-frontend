@@ -10,16 +10,13 @@ export const login = async ({ account, password }, role) => {
       password,
     });
 
-    const { token, user } = data;
-
+    const { token, status } = data;
     if (token) {
-      console.log(`${user.role}登入成功`)
       return { success: true, ...data };
     }
-    return data;
+    return status;
   } catch (error) {
-    console.log('login-failed:', error)
-    return { error };
+    return { success: false }
   }
 };
 
@@ -39,15 +36,18 @@ export const regist = async ({
       name,
     });
     if (status === 200) {
-      console.log(status);
+      // console.log(status);
       return { success: true };
     }
   } catch (error) {
-    const { status } = error.request;
-    console.log("regist-failed:", status);
-    if (status) {
-      return { success: false };
-    }
+    // const { status } = error.request;
+    // console.log("regist-failed:", status);
+    // if (status) {
+    //   return { success: false };
+    // }
+    const errorMessage = JSON.parse(error.request.response)
+    // console.log(errorMessage)
+    return { success: false, errorMessage: errorMessage }
   }
 };
 
@@ -76,15 +76,12 @@ export const acountSetting = async ({
         },
       },
     );
-    console.log(status)
     if (status === 200) {
       return { success: true };
     }
   } catch (error) {
-    // const { status } = error.request;
-    console.log("setting-failed:", error);
-    return { success: false };
-
+    const errorMessage = JSON.parse(error.request.response)
+    return { success: false, errorMessage: errorMessage }
   }
 };
 
@@ -96,20 +93,34 @@ export const getAccountSetting = async ({
     const { data } = await axios.get(`${baseURL}/api/users/${userID}/setting`,
       {
         headers: {
-          // 'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token,
         },
       },
     );
-    console.log(data)
-
     return data;
 
   } catch (error) {
-    // const { status } = error.request;
     console.log("setting-failed:", error);
     return { success: false };
 
   }
 };
 
+export const checkPermmision = async ({ token }) => {
+  try {
+    const { status } = await axios({
+      method: 'GET',
+      url: `${baseURL}/api/users/token `,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    console.log(status)
+    if (status) {
+      return { success: true }
+    }
+  }
+  catch (error) {
+    if (error) return { success: false }
+  }
+}

@@ -5,21 +5,22 @@ import { adminGetUsersData } from "../api/getAdminRelated";
 import UserInfoCard from "../components/common/cards/UserInfoCard";
 import AdminSidebar from "../components/AdminSidebar";
 import { PageStyled } from "./AdminMainPage";
+import { useAuth } from "../contexts/AuthContext";
 
 // import jwt from "jwt-decode";
 
 const AdminUserList = () => {
   const [usersData, setUsersData] = useState([]);
+  const { isAuthenticated } = useAuth();
   const token = localStorage.getItem("token") || null;
 
   useEffect(() => {
     const getTweetsData = async () => {
-      // const token = localStorage.getItem("token") || null;
       const { data } = await adminGetUsersData({ token });
       setUsersData(data);
     };
     getTweetsData();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <PageStyled>

@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ReplyIcon, LikeIcon, LikedIcon } from "../../../assets/icons";
-import Backdrop from "../../Backdrop";
-import Modal from "../Modal";
+// import Backdrop from "../../Backdrop";
+// import Modal from "../Modal";
+import { postTweetLike, postTweetUnLike } from "../../../api/getTweetsRelated";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export const StyledCardContainer = styled.div`
   display: flex;
   padding: 16px 0;
   border: 1px solid ${(props) => (props.modal ? "transparent" : "#E6ECF0")};
-  cursor: ${(props) => (props.comment ? "default" : "pointer")};
+  /* cursor: ${(props) => (props.comment ? "default" : "pointer")}; */
 
   img {
     width: 50px;
@@ -25,11 +28,21 @@ export const StyledCardContainer = styled.div`
   }
 
   .right-side {
-    .name {
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 26px;
-      margin-right: 8px;
+    width: 100%;
+    .name-link {
+      display: block;
+      width: 30%;
+      .name {
+        display: block;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 26px;
+        margin-right: 8px;
+        
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     .account,
@@ -45,15 +58,20 @@ export const StyledCardContainer = styled.div`
         color: var(--main_orange);
       }
     }
-    p {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 26px;
-      margin-right: 24px;
+    a.description-link {
+      display: block;
+      width: 100%;
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 26px;
+        margin-right: 24px;
+      }
     }
 
     .user-actions {
       margin-top: 9px;
+      z-index: 3;
       span {
         margin-right: 41.3px;
 
@@ -68,8 +86,8 @@ export const StyledCardContainer = styled.div`
 `;
 
 const TweetCard = ({
+  userId,
   tweetId,
-  personalInfo,
   avatar,
   name,
   account,
@@ -78,53 +96,124 @@ const TweetCard = ({
   replyCount,
   likeCount,
   isLiked,
+  setActive,
+  setReplyToData,
+  setPanelData,
+  replyTweetId,
+  setReplyTweetId,
+  activeTab
 }) => {
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
+  const [likeStatus, setLikeStatus] = useState(isLiked);
+  const [newLikeCount, setNewLikeCount] = useState(likeCount);
+  const [localReplyCount, setLocalReplyCount] = useState(replyCount);
+  const token = localStorage.getItem("token");
+  // console.log('tweet', tweetId);
+  const { currentMember } = useAuth();
+
+  //handleLike
+  const handleLikeClicked = async () => {
+    try {
+      const status = await postTweetLike({ tweetId, token });
+      if (status === 200) {
+        setLikeStatus(1);
+        setNewLikeCount(newLikeCount + 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //handleUnLike
+  const handleUnLikeClicked = async () => {
+    try {
+      // const token = localStorage.getItem('token');
+      const status = await postTweetUnLike({ tweetId, token: token });
+      if (status === 200) {
+        setLikeStatus(0);
+        setNewLikeCount(newLikeCount - 1);
+        if (activeTab === 'like') {
+          setPanelData((prevData) => {
+            return prevData.filter((prev) => prev.TweetId !== tweetId);
+          });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const iconSize = {
     width: "13.2px",
     height: "13px",
     marginRight: "9px",
   };
+
+  useEffect(() => {
+    if (replyTweetId === tweetId) {
+      setLocalReplyCount((prev) => prev + 1);
+      setReplyTweetId();
+    } else return;
+    console.log(replyTweetId);
+  }, [replyTweetId]);
+
   return (
-    <>
-      <Backdrop active={active} setActive={setActive} />
-      <Modal
-        tweetid={tweetId}
-        active={active}
-        setActive={setActive}
-        avatar={avatar}
-        name={name}
-        account={account}
-        createdAt={createdAt}
-        description={description}
-        onReply={true}
-        personalInfo={personalInfo}
-      />
-      <StyledCardContainer>
-        <img src={avatar} alt={name} />
-        <div className="right-side">
+    <StyledCardContainer>
+      <Link
+        to={
+          currentMember.id === userId
+            ? `/layout/user/self`
+            : `/layout/user/other/?id=${userId}`
+        }
+      >
+        <img src={avatar} alt="" />
+      </Link>
+      <div className="right-side">
+        <Link className="name-link"
+            to={
+              currentMember.id === userId
+                ? `/layout/user/self`
+                : `/layout/user/other/?id=${userId}`
+            }
+        >
           <span className="name">{name}</span>
-          <span className="account">@{account}</span>
-          <span className="created-time"> · {createdAt}</span>
+        </Link>
+        <span className="account">@{account}</span>
+        <span className="created-time"> · {createdAt}</span>
+        <Link className="description-link" to={`/layout/reply_list/?reply_to=${tweetId}`}>
           <p>{description}</p>
-          <div className="user-actions">
-            <span className="reply">
-              <ReplyIcon style={iconSize} onClick={() => setActive(true)} />
-              {replyCount}
-            </span>
-            <span className="like">
-              {isLiked ? (
-                <LikedIcon style={iconSize} />
-              ) : (
-                <LikeIcon style={iconSize} />
-              )}
-              {likeCount}
-            </span>
-          </div>
+        </Link>
+        <div className="user-actions">
+          <span className="reply">
+            <Link to={`#/${userId}/reply_modal`}>
+              <ReplyIcon
+                style={iconSize}
+                onClick={() => {
+                  setReplyToData({
+                    tweetId,
+                    avatar,
+                    name,
+                    account,
+                    createdAt,
+                    description,
+                  });
+                  setActive(true);
+                  console.log(tweetId);
+                }}
+              />
+            </Link>
+            {localReplyCount}
+          </span>
+          <span className="like">
+            {likeStatus ? (
+              <LikedIcon style={iconSize} onClick={handleUnLikeClicked} />
+            ) : (
+              <LikeIcon style={iconSize} onClick={handleLikeClicked} />
+            )}
+            {newLikeCount}
+          </span>
         </div>
-      </StyledCardContainer>
-    </>
+      </div>
+    </StyledCardContainer>
   );
 };
 
