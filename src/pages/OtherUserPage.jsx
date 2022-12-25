@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import {
   Link,
@@ -12,6 +12,7 @@ import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon, NotiIcon, MessageIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
 import { useAuth } from "../contexts/AuthContext";
+import { ClickingContext } from "../App";
 import { postFollowed, deleteFollowed } from "../api/followshipAPI";
 import { getUserFollowing } from "../api/getUserTweets";
 import clsx from "clsx";
@@ -138,6 +139,7 @@ const OtherUserPage = ({active, setActive}) => {
   let id = searchParams.get("id");
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
+  const { clicking, setClicking } = useContext(ClickingContext);
 
   const [personalInfo, setPersonalInfo] = useState({});
   const [isFollowed, setIsFollowed] = useState(false);
@@ -148,6 +150,7 @@ const OtherUserPage = ({active, setActive}) => {
       const status = await postFollowed({ userId, token });
       console.log(status);
       if (status === 200) {
+        setClicking(!clicking);
         setIsFollowed(true);
       }
     } catch (error) {
@@ -161,6 +164,7 @@ const OtherUserPage = ({active, setActive}) => {
       const status = await deleteFollowed({ followingId, token });
       console.log(status);
       if (status === 200) {
+        setClicking(!clicking);
         setIsFollowed(false);
       }
     } catch (error) {

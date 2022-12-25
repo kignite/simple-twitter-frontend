@@ -11,7 +11,6 @@ import {
   getUserFollowing,
 } from "../api/getUserTweets";
 import { useAuth } from "../contexts/AuthContext";
-// import jwtDecode from "jwt-decode";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -54,8 +53,10 @@ const OtherFollowPage = ({ pageStatus }) => {
   const [id] = useState(searchParams.get("id"));
 
   const { isAuthenticated, currentMember } = useAuth();
+  // const { clicking, setClicking } = useContext(ClickingContext);
 
   useEffect(() => {
+    console.log(id);
     const getCurrentUser = async () => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);

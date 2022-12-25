@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import clsx from "clsx";
 import { StyledTabbar } from "../components/common/tab.styled";
@@ -13,6 +13,7 @@ import {
 import { postFollowed, deleteFollowed } from "../api/followshipAPI";
 import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/AuthContext";
+import { ClickingContext } from "../App";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -53,6 +54,7 @@ const FollowPage = ({ pageStatus }) => {
   const token = localStorage.getItem("token") || null;
   const [searchParams] = useSearchParams();
   const { isAuthenticated, currentMember } = useAuth();
+  const { clicking, setClicking } = useContext(ClickingContext);
 
   let id;
 
@@ -69,6 +71,7 @@ const FollowPage = ({ pageStatus }) => {
       console.log(status);
       if (status === 200) {
         // const { data } = await getUserFollowing({ token });
+        setClicking(!clicking);
         setFollowData((prevData) => {
           return prevData.map((prev) => {
             if (prev.followerId === userId) {
@@ -96,6 +99,7 @@ const FollowPage = ({ pageStatus }) => {
       console.log(status);
       if (status === 200) {
         // const { data } = await getUserFollowing({ token });
+        setClicking(!clicking);
         setFollowData((prevData) => {
           if (pageStatus === "following") {
             return prevData.filter((prev) => prev.followingId !== followingId);
@@ -156,7 +160,7 @@ const FollowPage = ({ pageStatus }) => {
     return () => {
       ignore = true;
     };
-  }, [pageStatus, isAuthenticated]);
+  }, [pageStatus, isAuthenticated, clicking]);
 
   return (
     <FollowPageStyle>

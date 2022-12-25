@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { getTopFollwer, postFollowed, deleteFollowed } from "../../api/followshipAPI";
 import { getUserFollowing } from "../../api/getUserTweets";
 import { useAuth } from "../../contexts/AuthContext";
 import PopularUserCard from "./PopularUserCard";
+import { ClickingContext } from "../../App";
 
 const StyledListContainer = styled.div`
   grid-column: 3 / 4;
@@ -33,8 +34,9 @@ const StyledListContainer = styled.div`
 const PopularUserList = () => {
   const [topFollowers, setTopFollowers] = useState([]);
   const [followings, setFollowings] = useState([]);
-  const [clicking, setClicking] = useState(false);
+  // const [clicking, setClicking] = useState(false);
   const { isAuthenticated, currentMember } = useAuth();
+  const { clicking, setClicking } = useContext(ClickingContext);
 
   const token = localStorage.getItem("token");
 
