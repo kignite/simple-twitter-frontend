@@ -148,6 +148,14 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
 
       console.log(info);
       await uploadUserInfo({ token, info });
+      Swal.fire({
+        position: "top",
+        title: "設定成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
+
       onClose();
       return;
     }
@@ -175,7 +183,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
 
   const handleDeletCover = () => {
     setDeleteCover(true);
-    setTmpImg({ ...tmpImg, cover: null });
+    setTmpImg({ ...tmpImg, cover: "https://i.imgur.com/bW0IDLD.png" });
   };
 
   //上傳頭像
@@ -193,7 +201,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
         icon: "error",
         showConfirmButton: false,
       });
-      return
+      return;
     }
 
     fileReader.onload = () => {
@@ -219,7 +227,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
         icon: "error",
         showConfirmButton: false,
       });
-      return
+      return;
     }
 
     fileReader.onload = () => {
