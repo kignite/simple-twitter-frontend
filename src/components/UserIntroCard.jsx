@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { StyledButton } from "../components/common/button.styled";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 const StyledCardContainer = styled.div`
   display: flex;
@@ -23,13 +24,19 @@ const StyledCardContainer = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      a {
+        width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
     .name {
+      width: 100%;
       font-size: 16px;
       font-weight: 700;
       line-height: 26px;
       margin-right: 8px;
-      color: var(--main_text);
     }
 
     p {
@@ -40,21 +47,35 @@ const StyledCardContainer = styled.div`
       margin-top: 15px;
     }
   }
-
 `;
 
-const UserIntroCard = ({ avatar, name, introduction, isFollowed }) => {
+const UserIntroCard = ({
+  userId,
+  avatar,
+  name,
+  introduction,
+  isFollowed,
+  onBtnClicked,
+  isDisabled,
+}) => {
   return (
     <StyledCardContainer>
-      <img src={avatar} alt={name} />
+      <Link to={`/layout/user/other/?id=${userId}`}>
+        <img src={avatar} alt="" />
+      </Link>
       <div className="right-side">
         <div className="name-header">
-          <span className="name">{name}</span>
+          <Link to={`/layout/user/other/?id=${userId}`}>
+            <span className="name">{name}</span>
+          </Link>
+
           <StyledButton
             className={"follow-btn" + clsx(" ", { active: isFollowed })}
+            onClick={onBtnClicked}
+            disabled={isDisabled}
           >
             {isFollowed ? "正在跟隨" : "跟隨"}
-          </StyledButton> {/*還沒做追蹤/取消追蹤API*/}
+          </StyledButton>
         </div>
         <p>{introduction}</p>
       </div>

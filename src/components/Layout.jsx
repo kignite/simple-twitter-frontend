@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PopularUserList from "./popular/PopularUserList";
 import Sidebar from "./Sidebar";
 import Backdrop from "./Backdrop";
 import Modal from "./common/Modal";
 import { getUserInfo } from "../api/getUserTweets";
+import { useAuth } from "../contexts/AuthContext";
+import jwtDecode from "jwt-decode";
+//test
+// import AccountSetting from "../pages/AccountSetting";
 
 const StyledLayoutContainer = styled.div`
   width: 1140px;
@@ -24,32 +28,49 @@ const StyledLayoutContainer = styled.div`
   }
 `;
 
-const Layout = () => {
-  const token = localStorage.getItem("token");
-  const [active, setActive] = useState(false);
+const Layout = ({onSettingPage = false, active, setActive}) => {
+  const token = localStorage.getItem("token") || null;
+  // //Modal的開關
+  // const [active, setActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
+  const navigate = useNavigate();
+
+  const { isAuthenticated, currentMember } = useAuth();
+
   useEffect(() => {
     const getdata = async () => {
-      const data = await getUserInfo({ token });
+      const id = jwtDecode(token).id;
+      const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
-    getdata();
-  }, []);
 
+    if (!token) {
+      navigate("/layout/login");
+      return;
+    }
+    if (isAuthenticated && currentMember.role === "admin") {
+      navigate("/admin_main");
+      return;
+    }
+
+    getdata();
+  }, [isAuthenticated]);
 
   return (
     <StyledLayoutContainer>
       <Sidebar setActive={setActive} />
       <div className="outlet">
-        <Backdrop active={active} setActive={setActive} />
-        <Modal
-          active={active}
-          setActive={setActive}
-          personalInfo={personalInfo}
-        />
+        <Backdrop active={active}>
+          <Modal
+            // onReply={false}
+            active={active}
+            setActive={setActive}
+            personalInfo={personalInfo}
+          />
+        </Backdrop>
         <Outlet />
       </div>
-      <PopularUserList />
+      {!onSettingPage && <PopularUserList />}
     </StyledLayoutContainer>
   );
 };

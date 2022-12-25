@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getUserInfo } from "../api/getUserTweets";
 import Backdrop from "../components/Backdrop";
+// import Modal from "../components/common/Modal";
 import EditInfoModal from "../components/profile/EditInfoModal";
 import UserPanel from "../components/profile/UserPanel";
 import { TurnbackIcon } from "../assets/icons";
 import { StyledButton } from "../components/common/button.styled";
+import jwtDecode from "jwt-decode";
+import { useAuth } from "../contexts/AuthContext";
 
 const UserPageStyle = styled.div`
   box-sizing: border-box;
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   header {
     display: flex;
     align-items: center;
@@ -24,7 +28,10 @@ const UserPageStyle = styled.div`
     top: 0;
 
     background-color: var(--main_white);
-    z-index: 99;
+    z-index: 5;
+    .return {
+      cursor: pointer;
+    }
   }
   .header-info {
     margin-left: 19px;
@@ -104,38 +111,47 @@ const UserInfoText = styled.div`
   }
 `;
 
-const UserPage = () => {
+const UserPage = ({active, setActive, tweetModalActive}) => {
   const token = localStorage.getItem("token");
-  const [active, setActive] = useState(false);
+  const [editActive, setEditActive] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({});
-  const [tmpName, setTmpName] = useState("");
-
+  const { isAuthenticated, currentMember } = useAuth();
+  const navigate = useNavigate();
 
   const handleOpen = () => {
-    setActive(true);
+    setEditActive(true);
     console.log("編輯個人資料");
   };
   const handleClose = () => {
-    setActive(false);
+    setEditActive(false);
   };
 
   useEffect(() => {
     const getPersonalInfo = async () => {
-      const data = await getUserInfo({ token });
+      const id = jwtDecode(token).id;
+      // console.log(id);
+      const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
-      setTmpName(data.name);
     };
+    if (!isAuthenticated || currentMember.role !== "user") return;
+
     getPersonalInfo();
-  }, [active]);
+    // console.log(personalInfo);
+  }, [editActive, isAuthenticated]);
 
   return (
     <>
-      <Backdrop active={active} onClose={handleClose} />
+      <Backdrop active={editActive} onClose={handleClose} />
       <UserPageStyle>
         <header>
-          <TurnbackIcon className="return" />
+          <TurnbackIcon
+            className="return"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
           <div className="header-info">
-            {active ? <h5>{tmpName}</h5> : <h5>{personalInfo.name}</h5>}
+            <h5>{personalInfo.name}</h5>
             <p className="tweet-amount">{personalInfo.tweetCount} 推文</p>
           </div>
         </header>
@@ -145,7 +161,7 @@ const UserPage = () => {
               <img src={personalInfo.cover} alt="" className="cover" />
               <img src={personalInfo.avatar} alt="" className="avatar" />
             </div>
-            {active ? (
+            {editActive ? (
               <EditInfoModal
                 token={token}
                 personalInfo={personalInfo}
@@ -164,20 +180,25 @@ const UserPage = () => {
             <div className="follow-info">
               <p>
                 {personalInfo.followingCount}
-                <Link to="/user/self/following">
+                <Link to="/layout/user/self/following">
                   <span> 跟隨中</span>
                 </Link>
               </p>
               <p>
                 {personalInfo.followerCount}
-                <Link to="/user/self/follower">
+                <Link to="/layout/user/self/follower">
                   <span> 跟隨者</span>
                 </Link>
               </p>
             </div>
           </UserInfoText>
         </div>
-        <UserPanel personalInfo={personalInfo} />
+        <UserPanel
+          personalInfo={personalInfo}
+          active={active}
+          setActive={setActive}
+          tweetModalActive={tweetModalActive}
+        />
       </UserPageStyle>
     </>
   );

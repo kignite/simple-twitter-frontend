@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import clsx from "clsx";
 import { StyledTabbar } from "../components/common/tab.styled";
@@ -10,10 +10,7 @@ import {
   getUserFollower,
   getUserFollowing,
 } from "../api/getUserTweets";
-import { postFollowed, deleteFollowed } from "../api/followshipAPI";
-import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/AuthContext";
-import { ClickingContext } from "../App";
 
 const FollowPageStyle = styled.div`
   position: relative;
@@ -47,85 +44,19 @@ const FollowPageStyle = styled.div`
   }
 `;
 
-const FollowPage = ({ pageStatus }) => {
+const OtherFollowPage = ({ pageStatus }) => {
   const [personalInfo, setPersonalInfo] = useState({});
   const [followData, setFollowData] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token") || null;
   const [searchParams] = useSearchParams();
+  const [id] = useState(searchParams.get("id"));
+
   const { isAuthenticated, currentMember } = useAuth();
-  const { clicking, setClicking } = useContext(ClickingContext);
-
-  let id;
-
-  if (searchParams.get("id")) {
-    id = searchParams.get("id");
-  } else {
-    id = jwtDecode(token).id;
-  }
-
-  //追隨某使用者
-  const handleFollowed = async (userId) => {
-    try {
-      const status = await postFollowed({ userId, token });
-      console.log(status);
-      if (status === 200) {
-        // const { data } = await getUserFollowing({ token });
-        setClicking(!clicking);
-        setFollowData((prevData) => {
-          return prevData.map((prev) => {
-            if (prev.followerId === userId) {
-              return {
-                ...prev,
-                Followers: {
-                  ...prev.Followers,
-                  isFollowed: 1,
-                },
-              };
-            }
-            return prev;
-          });
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  //取消追隨某位使用者
-  const handleUnFollowed = async (followingId) => {
-    try {
-      const status = await deleteFollowed({ followingId, token });
-      console.log(status);
-      if (status === 200) {
-        // const { data } = await getUserFollowing({ token });
-        setClicking(!clicking);
-        setFollowData((prevData) => {
-          if (pageStatus === "following") {
-            return prevData.filter((prev) => prev.followingId !== followingId);
-          }
-          if (pageStatus === "follower") {
-            return prevData.map((prev) => {
-              if (prev.followerId === followingId) {
-                return {
-                  ...prev,
-                  Followers: {
-                    ...prev.Followers,
-                    isFollowed: 0,
-                  },
-                };
-              }
-              return prev;
-            });
-          }
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const { clicking, setClicking } = useContext(ClickingContext);
 
   useEffect(() => {
+    console.log(id);
     const getCurrentUser = async () => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
@@ -148,11 +79,6 @@ const FollowPage = ({ pageStatus }) => {
       }
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
-    if (searchParams.get("id")) {
-      id = searchParams.get("id");
-    } else {
-      id = jwtDecode(token).id;
-    }
 
     getCurrentUser();
     getFollowData();
@@ -160,7 +86,7 @@ const FollowPage = ({ pageStatus }) => {
     return () => {
       ignore = true;
     };
-  }, [pageStatus, isAuthenticated, clicking]);
+  }, [pageStatus, isAuthenticated]);
 
   return (
     <FollowPageStyle>
@@ -168,7 +94,7 @@ const FollowPage = ({ pageStatus }) => {
         <TurnbackIcon
           className="return"
           onClick={() => {
-            navigate("/layout/user/self");
+            navigate(`/layout/user/other/?id=${id}`);
           }}
         />
         <div className="header-info">
@@ -185,7 +111,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "follower") {
               setFollowData([]);
             }
-            navigate("/layout/user/self/follower");
+            navigate(`/layout/user/other/follower?=${id}`);
           }}
         >
           追隨者
@@ -199,7 +125,7 @@ const FollowPage = ({ pageStatus }) => {
             if (pageStatus !== "following") {
               setFollowData([]);
             }
-            navigate("/layout/user/self/following");
+            navigate(`/layout/user/other/following?=${id}`);
           }}
         >
           正在追隨
@@ -216,13 +142,6 @@ const FollowPage = ({ pageStatus }) => {
                 name={item.Followers.name}
                 introduction={item.Followers.introduction}
                 isFollowed={item.Followers.isFollowed}
-                onBtnClicked={() => {
-                  if (item.Followers.isFollowed) {
-                    handleUnFollowed(item.followerId);
-                  } else {
-                    handleFollowed(item.followerId);
-                  }
-                }}
               />
             );
           }
@@ -235,9 +154,6 @@ const FollowPage = ({ pageStatus }) => {
                 name={item.Followings.name}
                 introduction={item.Followings.introduction}
                 isFollowed={item.Followings.isFollowed}
-                onBtnClicked={() => {
-                  handleUnFollowed(item.followingId);
-                }}
               />
             );
           }
@@ -247,4 +163,4 @@ const FollowPage = ({ pageStatus }) => {
   );
 };
 
-export default FollowPage;
+export default OtherFollowPage;

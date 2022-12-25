@@ -5,8 +5,7 @@ import jwt from "jwt-decode";
 const baseURL = "https://calm-basin-50282.herokuapp.com/api";
 
 //取得特定使用者的所有"推文"
-export const getUserTweets = async ({ token, id, role = "user" }) => {
-  if (role === "user") { id = jwt(token).id; }
+export const getUserTweets = async ({ token, id }) => {
   try {
     const data = await axios.get(`${baseURL}/users/${id}/tweets`, {
       headers: {
@@ -20,8 +19,8 @@ export const getUserTweets = async ({ token, id, role = "user" }) => {
 };
 
 //取得特定使用者的所有"回覆"
-export const getUserReplies = async ({ token, id, role = "user" }) => {
-  if (role === "user") { id = jwt(token).id; }
+export const getUserReplies = async ({ token, id }) => {
+
   try {
     const data = await axios.get(`${baseURL}/users/${id}/replied_tweets`, {
       headers: {
@@ -36,24 +35,22 @@ export const getUserReplies = async ({ token, id, role = "user" }) => {
 
 
 //取得當前使用者
-export const getUserInfo = async ({ token, id, role = "user" }) => {
-  if (role === "user") { id = jwt(token).id; }
+export const getUserInfo = async ({ token, id }) => {
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     });
-    console.log('取得個人資料成功')
     return data;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 
 //取得特定使用者"喜歡的內容"
-export const getUserLikes = async ({ token, id, role = "user" }) => {
-  if (role === "user") { id = jwt(token).id; }
+export const getUserLikes = async ({ token, id }) => {
   try {
     const data = await axios.get(`${baseURL}/users/${id}/likes`, {
       headers: {
@@ -63,6 +60,7 @@ export const getUserLikes = async ({ token, id, role = "user" }) => {
     return data;
   } catch (error) {
     console.log(error);
+    return error
   }
 };
 
@@ -83,8 +81,8 @@ export const uploadUserInfo = async ({ token, info }) => {
 };
 
 //取得特定使用者的追隨者
-export const getUserFollower = async ({ token }) => {
-  const id = jwt(token).id;
+export const getUserFollower = async ({ token, id = jwt(token).id }) => {
+  // const id = jwt(token).id;
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}/followers`, {
       headers: {
@@ -98,8 +96,8 @@ export const getUserFollower = async ({ token }) => {
 };
 
 //取得特定使用者的正在追隨
-export const getUserFollowing = async ({ token }) => {
-  const id = jwt(token).id;
+export const getUserFollowing = async ({ token, id = jwt(token).id }) => {
+  // const id = jwt(token).id;
   try {
     const { data } = await axios.get(`${baseURL}/users/${id}/followings`, {
       headers: {
@@ -119,24 +117,24 @@ export const postTweet = async ({ token, tweet }) => {
       headers: {
         Authorization: 'Bearer ' + token,
       },
-    })
-    return status
+    });
+    return status;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
 // 回覆一則貼文
-export const postReply = async ({ token, tweetid, reply }) => {
-  console.log(tweetid, reply)
+export const postReply = async ({ token, tweetId, reply }) => {
+  console.log(tweetId, reply)
   try {
-    const { status } = await axios.post(`${baseURL}/tweets/${tweetid}/replies`, reply, {
+    const { status } = await axios.post(`${baseURL}/tweets/${tweetId}/replies`, reply, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
-    })
-    return status
+    });
+    return status;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }

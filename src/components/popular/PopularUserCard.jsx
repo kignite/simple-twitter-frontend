@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { StyledButton } from "../common/button.styled";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 const StyledItemContainer = styled.li`
   position: relative;
@@ -48,20 +49,36 @@ const StyledAvatar = styled.img`
   border-radius: 50%;
 
   background-color: var(--avatar-scale_gray);
+  background-image: url('https://i.imgur.com/HD4yT2V.png');
+  object-fit: cover;
 `;
 
-
-const PopularUserCard = ({avatar, name, account, isFollowed}) => {
+const PopularUserCard = ({
+  avatar,
+  name,
+  account,
+  isFollowed,
+  onBtnClicked,
+  userId,
+}) => {
   return (
     <StyledItemContainer>
-      <StyledAvatar src={avatar} alt="" />
+      <Link to={`/layout/user/other/?id=${userId}`}>
+        <StyledAvatar src={avatar} alt="" />
+      </Link>
+
       <div className="user">
-        <p className="user-name">{name}</p>
+        <Link to={`/layout/user/other/?id=${userId}`}>
+          <p className="user-name">{name}</p>
+        </Link>
         <p className="user-account">@{account}</p>
       </div>
-      <StyledButton className={"follow-btn" + clsx(' ', {active: isFollowed})}>
-        {isFollowed ? '正在跟隨' : '跟隨'}
-      </StyledButton> {/*還沒做追蹤/取消追蹤API*/}
+      <StyledButton
+        className={"follow-btn" + clsx(" ", { active: isFollowed })}
+        onClick={onBtnClicked}
+      >
+        {isFollowed ? "正在跟隨" : "跟隨"}
+      </StyledButton>
     </StyledItemContainer>
   );
 };

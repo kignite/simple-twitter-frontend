@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TweetCardBig from "../components/common/cards/TweetCardBig";
 import CommentCard from "../components/common/cards/CommentCard";
 import { TurnbackIcon } from "../assets/icons";
+import { getOneTweet, getOneTweetReplies } from "../api/getTweetsRelated";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const TweetReplyPageStyle = styled.div`
   position: relative;
@@ -10,7 +12,8 @@ const TweetReplyPageStyle = styled.div`
   height: 100vh;
   width: 100%;
   border: 1px solid var(--border_gray);
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   header {
     display: flex;
     align-items: center;
@@ -34,15 +37,79 @@ const TweetReplyPageStyle = styled.div`
   }
 `;
 
-const TweetReplyPage = () => {
+const TweetReplyPage = ({active, setActive}) => {
+  const [tweetData, setTweetData] = useState({
+    "id": 0,
+    "createdAt": "0",
+    "description": "0",
+    "replyCount": 0,
+    "likeCount": 0,
+    "isLiked": 0,
+    "User": {
+      "id": 0,
+      "avatar": "0",
+      "account": "0",
+      "name": "0"
+    }
+  });
+  const [tweetReplies, setTweetReplies] = useState([]);
+  const [searchParams] = useSearchParams();
+  const tweetId = searchParams.get('reply_to');
+  // const { key } = useLocation();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    //發送取得單一推文資料的請求
+    const getOneSpecificTweet = async () => {
+      // const id = tweetIdRef.current;
+      const {data} = await getOneTweet({id: tweetId, token});
+      setTweetData(data);
+    };
+    //發送取得單一推文回覆串的請求
+    const getOneSpecificTweetReplies = async () => {
+      // const id = tweetIdRef.current;
+      const {data} = await getOneTweetReplies({id: tweetId, token});
+      setTweetReplies([...data])
+    };
+
+    getOneSpecificTweet();
+    getOneSpecificTweetReplies();
+  }, [active])
+
   return (
     <TweetReplyPageStyle>
       <header>
-        <TurnbackIcon className="return" />
+        <TurnbackIcon className="return" onClick={() => {
+          navigate(-1);
+        }} />
         <h4>推文</h4>
       </header>
-      <TweetCardBig />
-      <CommentCard />
+      <TweetCardBig
+        tweetId={tweetId}
+        avatar={tweetData.User.avatar}
+        name={tweetData.User.name}
+        account={tweetData.User.account}
+        description={tweetData.description}
+        createdAt={tweetData.createdAt}
+        replyCount={tweetData.replyCount}
+        likeCount={tweetData.likeCount}
+        isLiked={tweetData.isLiked}
+        personalInfo={tweetData.User}
+        active={active}
+        setActive={setActive}
+      />
+      {tweetReplies.map(reply =>
+        <CommentCard
+          key={reply.id}
+          avatar={reply.User.avatar}
+          name={reply.User.name}
+          account={reply.User.account}
+          createdAt={reply.createdAt}
+          replyTo={tweetData.User.account}
+          comment={reply.comment}
+        />
+      )}
     </TweetReplyPageStyle>
   );
 };

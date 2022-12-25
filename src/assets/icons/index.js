@@ -13,6 +13,10 @@ import { ReactComponent as CloseIcon } from "./close-icon.svg";
 import { ReactComponent as TurnbackIcon } from "./turnback-icon.svg";
 import { ReactComponent as CameraIcon } from "./camera-icon.svg";
 import { ReactComponent as TweetIcon } from "./tweet-icon.svg";
+import { ReactComponent as NotiIcon } from "./noti-icon.svg";
+import { ReactComponent as NotiIconActive } from "./noti-icon-active.svg";
+import { ReactComponent as MessageIcon } from "./message-icon.svg";
+
 
 export {
   BrandLogo,
@@ -30,4 +34,7 @@ export {
   TurnbackIcon,
   CameraIcon,
   TweetIcon,
+  NotiIcon,
+  NotiIconActive,
+  MessageIcon,
 };
