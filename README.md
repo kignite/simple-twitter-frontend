@@ -50,9 +50,9 @@
   ```
   cd simple-twitter-frontend
   ```
-3. 安裝必備套件 
+3. 安裝必備套件 **此步驟會等待較長時間
   ```
-  npm install **此步驟會等待較長時間
+  npm install 
   ```
 4. 啟動專案 
   ```
