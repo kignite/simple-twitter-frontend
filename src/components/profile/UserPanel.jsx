@@ -19,17 +19,21 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
   const [panelData, setPanelData] = useState([]);
   const [replyToData, setReplyToData] = useState({});
   const [searchParams] = useSearchParams();
+  const [replyTweetId, setReplyTweetId] = useState();
   // const { key } = useLocation();
   const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
-    console.log(personalInfo);
-    console.log(personalInfo.id);
+    // console.log(personalInfo);
+    // console.log(personalInfo.id);
     let ignore = false;
     const getPanelData = async () => {
       const token = localStorage.getItem("token") || null;
       let id = personalInfo.id;
-      if (personalInfo.id === undefined && currentMember.id === searchParams.get("id")) {
+      if (
+        personalInfo.id === undefined &&
+        currentMember.id === searchParams.get("id")
+      ) {
         id = jwtDecode(token).id;
       } else if (currentMember.id !== personalInfo.id) {
         id = searchParams.get("id") || personalInfo.id || currentMember.id;
@@ -92,6 +96,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
           onReply={true}
           onPages={true}
           personalInfo={personalInfo} //只有這個是自己
+          setReplyTweetId={setReplyTweetId}
         />
       </Backdrop>
       <StyledTabbar>
@@ -167,9 +172,12 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
                 isLiked={item.isLiked}
                 setActive={setActive}
                 setReplyToData={setReplyToData}
+                replyTweetId={replyTweetId}
+                setReplyTweetId = { setReplyTweetId }
               />
             );
-          } else { //使用者喜歡的內容
+          } else {
+            //使用者喜歡的內容
             return (
               <TweetCard
                 key={item.id}
@@ -187,6 +195,8 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
                 setActive={setActive}
                 setReplyToData={setReplyToData}
                 setPanelData={setPanelData}
+                replyTweetId={replyTweetId}
+                setReplyTweetId={setReplyTweetId}
               />
             );
           }

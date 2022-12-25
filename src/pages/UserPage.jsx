@@ -129,14 +129,14 @@ const UserPage = ({active, setActive, tweetModalActive}) => {
   useEffect(() => {
     const getPersonalInfo = async () => {
       const id = jwtDecode(token).id;
-      console.log(id);
+      // console.log(id);
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
 
     getPersonalInfo();
-    console.log(personalInfo);
+    // console.log(personalInfo);
   }, [editActive, isAuthenticated]);
 
   return (
