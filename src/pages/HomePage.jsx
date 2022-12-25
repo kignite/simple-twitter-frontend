@@ -70,10 +70,22 @@ export const StyledTextareaContainer = styled.div`
       border: none;
     }
   }
-  .post-tweet {
+  .action-panel {
+    display: flex;
+    justify-content: end;
+    align-items: center;
     position: absolute;
     bottom: 16px;
     right: 24px;
+    .error-msg {
+      margin-right: 20px;
+
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 15px;
+      color: var(--main_error);
+    }
+
   }
 `;
 
@@ -148,16 +160,19 @@ const HomePage = ({ active, setActive }) => {
   const [avatar, setAvatar] = useState("");
   // const [personalInfo, setPersonalInfo] = useState({});
   const [tweetText, setTweetText] = useState("");
+  const [errorMsg, setErrorMsg] = useState(null);
   const token = localStorage.getItem("token") || null;
   const { isAuthenticated, currentMember } = useAuth();
 
   const handleChange = (e) => {
+    setErrorMsg(null);
     setTweetText(e.target.value);
   };
 
   const handlePost = async () => {
     if (tweetText.length === 0) {
       console.log("請輸入至少一個字");
+      setErrorMsg("內容不可空白");
       return;
     }
     const tweet = { description: tweetText };
@@ -194,9 +209,20 @@ const HomePage = ({ active, setActive }) => {
             value={tweetText}
             onChange={handleChange}
           ></textarea>
-          <StyledButton className="post-tweet active" onClick={handlePost}>
-            推文
-          </StyledButton>
+          <div className="action-panel">
+            <p className="error-msg">
+              {
+                tweetText.length > 140 ?
+                "字數不可超過 140 字"
+                :
+                ""
+              }
+              {errorMsg !== null && errorMsg}
+            </p>
+            <StyledButton className="post-tweet active" onClick={handlePost}>
+              推文
+            </StyledButton>
+          </div>
         </StyledTextareaContainer>
         <div className="devider"></div>
       </div>

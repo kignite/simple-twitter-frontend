@@ -108,7 +108,7 @@ export const Input = ({
           }
         >
           {errorMessage ||
-            (label === "名稱" && value && value.length > 50 && "名稱超過50字")}
+            (label === "名稱" && value && value.length > 50 && "名稱不可超過50字!")}
         </p>
         {value !== null && label === "名稱" && (
           <p className="text-num">{value.length}/50</p>

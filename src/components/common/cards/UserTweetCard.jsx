@@ -14,6 +14,8 @@ const TweetCardStyled = styled.div`
   .checkbox-container {
     position: absolute;
     top: 30%;
+
+    
     left: 50%;
     transform: translateX(-50%);
   }

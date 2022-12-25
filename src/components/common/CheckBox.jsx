@@ -16,6 +16,7 @@ const CheckBoxStyled = styled.div`
   border-radius: 15px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
 
+
   .double-check {
     font-size: 30px;
     font-weight: 700;
@@ -32,7 +33,7 @@ const CheckBoxStyled = styled.div`
     border-radius: 30px;
     color: var(--main_white);
     border: none;
-    background-color: var(--main_orange);
+    background-color: var(--main_error);
     cursor: pointer;
     margin: 0 10px;
   }

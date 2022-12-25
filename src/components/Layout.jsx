@@ -44,10 +44,10 @@ const Layout = ({onSettingPage = false, active, setActive}) => {
       setPersonalInfo(data);
     };
 
-    // if (!isAuthenticated) {
-    //   navigate("/layout/login");
-    //   return;
-    // }
+    if (!token) {
+      navigate("/layout/login");
+      return;
+    }
     if (isAuthenticated && currentMember.role === "admin") {
       navigate("/admin_main");
       return;

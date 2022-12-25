@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { postReply, postTweet } from "../../api/getUserTweets";
 import { CloseIcon } from "../../assets/icons";
@@ -59,6 +59,8 @@ const Modal = ({
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const tweetRef = useRef(null);
+  const [draft, setDraft] = useState("");
+  const [errorMsg, setErrorMsg] = useState(null);
 
   console.log(tweetId);
   console.log("replyTo:", name);
@@ -66,6 +68,7 @@ const Modal = ({
   const handleTweet = async () => {
     if (tweetRef.current.value.length === 0) {
       console.log("請輸入至少一個字");
+      setErrorMsg("內容不可空白");
       return;
     }
     const tweet = { description: tweetRef.current.value };
@@ -79,6 +82,7 @@ const Modal = ({
   const handleReply = async () => {
     if (tweetRef.current.value.length === 0) {
       console.log("請輸入至少一個字");
+      setErrorMsg("內容不可空白");
       return;
     }
     const reply = { comment: tweetRef.current.value };
@@ -123,14 +127,28 @@ const Modal = ({
           rows="5"
           placeholder={onReply ? "推你的回覆" : "有什麼新鮮事?"}
           ref={tweetRef}
+          value={draft}
+          onChange={(e) => {
+            setErrorMsg(null);
+            setDraft(e.target.value);
+          }}
         ></textarea>
-        <p className="error-msg">錯誤提示</p>
-        <StyledButton
-          className="post-tweet active"
-          onClick={onReply ? handleReply : handleTweet}
-        >
-          {onReply ? "回覆" : "推文"}
-        </StyledButton>
+        <div className="action-panel">
+          <p className="error-msg">{
+            draft.length > 140 ?
+            "字數不可超過 140 字!"
+            :
+            ""
+            }
+            {errorMsg !== null && errorMsg}
+          </p>
+          <StyledButton
+            className="post-tweet active"
+            onClick={onReply ? handleReply : handleTweet}
+          >
+            {onReply ? "回覆" : "推文"}
+          </StyledButton>
+        </div>
       </StyledTextareaContainer>
     </StyledModalContainer>
   ) : null;

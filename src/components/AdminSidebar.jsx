@@ -53,14 +53,17 @@ const StyledLinkContainer = styled.div`
 const AdminSidebar = () => {
   const { logout, isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token") || null;
+
   const handleClick = () => {
     logout();
   };
+
   useEffect(() => {
     if (isAuthenticated && currentMember.role === "user") {
       navigate("/main");
       return;
-    } else if (!isAuthenticated) {
+    } else if (!token) {
       navigate("/admin");
       return;
     }
