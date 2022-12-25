@@ -11,7 +11,7 @@ import {
   getUserLikes,
 } from "../../api/getUserTweets";
 import { useAuth } from "../../contexts/AuthContext";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
@@ -19,7 +19,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
   const [panelData, setPanelData] = useState([]);
   const [replyToData, setReplyToData] = useState({});
   const [searchParams] = useSearchParams();
-  const { key } = useLocation();
+  // const { key } = useLocation();
   const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
     return () => {
       ignore = true;
     };
-  }, [activeTab, key, isAuthenticated, tweetModalActive]);
+  }, [activeTab, isAuthenticated, tweetModalActive]);
 
   // useEffect(() => {
   //   setReplyToData(replyToData);
