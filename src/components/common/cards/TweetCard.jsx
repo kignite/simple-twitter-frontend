@@ -28,11 +28,21 @@ export const StyledCardContainer = styled.div`
   }
 
   .right-side {
-    .name {
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 26px;
-      margin-right: 8px;
+    width: 100%;
+    .name-link {
+      display: block;
+      width: 30%;
+      .name {
+        display: block;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 26px;
+        margin-right: 8px;
+        
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     .account,
@@ -48,11 +58,15 @@ export const StyledCardContainer = styled.div`
         color: var(--main_orange);
       }
     }
-    p {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 26px;
-      margin-right: 24px;
+    a.description-link {
+      display: block;
+      width: 100%;
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 26px;
+        margin-right: 24px;
+      }
     }
 
     .user-actions {
@@ -87,6 +101,7 @@ const TweetCard = ({
   setPanelData,
   replyTweetId,
   setReplyTweetId,
+  activeTab
 }) => {
   // const [active, setActive] = useState(false);
   const [likeStatus, setLikeStatus] = useState(isLiked);
@@ -116,9 +131,11 @@ const TweetCard = ({
       if (status === 200) {
         setLikeStatus(0);
         setNewLikeCount(newLikeCount - 1);
-        setPanelData((prevData) => {
-          return prevData.filter((prev) => prev.TweetId !== tweetId);
-        });
+        if (activeTab === 'like') {
+          setPanelData((prevData) => {
+            return prevData.filter((prev) => prev.TweetId !== tweetId);
+          });
+        }
       }
     } catch (error) {
       console.error(error);
@@ -151,20 +168,18 @@ const TweetCard = ({
         <img src={avatar} alt="" />
       </Link>
       <div className="right-side">
-        <span className="name">
-          <Link
+        <Link className="name-link"
             to={
               currentMember.id === userId
                 ? `/layout/user/self`
                 : `/layout/user/other/?id=${userId}`
             }
-          >
-            {name}
-          </Link>
-        </span>
+        >
+          <span className="name">{name}</span>
+        </Link>
         <span className="account">@{account}</span>
         <span className="created-time"> · {createdAt}</span>
-        <Link to={`/layout/reply_list/?reply_to=${tweetId}`}>
+        <Link className="description-link" to={`/layout/reply_list/?reply_to=${tweetId}`}>
           <p>{description}</p>
         </Link>
         <div className="user-actions">

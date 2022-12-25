@@ -133,7 +133,7 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
     } else if (name.length > 50) {
       setErrorMessage({ ...errorMessage, name: "名稱不能超過50字" });
       return;
-    } else if (introduction.length > 160) {
+    } else if (introduction?.length > 160) {
       setErrorMessage({ ...errorMessage, introduction: "自我介紹最多160字" });
       return;
     }

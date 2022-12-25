@@ -197,6 +197,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
                 setPanelData={setPanelData}
                 replyTweetId={replyTweetId}
                 setReplyTweetId={setReplyTweetId}
+                activeTab={activeTab}
               />
             );
           }
