@@ -18,9 +18,9 @@ const CommentCard = ({
         <img src={avatar} alt={name} />
       </Link>
       <div className="right-side">
-        <span className="name">
-          <Link to={`/user/other/?id=${userId}`}>{name}</Link>
-        </span>
+        <Link className="name-link" to={`/user/other/?id=${userId}`}>
+          <span className="name">{name}</span>
+        </Link>
         <span className="account">@{account}</span>
         <span className="created-time"> · {createdAt}</span>
         <p className="reply-to">

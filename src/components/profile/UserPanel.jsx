@@ -74,7 +74,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
     return () => {
       ignore = true;
     };
-  }, [activeTab, isAuthenticated, tweetModalActive]);
+  }, [activeTab, isAuthenticated, tweetModalActive, personalInfo]);
 
   // useEffect(() => {
   //   setReplyToData(replyToData);

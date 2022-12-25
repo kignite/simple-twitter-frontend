@@ -107,6 +107,9 @@ const UserInfoText = styled.div`
     line-height: 22px;
     margin-bottom: 6px;
   }
+  .introduction {
+    width: 100px;
+  }
   .account {
     color: var(--account_text-in-main);
   }
