@@ -6,6 +6,7 @@ import { StyledTextareaContainer } from "../../pages/HomePage";
 import { StyledButton } from "./button.styled";
 import { StyledCardContainer } from "./cards/TweetCard";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const StyledModalContainer = styled.div`
   position: absolute;
@@ -65,6 +66,26 @@ const Modal = ({
   console.log(tweetId);
   console.log("replyTo:", name);
 
+  //Swal 彈窗提示
+  const successedAlert = () => {
+    Swal.fire({
+      position: "top",
+      title: "推文發送成功！",
+      timer: 1000,
+      icon: "success",
+      showConfirmButton: false,
+    });
+  };
+  const failedAlert = () => {
+    Swal.fire({
+      position: "top",
+      title: "推文發送失敗！",
+      timer: 1000,
+      icon: "error",
+      showConfirmButton: false,
+    });
+  };
+
   const handleTweet = async () => {
     if (tweetRef.current.value.length === 0) {
       console.log("請輸入至少一個字");
@@ -77,6 +98,11 @@ const Modal = ({
     console.log(status);
     tweetRef.current.value = "";
     setActive(false);
+    if (status === 200) {
+      successedAlert();
+    } else {
+      failedAlert();
+    }
   };
 
   const handleReply = async () => {

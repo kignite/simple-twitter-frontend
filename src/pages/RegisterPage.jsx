@@ -9,6 +9,7 @@ import {
   StyledLinkText,
 } from "../components/common/button.styled";
 import { useAuth } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -29,6 +30,15 @@ const RegisterPage = () => {
       name,
     });
     console.log(errorMessage);
+    if (success) {
+      Swal.fire({
+        position: "top",
+        title: "註冊成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
+    }
     if (!success) setErrorMessage(errorMessage.message);
     else navigate("/login");
   };

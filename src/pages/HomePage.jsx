@@ -8,6 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 // import { useSearchParams } from "react-router-dom";
 import Backdrop from "../components/Backdrop";
 import Modal from "../components/common/Modal";
+import Swal from "sweetalert2";
 
 const HomePageStyle = styled.div`
   position: relative;
@@ -180,6 +181,23 @@ const HomePage = ({ active, setActive }) => {
 
     console.log("成功發文", status);
     setTweetText("");
+    if (status === 200) {
+      Swal.fire({
+        position: "top",
+        title: "推文發送成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        position: "top",
+        title: "推文發送失敗！",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    }
   };
 
   useEffect(() => {
