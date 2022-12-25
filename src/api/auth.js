@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseURL = "http://simpletwitter.ddns.net";
-const baseURL = "https://calm-basin-50282.herokuapp.com";
+const baseURL = "http://simpletwitter.ddns.net";
+// const baseURL = "https://calm-basin-50282.herokuapp.com";
 
 export const login = async ({ account, password }, role) => {
   try {
@@ -106,3 +106,21 @@ export const getAccountSetting = async ({
   }
 };
 
+export const checkPermmision = async ({ token }) => {
+  try {
+    const { status } = await axios({
+      method: 'GET',
+      url: `${baseURL}/api/users/token `,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    console.log(status)
+    if (status) {
+      return { success: true }
+    }
+  }
+  catch (error) {
+    if (error) return { success: false }
+  }
+}
