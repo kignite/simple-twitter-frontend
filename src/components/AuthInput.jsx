@@ -129,7 +129,7 @@ export const Textarea = ({
     <DefaultInputStyled>
       <label>{label}</label>
       <textarea
-        className={"introduction" + clsx(" ", { error: value.length > 160 })}
+        className={"introduction" + clsx(" ", { error: value?.length > 160 })}
         name="introduction"
         id="introduction"
         rows="5"
@@ -141,7 +141,7 @@ export const Textarea = ({
         }}
       ></textarea>
       <div className="hint">
-        <p className={"error-msg" + clsx(" ", { show: value.length > 160 })}>
+        <p className={"error-msg" + clsx(" ", { show: value?.length > 160 })}>
           {errorMessage || "字數不可超過160字!"}
         </p>
         {value !== null && <p className="text-num">{value.length}/160</p>}
