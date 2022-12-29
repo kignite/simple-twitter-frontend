@@ -146,6 +146,7 @@ const TweetCard = ({
     width: "13.2px",
     height: "13px",
     marginRight: "9px",
+    cursor: "pointer",
   };
 
   useEffect(() => {
