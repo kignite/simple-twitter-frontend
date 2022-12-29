@@ -60,6 +60,7 @@ const UserInfoPicture = styled.div`
   .cover {
     width: 100%;
     height: 200px;
+    object-fit: cover;
   }
   .avatar {
     box-sizing: border-box;

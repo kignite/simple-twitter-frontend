@@ -78,6 +78,7 @@ const UserInfoPicture = styled.div`
       justify-content: center;
       align-items: center;
       z-index: -1;
+      object-fit: cover;
 
       background-color: var(--main_secondary);
       filter: brightness(0.5);
