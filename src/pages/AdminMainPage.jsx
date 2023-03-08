@@ -77,7 +77,6 @@ const AdminMainPage = () => {
     };
 
     if (!isAuthenticated || currentMember.role !== "admin") return;
-    console.log("我在跟SERVER拿資料")
     getTweetsData();
   }, [isAuthenticated]);
 

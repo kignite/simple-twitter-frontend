@@ -36,17 +36,10 @@ export const regist = async ({
       name,
     });
     if (status === 200) {
-      // console.log(status);
       return { success: true };
     }
   } catch (error) {
-    // const { status } = error.request;
-    // console.log("regist-failed:", status);
-    // if (status) {
-    //   return { success: false };
-    // }
     const errorMessage = JSON.parse(error.request.response)
-    // console.log(errorMessage)
     return { success: false, errorMessage: errorMessage }
   }
 };
@@ -115,7 +108,6 @@ export const checkPermmision = async ({ token }) => {
         'Authorization': `Bearer ${token}`,
       },
     });
-    console.log(status)
     if (status) {
       return { success: true }
     }

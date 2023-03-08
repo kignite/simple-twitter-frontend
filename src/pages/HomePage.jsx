@@ -95,7 +95,6 @@ const HomeTweetslist = ({ token, handlePost, active, setActive }) => {
   const [replyToData, setReplyToData] = useState({});
   const { isAuthenticated, currentMember } = useAuth();
   const [replyTweetId, setReplyTweetId] = useState();
-  // console.log(replyToData);
 
   //取得所有推文
   useEffect(() => {
@@ -175,14 +174,12 @@ const HomePage = ({ active, setActive }) => {
 
   const handlePost = async () => {
     if (tweetText.length === 0) {
-      console.log("請輸入至少一個字");
       setErrorMsg("內容不可空白");
       return;
     }
     const tweet = { description: tweetText };
     const status = await postTweet({ token, tweet });
 
-    console.log("成功發文", status);
     setTweetText("");
     if (status === 200) {
       Swal.fire({

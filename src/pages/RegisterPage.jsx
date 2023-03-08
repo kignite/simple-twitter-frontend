@@ -29,7 +29,6 @@ const RegisterPage = () => {
       checkPassword,
       name,
     });
-    console.log(errorMessage);
     if (success) {
       Swal.fire({
         position: "top",

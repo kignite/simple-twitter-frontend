@@ -131,7 +131,7 @@ const UserInfoText = styled.div`
   }
 `;
 
-const OtherUserPage = ({active, setActive}) => {
+const OtherUserPage = ({ active, setActive }) => {
   const token = localStorage.getItem("token");
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
@@ -148,7 +148,6 @@ const OtherUserPage = ({active, setActive}) => {
   const handleFollowed = async (userId) => {
     try {
       const status = await postFollowed({ userId, token });
-      console.log(status);
       if (status === 200) {
         setClicking(!clicking);
         setIsFollowed(true);
@@ -162,7 +161,6 @@ const OtherUserPage = ({active, setActive}) => {
   const handleUnFollowed = async (followingId) => {
     try {
       const status = await deleteFollowed({ followingId, token });
-      console.log(status);
       if (status === 200) {
         setClicking(!clicking);
         setIsFollowed(false);
@@ -177,7 +175,6 @@ const OtherUserPage = ({active, setActive}) => {
       const { data } = await getUserFollowing({ token });
       if (data.some((d) => d.followingId === Number(id))) {
         setIsFollowed(true);
-        console.log(isFollowed);
       }
     };
 
@@ -185,9 +182,6 @@ const OtherUserPage = ({active, setActive}) => {
   }, []);
 
   useEffect(() => {
-    console.log("L:", location);
-    console.log(id);
-    console.log(personalInfo);
     if (id === null) {
       id = personalInfo.id;
     }
@@ -197,7 +191,7 @@ const OtherUserPage = ({active, setActive}) => {
     };
     if (!isAuthenticated || currentMember.role !== "user") return;
     getPersonalInfo();
-  }, [key, isAuthenticated]);
+  }, [key, isAuthenticated, id]);
 
   return (
     <>

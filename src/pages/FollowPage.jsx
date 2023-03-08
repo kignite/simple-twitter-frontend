@@ -68,7 +68,6 @@ const FollowPage = ({ pageStatus }) => {
   const handleFollowed = async (userId) => {
     try {
       const status = await postFollowed({ userId, token });
-      console.log(status);
       if (status === 200) {
         // const { data } = await getUserFollowing({ token });
         setClicking(!clicking);
@@ -96,7 +95,6 @@ const FollowPage = ({ pageStatus }) => {
   const handleUnFollowed = async (followingId) => {
     try {
       const status = await deleteFollowed({ followingId, token });
-      console.log(status);
       if (status === 200) {
         // const { data } = await getUserFollowing({ token });
         setClicking(!clicking);
@@ -134,14 +132,12 @@ const FollowPage = ({ pageStatus }) => {
     const getFollowData = async () => {
       if (pageStatus === "follower") {
         const { data } = await getUserFollower({ token, id });
-        console.log(data);
         if (!ignore) {
           setFollowData([...data]);
         }
       }
       if (pageStatus === "following") {
         const { data } = await getUserFollowing({ token, id });
-        console.log(data);
         if (!ignore) {
           setFollowData([...data]);
         }
