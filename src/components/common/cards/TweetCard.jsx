@@ -108,7 +108,6 @@ const TweetCard = ({
   const [newLikeCount, setNewLikeCount] = useState(likeCount);
   const [localReplyCount, setLocalReplyCount] = useState(replyCount);
   const token = localStorage.getItem("token");
-  // console.log('tweet', tweetId);
   const { currentMember } = useAuth();
 
   //handleLike
@@ -153,7 +152,6 @@ const TweetCard = ({
       setLocalReplyCount((prev) => prev + 1);
       setReplyTweetId();
     } else return;
-    console.log(replyTweetId);
   }, [replyTweetId]);
 
   return (
@@ -197,7 +195,6 @@ const TweetCard = ({
                     description,
                   });
                   setActive(true);
-                  console.log(tweetId);
                 }}
               />
             </Link>

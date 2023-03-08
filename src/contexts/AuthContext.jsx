@@ -26,17 +26,14 @@ export const AuthProvider = ({ children }) => {
     const checkToken = async () => {
       const { success } = await checkPermmision({ token });
       if (!success) {
-        console.log("失敗");
         navigate("/layout/login");
         localStorage.removeItem("token");
         setIsAuthenticated(false);
         setPayload(null);
         return;
       }
-      console.log("成功");
       setIsAuthenticated(true);
       const tempPayload = jwtDecode(token);
-      // console.log(tempPayload);
       setPayload(tempPayload);
     };
     checkToken();

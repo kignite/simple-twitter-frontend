@@ -64,9 +64,6 @@ const Modal = ({
   const [draft, setDraft] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // console.log(tweetId);
-  // console.log("replyTo:", name);
-
   //Swal 彈窗提示
   const successedAlert = () => {
     Swal.fire({
@@ -89,14 +86,12 @@ const Modal = ({
 
   const handleTweet = async () => {
     if (tweetRef.current.value.length === 0) {
-      console.log("請輸入至少一個字");
       setErrorMsg("內容不可空白");
       return;
     }
     const tweet = { description: tweetRef.current.value };
 
     const status = await postTweet({ token, tweet });
-    console.log(status);
     tweetRef.current.value = "";
     setActive(false);
     if (status === 200) {
@@ -108,7 +103,6 @@ const Modal = ({
 
   const handleReply = async () => {
     if (tweetRef.current.value.length === 0) {
-      console.log("請輸入至少一個字");
       setErrorMsg("內容不可空白");
       return;
     }

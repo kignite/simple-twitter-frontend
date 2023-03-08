@@ -26,7 +26,6 @@ export const getOneTweet = async ({id, token}) => {
         Authorization: 'Bearer ' + token,
       },
     });
-    console.log("取得單一推文成功")
     return {data};
   } catch (error) {
     console.log(error);
@@ -49,8 +48,6 @@ export const getOneTweetReplies = async ({id, token}) => {
 
 //對一則推文like
 export const postTweetLike = async ({tweetId, token}) => {
-  console.log(token);
-  console.log(tweetId);
   try {
     const { status } = await axios({
       method: 'POST',
@@ -67,8 +64,6 @@ export const postTweetLike = async ({tweetId, token}) => {
 
 //對一則推文unlike
 export const postTweetUnLike = async ({tweetId, token}) => {
-  console.log(token);
-  console.log(tweetId);
   try {
     const { status } = await axios({
       method: 'POST',

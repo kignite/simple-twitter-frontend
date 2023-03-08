@@ -146,7 +146,6 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
         avatar: avatar,
       };
 
-      console.log(info);
       await uploadUserInfo({ token, info });
       Swal.fire({
         position: "top",
@@ -168,7 +167,6 @@ const EditInfoModal = ({ token, personalInfo, setPersonalInfo, onClose }) => {
       cover: cover,
     };
 
-    console.log(info);
     await uploadUserInfo({ token, info });
     Swal.fire({
       position: "top",

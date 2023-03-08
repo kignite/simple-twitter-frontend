@@ -87,14 +87,9 @@ const TweetCardBig = ({
   active,
   setActive
 }) => {
-  console.log(tweetId);
-  console.log("LikeCount:", likeCount);
   const [likeStatus, setLikeStatus] = useState(isLiked);
   const [newLikeCount, setNewLikeCount] = useState(likeCount);
-  // let newLikeCount = likeCount;
   const token = localStorage.getItem("token");
-  console.log("NewLikeCount:", newLikeCount);
-
   //從動態路由拿到tweetId後還拿不到其他資料，要等取得單一推文資料成功後再初始化以下數值一次...
   useEffect(() => {
     setLikeStatus(isLiked);
@@ -124,7 +119,6 @@ const TweetCardBig = ({
   //handleUnLike
   const handleUnLikeClicked = async () => {
     try {
-      // const token = localStorage.getItem('token');
       const status = await postTweetUnLike({ tweetId, token: token });
       if (status === 200) {
         setLikeStatus(0);
@@ -174,7 +168,6 @@ const TweetCardBig = ({
       <div className="icon-footer">
         <ReplyIcon style={iconSize} onClick={() => {
           setActive(true);
-          console.log(tweetId);
           }} />
         {likeStatus ? (
           <LikedIcon style={iconSize} onClick={handleUnLikeClicked} />

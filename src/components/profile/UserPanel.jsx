@@ -20,12 +20,10 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
   const [replyToData, setReplyToData] = useState({});
   const [searchParams] = useSearchParams();
   const [replyTweetId, setReplyTweetId] = useState();
-  // const { key } = useLocation();
   const { isAuthenticated, currentMember } = useAuth();
 
   useEffect(() => {
-    // console.log(personalInfo);
-    // console.log(personalInfo.id);
+
     let ignore = false;
     const getPanelData = async () => {
       const token = localStorage.getItem("token") || null;
@@ -74,12 +72,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
     return () => {
       ignore = true;
     };
-  }, [activeTab, isAuthenticated, tweetModalActive]);
-
-  // useEffect(() => {
-  //   setReplyToData(replyToData);
-  //   console.log(replyToData);
-  // }, [replyToData])
+  }, [activeTab, isAuthenticated, tweetModalActive, personalInfo]);
 
   return (
     <div className="user-panel">
@@ -173,8 +166,7 @@ const UserPanel = ({ personalInfo, active, setActive, tweetModalActive }) => {
                 setActive={setActive}
                 setReplyToData={setReplyToData}
                 replyTweetId={replyTweetId}
-                setReplyTweetId = { setReplyTweetId }
-
+                setReplyTweetId={setReplyTweetId}
               />
             );
           } else {

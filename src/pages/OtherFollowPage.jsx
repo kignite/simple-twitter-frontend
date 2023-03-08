@@ -56,7 +56,6 @@ const OtherFollowPage = ({ pageStatus }) => {
   // const { clicking, setClicking } = useContext(ClickingContext);
 
   useEffect(() => {
-    console.log(id);
     const getCurrentUser = async () => {
       const data = await getUserInfo({ token, id });
       setPersonalInfo(data);
@@ -65,14 +64,12 @@ const OtherFollowPage = ({ pageStatus }) => {
     const getFollowData = async () => {
       if (pageStatus === "follower") {
         const { data } = await getUserFollower({ token, id });
-        console.log(data);
         if (!ignore) {
           setFollowData([...data]);
         }
       }
       if (pageStatus === "following") {
         const { data } = await getUserFollowing({ token, id });
-        console.log(data);
         if (!ignore) {
           setFollowData([...data]);
         }

@@ -44,10 +44,8 @@ const PopularUserList = () => {
   const handleFollowed = async (userId) => {
     try {
       const status = await postFollowed({userId, token});
-      console.log(status);
       if (status === 200) {
         const { data } = await getUserFollowing({ token });
-        console.log(data);
         setFollowings([...data]);
         setClicking(!clicking);
       }
@@ -60,7 +58,6 @@ const PopularUserList = () => {
   const handleUnFollowed = async (followingId) => {
     try {
       const status = await deleteFollowed({followingId, token});
-      console.log(status);
       if (status === 200) {
         const { data } = await getUserFollowing({ token });
         setFollowings([...data]);
@@ -79,7 +76,6 @@ const PopularUserList = () => {
     //取得使用者正在追隨名單去顯示Top10使用者的button樣式
     const getFollowings = async () => {
       const { data } = await getUserFollowing({ token });
-      // console.log(data);
       setFollowings(data);
     };
 
