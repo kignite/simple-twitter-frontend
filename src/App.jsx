@@ -22,9 +22,7 @@ export const ClickingContext = createContext({
   setClicking: null,
 });
 
-
 function App() {
-
   //Modal的開關
   //reply的
   const [active, setActive] = useState(false);
@@ -34,12 +32,16 @@ function App() {
   //追蹤的Clicking
   const [clicking, setClicking] = useState(false);
 
+  // eslint-disable-next-line no-undef
+  const basename = process.env.PUBLIC_URL;
   return (
     <div className="App">
-      <HashRouter>
+      <HashRouter basename={basename}>
         <AuthProvider>
-          <ClickingContext.Provider value={{clicking, setClicking}}>
-            <Routes> {/*test: 全部前面先加上layout*/}
+          <ClickingContext.Provider value={{ clicking, setClicking }}>
+            <Routes>
+              {" "}
+              {/*test: 全部前面先加上layout*/}
               <Route path="*" element={<LoginPage />} />
               <Route path="/layout/login" element={<LoginPage />} />
               <Route path="/admin" element={<AdminLoginPage />} />
@@ -48,7 +50,15 @@ function App() {
               <Route path="/admin_users" element={<AdminUserList />} />
               {/* <Route path="setting" element={<AccounntSetting />} /> */}
               {/* <Route path="/" element={<Layout />}/> */}
-              <Route path="/layout" element={<Layout active={tweetModalActive} setActive={setTweetModalActive} />}>
+              <Route
+                path="/layout"
+                element={
+                  <Layout
+                    active={tweetModalActive}
+                    setActive={setTweetModalActive}
+                  />
+                }
+              >
                 {/* <Route path="*" element={<HomePage active={active} setActive={setActive} />} /> */}
                 <Route
                   path="main"
@@ -56,12 +66,20 @@ function App() {
                 />
                 <Route
                   path="reply_list"
-                  element={<TweetReplyPage active={active} setActive={setActive} />}
+                  element={
+                    <TweetReplyPage active={active} setActive={setActive} />
+                  }
                 />
                 {/* <Route path="setting" element={<AccounntSetting />} /> */}
                 <Route
                   path="user/self"
-                  element={<UserPage active={active} setActive={setActive} tweetModalActive={tweetModalActive} />}
+                  element={
+                    <UserPage
+                      active={active}
+                      setActive={setActive}
+                      tweetModalActive={tweetModalActive}
+                    />
+                  }
                 />
                 <Route
                   path="user/self/follower"
@@ -71,7 +89,12 @@ function App() {
                   path="user/self/following"
                   element={<FollowPage pageStatus="following" />}
                 />
-                <Route path="user/other" element={<OtherUserPage active={active} setActive={setActive} />} />
+                <Route
+                  path="user/other"
+                  element={
+                    <OtherUserPage active={active} setActive={setActive} />
+                  }
+                />
                 <Route
                   path="user/other/follower"
                   element={<OtherFollowPage pageStatus="follower" />}
@@ -81,7 +104,16 @@ function App() {
                   element={<OtherFollowPage pageStatus="following" />}
                 />
               </Route>
-              <Route path="/layout" element={<Layout onSettingPage={true} active={tweetModalActive} setActive={setTweetModalActive} />}>
+              <Route
+                path="/layout"
+                element={
+                  <Layout
+                    onSettingPage={true}
+                    active={tweetModalActive}
+                    setActive={setTweetModalActive}
+                  />
+                }
+              >
                 <Route path="setting" element={<AccounntSetting />} />
               </Route>
             </Routes>
