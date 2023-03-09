@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/simple-twitter-frontend/static/css/main.4984a437.css",
-    "main.js": "/simple-twitter-frontend/static/js/main.154fa1db.js",
+    "main.js": "/simple-twitter-frontend/static/js/main.f1564e0c.js",
     "static/media/setting-icon.svg": "/simple-twitter-frontend/static/media/setting-icon.cf2f0a92e14218b1d59f0e04c30abfe3.svg",
     "static/media/setting-icon_active.svg": "/simple-twitter-frontend/static/media/setting-icon_active.4c71fd54892e37b704469be8ebd7b26d.svg",
     "static/media/noti-icon.svg": "/simple-twitter-frontend/static/media/noti-icon.52f3e5e8ccb4e7f4d47d3c1d8c9ffd4a.svg",
@@ -22,10 +22,10 @@
     "static/media/turnback-icon.svg": "/simple-twitter-frontend/static/media/turnback-icon.6bdf0cd296fbdfabd18c2f4032925fa7.svg",
     "static/media/liked-icon.svg": "/simple-twitter-frontend/static/media/liked-icon.5fbcc09a16cf4089a4ac11eda9ef9e21.svg",
     "main.4984a437.css.map": "/simple-twitter-frontend/static/css/main.4984a437.css.map",
-    "main.154fa1db.js.map": "/simple-twitter-frontend/static/js/main.154fa1db.js.map"
+    "main.f1564e0c.js.map": "/simple-twitter-frontend/static/js/main.f1564e0c.js.map"
   },
   "entrypoints": [
     "static/css/main.4984a437.css",
-    "static/js/main.154fa1db.js"
+    "static/js/main.f1564e0c.js"
   ]
 }
