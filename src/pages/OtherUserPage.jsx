@@ -135,7 +135,6 @@ const OtherUserPage = ({ active, setActive }) => {
   const token = localStorage.getItem("token");
   const [searchParams] = useSearchParams();
   const { key } = useLocation();
-  const location = useLocation();
   let id = searchParams.get("id");
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();

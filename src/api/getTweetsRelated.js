@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const baseURL = "http://simpletwitter.ddns.net/api";
-const baseURL = "https://calm-basin-50282.herokuapp.com/api";
+const baseURL = "https://divine-bush-6092.fly.dev/api"
 
 //取得前台所有推文
 export const getAllTweets = async ({ token }) => {
