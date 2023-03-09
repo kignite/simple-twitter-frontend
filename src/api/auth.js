@@ -1,11 +1,10 @@
 import axios from "axios";
-
-// const baseURL = "http://simpletwitter.ddns.net";
-const baseURL = "https://calm-basin-50282.herokuapp.com";
+// const baseURL = "http://simpletwitter.ddns.net/api";
+const baseURL = "https://divine-bush-6092.fly.dev/api"
 
 export const login = async ({ account, password }, role) => {
   try {
-    const { data } = await axios.post(`${baseURL}/api/${role}/login`, {
+    const { data } = await axios.post(`${baseURL}/${role}/login`, {
       account,
       password,
     });
@@ -28,7 +27,7 @@ export const regist = async ({
   name,
 }) => {
   try {
-    const { status } = await axios.post(`${baseURL}/api/users`, {
+    const { status } = await axios.post(`${baseURL}/users`, {
       email,
       account,
       password,
@@ -54,7 +53,7 @@ export const acountSetting = async ({
   name,
 }) => {
   try {
-    const { status } = await axios.put(`${baseURL}/api/users/${userID}/setting`,
+    const { status } = await axios.put(`${baseURL}/users/${userID}/setting`,
       {
         email,
         account,
@@ -83,7 +82,7 @@ export const getAccountSetting = async ({
   token,
 }) => {
   try {
-    const { data } = await axios.get(`${baseURL}/api/users/${userID}/setting`,
+    const { data } = await axios.get(`${baseURL}/users/${userID}/setting`,
       {
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -103,7 +102,7 @@ export const checkPermmision = async ({ token }) => {
   try {
     const { status } = await axios({
       method: 'GET',
-      url: `${baseURL}/api/users/token `,
+      url: `${baseURL}/users/token `,
       headers: {
         'Authorization': `Bearer ${token}`,
       },
