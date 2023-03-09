@@ -26,6 +26,10 @@ const StyledLayoutContainer = styled.div`
     width: 960px;
     grid-template-columns: 3fr 5fr 4fr;
   }
+  /* @media screen and (max-width: 992px) {
+    width: 90%;
+    
+  } */
 `;
 
 const Layout = ({onSettingPage = false, active, setActive}) => {

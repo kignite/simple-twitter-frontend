@@ -22,6 +22,9 @@ const StyledSidebarContainer = styled.div`
   .logo {
     margin: 13px;
   }
+  /* @media screen and (max-width: 992px) {
+    
+  } */
 `;
 
 const StyledLinkContainer = styled.div`

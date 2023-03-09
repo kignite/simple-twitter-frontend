@@ -2,7 +2,7 @@ import axios from "axios";
 // import jwt from "jwt-decode";
 
 // const baseURL = "http://simpletwitter.ddns.net/api"
-const baseURL = "https://calm-basin-50282.herokuapp.com/api";
+const baseURL = "https://divine-bush-6092.fly.dev/api";
 
 // const id = jwt(token).id;
 
