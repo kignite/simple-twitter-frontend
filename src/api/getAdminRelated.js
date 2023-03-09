@@ -1,7 +1,9 @@
 import axios from "axios";
 
 // const baseURL = "http://simpletwitter.ddns.net/api";
-const baseURL = "https://divine-bush-6092.fly.dev/api"
+
+// eslint-disable-next-line no-undef
+const baseURL = process.env.REACT_APP_BASEURL
 // admin
 
 export const adminGetUserTweets = async ({ token }) => {

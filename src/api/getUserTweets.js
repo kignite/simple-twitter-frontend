@@ -2,7 +2,9 @@ import axios from "axios";
 import jwt from "jwt-decode";
 
 // const baseURL = "http://simpletwitter.ddns.net/api";
-const baseURL = "https://divine-bush-6092.fly.dev/api"
+
+// eslint-disable-next-line no-undef
+const baseURL = process.env.REACT_APP_BASEURL
 
 //取得特定使用者的所有"推文"
 export const getUserTweets = async ({ token, id }) => {

@@ -2,7 +2,9 @@ import axios from "axios";
 // import jwt from "jwt-decode";
 
 // const baseURL = "http://simpletwitter.ddns.net/api"
-const baseURL = "https://divine-bush-6092.fly.dev/api"
+
+// eslint-disable-next-line no-undef
+const baseURL = process.env.REACT_APP_BASEURL
 
 // const id = jwt(token).id;
 
