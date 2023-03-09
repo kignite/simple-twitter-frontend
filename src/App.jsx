@@ -33,14 +33,13 @@ function App() {
   const [clicking, setClicking] = useState(false);
 
   // eslint-disable-next-line no-undef
-  const basename = process.env.PUBLIC_URL;
+  // const basename = process.env.REACT_APP_PUBLIC_URL;
   return (
     <div className="App">
-      <HashRouter basename={basename}>
+      <HashRouter>
         <AuthProvider>
           <ClickingContext.Provider value={{ clicking, setClicking }}>
             <Routes>
-              {" "}
               {/*test: 全部前面先加上layout*/}
               <Route path="*" element={<LoginPage />} />
               <Route path="/layout/login" element={<LoginPage />} />
