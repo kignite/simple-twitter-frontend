@@ -2,9 +2,9 @@ name: Deploy to GitHub pages
 
 on:
   push:
-    branches: [main] //這裡可以選想呈現在gh-pages的分支
+    branches: [main] 
   pull_request:
-    branches: [main] //這裡可以選想呈現在gh-pages的分支
+    branches: [main]
 
 jobs:
   build:
